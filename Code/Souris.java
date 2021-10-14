@@ -32,7 +32,7 @@ public class Souris implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+				
 		int x = arg0.getX()*damier.getTaille()/damier.getTAILLE();
 		int y = (arg0.getY()-39)*damier.getTaille()/damier.getTAILLE();
 		
@@ -44,6 +44,7 @@ public class Souris implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -4,29 +4,30 @@ import javax.swing.*;
 
 public class Damier extends JPanel{
 	
-	private JFrame frame;
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
 	private Case[][] grille;  //tableau de cases
 	private boolean tourBlanc;  //savoir à qui est le tour
+	public boolean tourFini;	//savoir quand le tour du joueur est fini
 	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
 	private boolean obligerLesSauts;
 	private boolean sauterNEstPasJoue;
-	private Joueur joueur1,joueur2;
+	public boolean GameOver; //savoir quand la partie est terminée
 
 	
-	public Damier(JFrame frame,int TAILLE,int taille,boolean obligerLesSauts,boolean sauterNEstPasJoue,Joueur joueur1,Joueur joueur2) {
-		this.frame=frame;
+
+
+	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean sauterNEstPasJoue) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
 		this.tourBlanc=true;
+		this.tourFini=false;
 		this.sautObligatoire=false;
 		this.sautMultiple=false;
 		this.obligerLesSauts=obligerLesSauts;
 		this.sauterNEstPasJoue=sauterNEstPasJoue;
-		this.joueur1=joueur1;
-		this.joueur2=joueur2;
+		this.GameOver=false;
 		this.grille = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
@@ -50,6 +51,22 @@ public class Damier extends JPanel{
 		}
 	}
 	
+	public boolean isGameOver() {
+		return GameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		GameOver = gameOver;
+	}
+	
+	public boolean isTourFini() {
+		return tourFini;
+	}
+
+	public void setTourFini(boolean tourFini) {
+		this.tourFini = tourFini;
+	}
+
 	public boolean getSauterNEstPasJoue() {
 		return sauterNEstPasJoue;
 	}
@@ -558,23 +575,13 @@ public class Damier extends JPanel{
 					
 					if (b!=true) {	//s'il le pion ne peut pas sauter d'autre pion après avoir sauté alors tour suivant
 						if (this.obligerLesSauts) {
-							this.setSautObligatoire(this.peutEtreMange(x,y));
+							//this.setSautObligatoire(this.peutEtreMange(x,y));
 						}
 						changementTour();
-						this.repaint();
-						if (partieFinie()) {
-							frame.dispose();
-							System.out.println();
-							if (tourBlanc) {
-								System.out.println(joueur2.getPseudo()+" a remporté la partie");
-							}
-							else {
-								System.out.println(joueur1.getPseudo()+" a remporté la partie");
-							}
+						if (this.partieFinie()) {
+							GameOver=true;
 						}
-						if (!ordi) {
-							tourOrdi(joueur2);						
-						}
+						this.setTourFini(true);	
 					}
 					else {
 						this.setSautMultiple(true);
@@ -630,14 +637,13 @@ public class Damier extends JPanel{
 									compteur2++;
 									Ajoue(ii,jj,true); //true pcq c'est l'ordi qui joue
 									if (this.getSautMultiple()) {
-										attendre(2000);
+										//attendre(500);
 									}
 									while (this.getSautMultiple()) {
 										for (int jjj=0;jjj<this.getTaille();jjj++) { 
 											for (int iii=0;iii<this.getTaille();iii++) {
 												if (grille[iii][jjj].getSaut()&&(compteur3<1)) {
 													Ajoue(iii,jjj,true);
-													System.out.println("UwU");
 													compteur3++;
 												}
 											}
@@ -654,11 +660,7 @@ public class Damier extends JPanel{
 		}		
 	}
 	
-	public static void attendre(int ms) {
-		try { Thread.sleep (ms); } 
-        catch (InterruptedException e)  {  }
-	}
-	
+
 	public boolean peutEtreMange(int x, int y) {
 		boolean b = false;
 		boolean pionRencontre=false;
@@ -959,7 +961,7 @@ public class Damier extends JPanel{
 		}
 		return c;
 	}
-	
+
 	public boolean partieFinie() {
 		boolean b=true;
 		boolean peutBouger=false;
@@ -1111,7 +1113,7 @@ public class Damier extends JPanel{
 				}
 			}
 		}
-		if (peutBouger==false) {
+		if ((peutBouger==false)&&(b==false)) {
 			System.out.println("Plus aucun déplacement possible");
 			b=true;
 		}
@@ -1131,7 +1133,7 @@ public class Damier extends JPanel{
 		}
 	}
 		
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 	//cases
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
