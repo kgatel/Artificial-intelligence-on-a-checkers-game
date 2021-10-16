@@ -9,17 +9,16 @@ public class Damier extends JPanel{
 	private Case[][] grille;  //tableau de cases
 	private boolean tourBlanc;  //savoir à qui est le tour
 	public boolean tourFini;	//savoir quand le tour du joueur est fini
-	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire
+	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
 	private boolean obligerLesSauts;
-	private boolean sauterNEstPasJoue;
 	private boolean peutMangerEnArriere;
 	public boolean GameOver; //savoir quand la partie est terminée
 
 	
 
 
-	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere,boolean sauterNEstPasJoue) {
+	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
 		this.tourBlanc=true;
@@ -28,7 +27,6 @@ public class Damier extends JPanel{
 		this.sautMultiple=false;
 		this.obligerLesSauts=obligerLesSauts;
 		this.peutMangerEnArriere=peutMangerEnArriere;
-		this.sauterNEstPasJoue=sauterNEstPasJoue;
 		this.GameOver=false;
 		this.grille = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
@@ -67,14 +65,6 @@ public class Damier extends JPanel{
 
 	public void setTourFini(boolean tourFini) {
 		this.tourFini = tourFini;
-	}
-
-	public boolean getSauterNEstPasJoue() {
-		return sauterNEstPasJoue;
-	}
-
-	public void setSauterNEstPasJoue(boolean sauterNEstPasJoue) {
-		this.sauterNEstPasJoue = sauterNEstPasJoue;
 	}
 
 	public boolean getSautMultiple() {
@@ -528,7 +518,11 @@ public class Damier extends JPanel{
 					}
 				}
 				this.getGrille()[x][y].click();
-				this.afficherDeplacement(x,y);
+				
+				if (grille[x][y].getPiece()!=null) {
+					this.afficherDeplacement(x,y);
+				}
+				
 				
 			}
 			
@@ -784,9 +778,11 @@ public class Damier extends JPanel{
 		if ( (x-2>=0) && (y-2>=0) ) {		// pour un pion
 			if ( (grille[x-2][y-2].getPiece()==null) && (grille[x-1][y-1].getPiece()!=null) ) {
 				if ( ((grille[x-1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((grille[x-1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
-					grille[x-2][y-2].setSaut(true);
-					grille[x][y].setClique(true);
-					b=true;
+					if ((peutMangerEnArriere)||(tourBlanc)) {
+						grille[x-2][y-2].setSaut(true);
+						grille[x][y].setClique(true);
+						b=true;
+					}
 				}
 			}
 		}
@@ -818,9 +814,11 @@ public class Damier extends JPanel{
 		if ( (x+2<taille) && (y-2>=0) ) {		// pour un pion
 			if ( (grille[x+2][y-2].getPiece()==null) && (grille[x+1][y-1].getPiece()!=null) ) {
 				if ( ((grille[x+1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((grille[x+1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
-					grille[x+2][y-2].setSaut(true);
-					grille[x][y].setClique(true);
-					b=true;
+					if ((peutMangerEnArriere)||(tourBlanc)) {	
+						grille[x+2][y-2].setSaut(true);
+						grille[x][y].setClique(true);
+						b=true;
+					}
 				}
 			}
 		}
@@ -853,9 +851,11 @@ public class Damier extends JPanel{
 		if ( (x+2<taille) && (y+2<taille) ) {		// pour un pion
 			if ( (grille[x+2][y+2].getPiece()==null) && (grille[x+1][y+1].getPiece()!=null) ) {
 				if ( ((grille[x+1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((grille[x+1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
-					grille[x+2][y+2].setSaut(true);
-					grille[x][y].setClique(true);
-					b=true;
+					if ((peutMangerEnArriere)||(!tourBlanc)) {
+						grille[x+2][y+2].setSaut(true);
+						grille[x][y].setClique(true);
+						b=true;
+					}
 				}
 			}
 		}
@@ -888,9 +888,11 @@ public class Damier extends JPanel{
 		if ( (x-2>=0) && (y+2<taille) ) {		// pour un pion
 			if ( (grille[x-2][y+2].getPiece()==null) && (grille[x-1][y+1].getPiece()!=null) ) {
 				if ( ((grille[x-1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((grille[x-1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
-					grille[x-2][y+2].setSaut(true);
-					grille[x][y].setClique(true);
-					b=true;
+					if ((peutMangerEnArriere)||(!tourBlanc)) {
+						grille[x-2][y+2].setSaut(true);
+						grille[x][y].setClique(true);
+						b=true;
+					}
 				}
 			}
 		}

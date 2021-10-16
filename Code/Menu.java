@@ -45,6 +45,22 @@ public class Menu {
 		return b;
 	}
 	
+	public boolean peutMangerEnArriere() {
+		boolean b=false;
+		String c="";
+		Scanner clavier = new Scanner(System.in);
+		while ( (!c.equals("o")) && (!c.equals("n")) ){
+			System.out.println("Voulez-vous rautoriser les sauts en arrière ? (o/n)");
+			c = clavier.nextLine();
+			System.out.println();
+		}
+		if (c.equals("o")) {
+			b=true;
+		}
+		
+		return b;
+	}
+	
 	public String pseudoJoueur1() {
 		String c="";
 		Scanner clavier = new Scanner(System.in);
