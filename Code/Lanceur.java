@@ -42,7 +42,7 @@ public class Lanceur extends JFrame{
 			j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
 		}	
 		
-		int taille=4;						 //taille du coté du plateau 8*8 ou 10*10 ou 12*12
+		int taille=8;						 //taille du coté du plateau 8*8 ou 10*10 ou 12*12
 		//taille=m.definirTaille();
 		
 		boolean peutMangerEnArriere=false;
@@ -50,7 +50,13 @@ public class Lanceur extends JFrame{
 		
 		boolean obligerLesSauts=false; 
 		//obligerLesSauts=m.obligerLesSauts();
-	
+		
+		
+		Damier damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere); //10 par 10 pour l'original
+		
+		m.setDamier(damier);
+		m.setGrille(damier.getGrille());
+		
 		Piece [] PieceBlanche = m.Pieces(taille,Couleur.Blanc);
 		Piece [] PieceNoire = m.Pieces(taille, Couleur.Noir);
 		
@@ -63,7 +69,7 @@ public class Lanceur extends JFrame{
 		JFrame f = new JFrame("Jeu de Dames");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(TAILLE,TAILLE+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
-		Damier damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere); //10 par 10 pour l'original
+		
 		f.add(damier);
 		f.setVisible(true);
 		

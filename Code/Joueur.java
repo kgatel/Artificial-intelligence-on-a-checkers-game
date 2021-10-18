@@ -33,8 +33,8 @@ public class Joueur {
 		this.couleur = couleur;
 	}
 	
-	public void Ajoue(int x, int y, boolean ordi) {
-		//boolean ordi = (this instanceof Ordi);
+	public void Ajoue(int x, int y, boolean ordi2) {
+		boolean ordi = (this instanceof Ordi);
 		int ii=0,jj=0;
 		if (this.getDamier().getSautMultiple()&&(!this.getDamier().getGrille()[x][y].getSaut())) {
 			//ne rien faire tant que le pion ne mange pas l'autre pion
@@ -112,6 +112,9 @@ public class Joueur {
 						if (!( (pion)&&(this.getDamier().getGrille()[x][y].getPiece() instanceof Reine) )){   //vérifier qu'il ne peut pas continuer à manger s'il vient d'obtenir une reine
 							b = this.getDamier().sautPossible(x,y);		//si b=true alors le joueur peut continuer à sauter
 						}
+						if ((b)&&(ordi)) {
+							attendre(500);
+						}
 					}
 					
 					if (b!=true) {	//s'il le pion ne peut pas sauter d'autre pion après avoir sauté alors tour suivant
@@ -146,7 +149,10 @@ public class Joueur {
 	}
 	
 	
-	
+	public void attendre(int ms) {
+		try { Thread.sleep (ms); } 
+        catch (InterruptedException e)  {  }
+	}
 	
 	
 	

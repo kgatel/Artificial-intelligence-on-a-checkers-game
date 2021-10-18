@@ -3,28 +3,35 @@ import java.awt.*;
 public class Case {
 
 	private Damier damier;
+	private Case[][] grille;
+	private Coordonnees c;
 	private Couleur couleur;
 	private Piece piece;
 	private boolean saut;
 	private boolean clique;
 	private boolean possibleClique;
 	
-	public Case(Couleur couleur, Damier damier) {
-		super();
+	public Case(Couleur couleur, Coordonnees c, Damier damier,Case[][] grille) {
+		this.damier = damier;
+		this.grille = grille;
+		this.c=c;
 		this.couleur=couleur;
 		piece = null;
+		saut = false;
 		clique = false;
-		this.damier = damier;
+		possibleClique=false;
 	}
 	
-	public Case(Couleur couleurCase, Couleur couleurPiece, Damier damier) {
+	public Case(Couleur couleurCase,Coordonnees c,Couleur couleurPiece, Damier damier, Case[][] grille) {
 		super();
 		this.damier = damier;
+		this.grille = grille;
+		this.c=c;
 		this.couleur=couleurCase;
-		piece = new Pion(couleurPiece);
+		piece = new Pion(couleurPiece,c,damier,grille);
+		saut = false;
 		clique = false;
 		possibleClique = false;
-		saut = false;
 	}
 	
 	public Couleur getCouleur() {

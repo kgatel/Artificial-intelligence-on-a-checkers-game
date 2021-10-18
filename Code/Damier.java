@@ -35,19 +35,20 @@ public class Damier extends JPanel{
 		this.grille = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
+				Coordonnees c = new Coordonnees(i,j);
 				if ( (i+j)%2==0 ) {
-					grille[i][j]= new Case(Couleur.Blanc,this);
+					grille[i][j]= new Case(Couleur.Blanc,c,this,grille);
 				}
 				else {
 					if (j<=(taille-2)/2-1) {
-						grille[i][j]= new Case(Couleur.Noir,Couleur.Noir,this);
+						grille[i][j]= new Case(Couleur.Noir,c,Couleur.Noir,this,grille);
 					}
 					else {
 						if (j>=taille/2+1) {
-							grille[i][j]= new Case(Couleur.Noir,Couleur.Blanc,this);
+							grille[i][j]= new Case(Couleur.Noir,c,Couleur.Blanc,this,grille);
 						}
 						else {
-							grille[i][j]= new Case(Couleur.Noir,this);
+							grille[i][j]= new Case(Couleur.Noir,c,this,grille);
 						}
 					}
 				}
@@ -520,25 +521,25 @@ public class Damier extends JPanel{
 		}
 	}
 	
-	
 	public void deplacer(int i, int j, int x, int y) { //déplacer la pièece de (x,y) à (i,j)		
 		boolean reine = (this.getGrille()[i][j].getPiece() instanceof Reine);
+		Coordonnees c = new Coordonnees(i,j);
 		if (tourBlanc) {	//piece blanche
 			if ((y==0)||(reine)) {
-				grille[x][y].setPiece(new Reine(Couleur.Blanc));
+				grille[x][y].setPiece(new Reine(Couleur.Blanc,c,this,grille));
 				//on vient d'obtenir une reine
 			}
 			else {
-				grille[x][y].setPiece(new Pion(Couleur.Blanc));
+				grille[x][y].setPiece(new Pion(Couleur.Blanc,c,this,grille));
 			}
 		}
 		else {	//piece noire
 			if ((y==taille-1)||(reine)) {
-				grille[x][y].setPiece(new Reine(Couleur.Noir));
+				grille[x][y].setPiece(new Reine(Couleur.Noir,c,this,grille));
 				//on vient d'obtenir une reine
 			}
 			else {
-				grille[x][y].setPiece(new Pion(Couleur.Noir));
+				grille[x][y].setPiece(new Pion(Couleur.Noir,c,this,grille));
 			}
 		}
 		

@@ -2,9 +2,32 @@ import java.util.Scanner;
 
 public class Menu {
 
+	private Damier damier;
+	private Case[][] grille;
+	
 	public Menu() {
+		this.damier=null;
+		this.grille=null;
 	}
 	
+	
+	public Damier getDamier() {
+		return damier;
+	}
+
+	public void setDamier(Damier damier) {
+		this.damier = damier;
+	}
+
+	public Case[][] getGrille() {
+		return grille;
+	}
+
+	public void setGrille(Case[][] grille) {
+		this.grille = grille;
+	}
+
+
 	public int typeDePartie() {
 		int res;
 		String c="";
@@ -48,23 +71,17 @@ public class Menu {
 	public Pion[] Pieces(int taille,Couleur couleur) {
 		Pion[] rep = new Pion[taille+taille/2];
 		int compteurB=0,compteurN=0;
-		for (int i=0;i<taille+taille/2;i++) {
-				rep[i]=new Pion(couleur);
-		}
 		
 		for (int j=taille-1;j>=0;j--) {
 			for (int i=0;i<taille;i++) {
 				if ( ((i+j)%2)==1) {
+					Coordonnees c = new Coordonnees(i,j);
 					if ((j>=taille/2+1)&&(couleur==Couleur.Blanc)) {
-						rep[compteurB]=new Pion(Couleur.Blanc);
-						Coordonnees c = new Coordonnees(i,j);
-						rep[compteurB].setCoordonnees(c);
+						rep[compteurB]=new Pion(Couleur.Blanc,c,damier,grille);
 						compteurB++;
 					}
 					if ((j<=taille/2-2)&&(couleur==Couleur.Noir)) {
-						rep[compteurN]=new Pion(Couleur.Noir);
-						Coordonnees c = new Coordonnees(i,j);
-						rep[compteurN].setCoordonnees(c);
+						rep[compteurN]=new Pion(Couleur.Noir,c,damier,grille);
 						compteurN++;
 					}
 				}
