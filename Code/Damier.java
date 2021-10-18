@@ -7,6 +7,8 @@ public class Damier extends JPanel{
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
 	private Case[][] grille;  //tableau de cases
+	public boolean sourisAClique; //savoir quand un joueur clique
+	private Coordonnees CoordoonnesSourisAClique;
 	private boolean tourBlanc;  //savoir à qui est le tour
 	public boolean tourFini;	//savoir quand le tour du joueur est fini
 	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours
@@ -21,12 +23,14 @@ public class Damier extends JPanel{
 	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
+		this.obligerLesSauts=obligerLesSauts;
+		this.peutMangerEnArriere=peutMangerEnArriere;
+		this.sourisAClique=false;
+		this.CoordoonnesSourisAClique=null;
 		this.tourBlanc=true;
 		this.tourFini=false;
 		this.sautObligatoire=false;
 		this.sautMultiple=false;
-		this.obligerLesSauts=obligerLesSauts;
-		this.peutMangerEnArriere=peutMangerEnArriere;
 		this.GameOver=false;
 		this.grille = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
@@ -51,6 +55,24 @@ public class Damier extends JPanel{
 		}
 	}
 	
+
+
+	public boolean getSourisAClique() {
+		return sourisAClique;
+	}
+
+	public void setSourisAClique(boolean sourisAClique) {
+		this.sourisAClique = sourisAClique;
+	}
+	
+	public Coordonnees getCoordoonnesSourisAClique() {
+		return CoordoonnesSourisAClique;
+	}
+
+	public void setCoordoonnesSourisAClique(Coordonnees coordoonnesSourisAClique) {
+		CoordoonnesSourisAClique = coordoonnesSourisAClique;
+	}
+
 	public boolean isGameOver() {
 		return GameOver;
 	}
@@ -73,6 +95,14 @@ public class Damier extends JPanel{
 
 	public void setSautMultiple(boolean sautMultiple) {
 		this.sautMultiple = sautMultiple;
+	}
+
+	public boolean getObligerLesSauts() {
+		return obligerLesSauts;
+	}
+
+	public void setObligerLesSauts(boolean obligerLesSauts) {
+		this.obligerLesSauts = obligerLesSauts;
 	}
 
 	public boolean getSautObligatoire() {
@@ -490,105 +520,6 @@ public class Damier extends JPanel{
 		}
 	}
 	
-	public void Ajoue(int x, int y, boolean ordi) {
-		int ii=0,jj=0;
-		if (this.getSautMultiple()&&(!this.getGrille()[x][y].getSaut())) {
-			//ne rien faire tant que le pion ne mange pas l'autre pion
-			if (!ordi) {
-				System.out.println("Vous devez manger le pion");
-			}
-		}
-		else {
-			this.setSautMultiple(false); //on enleve le cas saut de pièce multiple
-			if ((this.getGrille()[x][y].getPossibleClique()==false)&&(this.getGrille()[x][y].getSaut()==false) ) {  //il clique sur une case ou il peut pas se déplacer
-				
-				for (int j=0;j<this.getTaille();j++) {   //rénitialise tout
-					for (int i=0;i<this.getTaille();i++) {
-						if (this.getGrille()[i][j].getPossibleClique()) {
-							this.getGrille()[i][j].setPossibleClique(false);
-						}
-						if (this.getGrille()[i][j].getSaut()) {
-							this.getGrille()[i][j].setSaut(false);
-						}
-						if (this.getGrille()[i][j].getClique()){
-							ii=i;
-							jj=j;
-							this.getGrille()[i][j].setClique(false); 
-						}
-					}
-				}
-				this.getGrille()[x][y].click();
-				
-				if (grille[x][y].getPiece()!=null) {
-					this.afficherDeplacement(x,y);
-				}
-				
-				
-			}
-			
-			else {
-				
-				if ( (this.getSautObligatoire())&&(!this.getGrille()[x][y].getSaut()) ){
-					//ne rien faire tant que le saut n'est pas effectué
-					if (!ordi) {
-						System.out.println("Vous avez obligation de manger");
-					}
-				}
-				else {
-					this.setSautObligatoire(false);
-					if (this.getGrille()[x][y].getSaut()==true) {
-						//le joueur vient de manger un pion
-					}
-					for (int j=0;j<this.getTaille();j++) {   //renitialise tous les sauts
-						for (int i=0;i<this.getTaille();i++) {
-							if (this.getGrille()[i][j].getSaut()==true) {
-								this.getGrille()[i][j].setSaut(false);
-							}
-							if (this.getGrille()[i][j].getClique()){
-								ii=i;
-								jj=j;
-							}
-						}
-					}
-					
-					boolean pion;
-					pion=(grille[ii][jj].getPiece() instanceof Pion);
-					
-					this.deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
-					
-					Coordonnees c = new Coordonnees(); //coordonnées de la pièce sautée
-					boolean b=false;
-					
-					c=pieceMangee(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
-					
-					grille[ii][jj].click();
-					
-					if (c.getX()!=-1) {		//il y a eu une pièce mangée
-						grille[c.getX()][c.getY()].setPiece(null);  //enlever la pièce mangée
-						if (!( (pion)&&(grille[x][y].getPiece() instanceof Reine) )){   //vérifier qu'il ne peut pas continuer à manger s'il vient d'obtenir une reine
-							//System.out.println("UwU");
-							b = sautPossible(x,y);		//calculer les sauts de pion possibles après déplacement
-						}
-					}
-					
-					if (b!=true) {	//s'il le pion ne peut pas sauter d'autre pion après avoir sauté alors tour suivant
-						if (this.obligerLesSauts) {
-							//this.setSautObligatoire(this.peutEtreMange(x,y));
-						}
-						changementTour();
-						if (this.partieFinie()) {
-							GameOver=true;
-						}
-						this.setTourFini(true);	
-					}
-					else {
-						this.setSautMultiple(true);
-					}
-				}
-			}
-		}
-		this.repaint();
-	}
 	
 	public void deplacer(int i, int j, int x, int y) { //déplacer la pièece de (x,y) à (i,j)		
 		boolean reine = (this.getGrille()[i][j].getPiece() instanceof Reine);
@@ -621,44 +552,6 @@ public class Damier extends JPanel{
 		grille[i][j].setPiece(null);
 				
 	}
-	
-
-	public void tourOrdi(Joueur joueur) {
-		int compteur=0,compteur2=0,compteur3=0;
-		for (int j=0;j<this.getTaille();j++) { 
-			for (int i=0;i<this.getTaille();i++) {
-				if (grille[i][j].getPiece()!=null) {
-					if ((grille[i][j].getPiece().getCouleur()==joueur.getCouleur())&&(compteur<1)) {
-						Ajoue(i,j,true); //true pcq c'est l'ordi qui joue
-						for (int jj=0;jj<this.getTaille();jj++) { 
-							for (int ii=0;ii<this.getTaille();ii++) {
-								if ((grille[ii][jj].getPossibleClique())||(grille[ii][jj].getSaut())&&(compteur2<1)) {
-									compteur2++;
-									Ajoue(ii,jj,true); //true pcq c'est l'ordi qui joue
-									if (this.getSautMultiple()) {
-										//attendre(500);
-									}
-									while (this.getSautMultiple()) {
-										for (int jjj=0;jjj<this.getTaille();jjj++) { 
-											for (int iii=0;iii<this.getTaille();iii++) {
-												if (grille[iii][jjj].getSaut()&&(compteur3<1)) {
-													Ajoue(iii,jjj,true);
-													compteur3++;
-												}
-											}
-										}
-									}
-									compteur++;
-								}
-								
-							}
-						}
-					}
-				}
-			}
-		}		
-	}
-	
 
 	public boolean peutEtreMange(int x, int y) {
 		boolean b = false;
@@ -1140,6 +1033,11 @@ public class Damier extends JPanel{
 		}
 	}
 		
+	public void attendre(int ms) {
+		try { Thread.sleep (ms); } 
+        catch (InterruptedException e)  {  }
+	}
+	
 	public void paintComponent(Graphics g) {
 	//cases
 		for (int i=0; i<taille; i++) {

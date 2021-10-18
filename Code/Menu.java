@@ -4,13 +4,29 @@ public class Menu {
 
 	public Menu() {
 	}
-		
+	
+	public int typeDePartie() {
+		int res;
+		String c="";
+		Scanner clavier = new Scanner(System.in);
+		while ( (!c.equals("1")) && (!c.equals("2")) && (!c.equals("3")) ){
+			System.out.println("Choisissez votre type de partie : (1/2/3)");
+			System.out.println("1- J1 vs J2");
+			System.out.println("2- J1 vs IA");
+			System.out.println("3- IA vs IA");
+			c = clavier.nextLine();
+			System.out.println();
+		}
+		res=Integer.valueOf(c);
+		return res;
+	}
+	
 	public int definirTaille() {
 		int res=0;
 		String c="";
 		Scanner clavier = new Scanner(System.in);
 		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) ){
-			System.out.println("Quel type de partie voulez-vous jouer ? (a/b/c)");
+			System.out.println("Quel taille de plateau voulez-vous jouer ? (a/b/c)");
 			System.out.println("a- Rapide (8*8)");
 			System.out.println("b- Classique (10*10)");
 			System.out.println("c- Longue (12*12)");
@@ -27,6 +43,35 @@ public class Menu {
 			res=12;
 		}
 		return res;
+	}
+	
+	public Pion[] Pieces(int taille,Couleur couleur) {
+		Pion[] rep = new Pion[taille+taille/2];
+		int compteurB=0,compteurN=0;
+		for (int i=0;i<taille+taille/2;i++) {
+				rep[i]=new Pion(couleur);
+		}
+		
+		for (int j=taille-1;j>=0;j--) {
+			for (int i=0;i<taille;i++) {
+				if ( ((i+j)%2)==1) {
+					if ((j>=taille/2+1)&&(couleur==Couleur.Blanc)) {
+						rep[compteurB]=new Pion(Couleur.Blanc);
+						Coordonnees c = new Coordonnees(i,j);
+						rep[compteurB].setCoordonnees(c);
+						compteurB++;
+					}
+					if ((j<=taille/2-2)&&(couleur==Couleur.Noir)) {
+						rep[compteurN]=new Pion(Couleur.Noir);
+						Coordonnees c = new Coordonnees(i,j);
+						rep[compteurN].setCoordonnees(c);
+						compteurN++;
+					}
+				}
+			}
+		}
+		
+		return rep;
 	}
 	
 	public boolean obligerLesSauts() {

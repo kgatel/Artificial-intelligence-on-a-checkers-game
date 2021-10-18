@@ -36,7 +36,15 @@ public class Souris implements MouseListener {
 		int x = arg0.getX()*damier.getTaille()/damier.getTAILLE();
 		int y = (arg0.getY()-39)*damier.getTaille()/damier.getTAILLE();
 		
-		this.damier.Ajoue(x,y,false); //false pcq c'est un joueur qui joue pas un ordi
+		this.damier.setSourisAClique(true);
+		//System.out.println("clique");
+		
+		
+		
+		Coordonnees c = new Coordonnees (x,y);
+		this.damier.setCoordoonnesSourisAClique(c);
+		
+		//this.damier.Ajoue(x,y,false); //false pcq c'est un joueur qui joue pas un ordi
 		
 	
 	}
