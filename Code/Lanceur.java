@@ -18,7 +18,7 @@ public class Lanceur extends JFrame{
 //menu
 		Menu m = new Menu();
 		
-		int typeDePartie=2;
+		int typeDePartie=1;
 		//int typeDePartie=m.typeDePartie();
 		
 		Joueur j1 = null;
@@ -51,14 +51,23 @@ public class Lanceur extends JFrame{
 		boolean obligerLesSauts=false; 
 		//obligerLesSauts=m.obligerLesSauts();
 		
+		TableauPiece PiecesBlanches = m.tableauPiece(taille,Couleur.Blanc);
+		TableauPiece PiecesNoires = m.tableauPiece(taille, Couleur.Noir);
 		
-		Damier damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere); //10 par 10 pour l'original
-		
+		Damier damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere,PiecesBlanches,PiecesNoires); //10 par 10 pour l'original
 		m.setDamier(damier);
 		m.setGrille(damier.getGrille());
+		PiecesBlanches.setDamier(damier);
+		PiecesNoires.setDamier(damier);
+		PiecesBlanches.setGrille(damier.getGrille());
+		PiecesNoires.setGrille(damier.getGrille());
+		j1.setPieces(PiecesBlanches);
+		j2.setPieces(PiecesNoires);
+		j1.setDamier(damier);
+		j2.setDamier(damier);
 		
-		Piece [] PieceBlanche = m.Pieces(taille,Couleur.Blanc);
-		Piece [] PieceNoire = m.Pieces(taille, Couleur.Noir);
+		
+		
 		
 //fin menu
 						
@@ -79,27 +88,25 @@ public class Lanceur extends JFrame{
 
 		
 //Début du jeu
-		j1.setDamier(damier);
-		j2.setDamier(damier);
 		
-		while (!damier.isGameOver()) {
+		while ( (!(j1.aGagne(tourBlanc))) && (!(j2.aGagne(!tourBlanc))) ) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j1).tourOrdi();
+						((Ordi)j1).tourOrdi(tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
-						while (damier.getSourisAClique()==false) {
+						while (ecouteurDeSouris.getAClique()==false) {
 							//attend le clique de la souris
 							System.out.print("");
 						}
-						damier.setSourisAClique(false);
+						ecouteurDeSouris.setAClique(false);
 						System.out.print(" ");
-						int x= damier.getCoordoonnesSourisAClique().getX();
-						int y= damier.getCoordoonnesSourisAClique().getY();
-						j1.Ajoue(x,y,false);
+						int x= ecouteurDeSouris.getCoordonneesClique().getX();
+						int y= ecouteurDeSouris.getCoordonneesClique().getY();
+						j1.Ajoue(x,y,tourBlanc);
 						f.removeMouseListener(ecouteurDeSouris);
 					}
 				}	
@@ -113,19 +120,19 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j2 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j2).tourOrdi();
+						((Ordi)j2).tourOrdi(tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
-						while (damier.getSourisAClique()==false) {
+						while (ecouteurDeSouris.getAClique()==false) {
 							//attend le clique de la souris
 							System.out.print("");
 						}
-						damier.setSourisAClique(false);
+						ecouteurDeSouris.setAClique(false);
 						System.out.print(" ");
-						int x= damier.getCoordoonnesSourisAClique().getX();
-						int y= damier.getCoordoonnesSourisAClique().getY();
-						j2.Ajoue(x,y,false);
+						int x= ecouteurDeSouris.getCoordonneesClique().getX();
+						int y= ecouteurDeSouris.getCoordonneesClique().getY();
+						j2.Ajoue(x,y,tourBlanc);
 						f.removeMouseListener(ecouteurDeSouris);
 					}
 				}	
@@ -149,7 +156,7 @@ public class Lanceur extends JFrame{
 		
 //attente du clique pour fermer
 		f.addMouseListener(ecouteurDeSouris);
-		while (damier.getSourisAClique()==false) {
+		while (ecouteurDeSouris.getAClique()==false) {
 			System.out.print("");
 		}
 		f.removeMouseListener(ecouteurDeSouris);

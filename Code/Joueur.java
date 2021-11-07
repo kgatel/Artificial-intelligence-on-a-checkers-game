@@ -4,10 +4,12 @@ public class Joueur {
 	private String pseudo;
 	private Couleur couleur;
 	private Damier damier;  //tableau de cases
+	private TableauPiece pieces;
 	
 	public Joueur(Couleur couleur, String pseudo) {
 		this.couleur=couleur;
 		this.pseudo=pseudo;
+		pieces = null;
 		damier=null;
 	}
 	
@@ -18,6 +20,14 @@ public class Joueur {
 
 	public void setDamier(Damier damier) {
 		this.damier = damier;
+	}
+
+	public TableauPiece getPieces() {
+		return pieces;
+	}
+
+	public void setPieces(TableauPiece pieces) {
+		this.pieces = pieces;
 	}
 
 	public String getPseudo() {
@@ -33,7 +43,7 @@ public class Joueur {
 		this.couleur = couleur;
 	}
 	
-	public void Ajoue(int x, int y, boolean ordi2) {
+	public void Ajoue(int x, int y, boolean tourBlanc) {
 		boolean ordi = (this instanceof Ordi);
 		int ii=0,jj=0;
 		if (this.getDamier().getSautMultiple()&&(!this.getDamier().getGrille()[x][y].getSaut())) {
@@ -98,12 +108,14 @@ public class Joueur {
 					boolean pion;
 					pion=(this.getDamier().getGrille()[ii][jj].getPiece() instanceof Pion);
 					
-					this.getDamier().deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
+					//this.getDamier().deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
+					this.pieces.deplacer(ii, jj, x, y);
+					
 					
 					Coordonnees c = new Coordonnees(); //coordonnées de la pièce sautée
 					boolean b=false;
 					
-					c=this.getDamier().pieceMangee(x,y,ii,jj,this.getDamier().getTourBlanc());	//savoir s'il y a eu une pièce mangée ou non
+					c=this.getDamier().pieceMangee(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
 					
 					this.getDamier().getGrille()[ii][jj].click();
 					
@@ -123,10 +135,13 @@ public class Joueur {
 							for (int i=0;i<this.damier.getTaille();i++) {
 								for (int j=0;j<this.damier.getTaille();j++) {
 									if (this.getDamier().getGrille()[i][j].getPiece()!=null) {
-										if ( ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)&&(this.getDamier().getTourBlanc())) || ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)&&(!(this.getDamier().getTourBlanc()))) ) {
-											if (this.getDamier().peutEtreMange(i,j)) {
+										if ( ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)&&(tourBlanc)) || ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)&&(!(tourBlanc))) ) {
+											//if (this.getDamier().peutEtreMange(i,j)) {
+											Coordonnees coor = new Coordonnees(i,j);
+											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc)) {
 												ilYaUnPionQuiPeutSauter=true;
 											}
+											
 										}
 									}
 								}
@@ -134,9 +149,7 @@ public class Joueur {
 							this.getDamier().setSautObligatoire(ilYaUnPionQuiPeutSauter);
 						}
 						this.getDamier().changementTour();
-						if (this.getDamier().partieFinie()) {
-							this.getDamier().setGameOver(true);
-						}
+						
 						this.getDamier().setTourFini(true);	
 					}
 					else {
@@ -147,6 +160,165 @@ public class Joueur {
 		}
 		this.getDamier().repaint();
 	}
+
+	public boolean aGagne(boolean tourBlanc) {
+		boolean b=true;
+		boolean peutBouger=false;
+		for (int i=0; i<this.getDamier().getTaille();i++) {
+			for (int j=0;j<this.getDamier().getTaille();j++) {
+				if (this.getDamier().getGrille()[i][j].getPiece()!=null) {
+					if (((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)&&(tourBlanc))||((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)&&(!tourBlanc))) {
+						b=false;
+					}
+				}
+			}
+		}
+		if (b==false) {
+			for (int i=0; i<this.getDamier().getTaille();i++) {
+				for (int j=0;j<this.getDamier().getTaille();j++) {
+					if (this.getDamier().getGrille()[i][j].getPiece()!=null) {
+						if ((tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)) {	//tour au blanc
+							if ((i<this.getDamier().getTaille()-1)&&(j>0)) {	  //diagonale haute droite
+								if (this.getDamier().getGrille()[i+1][j-1].getPiece()==null) {	//
+									peutBouger=true;
+								}
+								else{
+									if (this.getDamier().getGrille()[i+1][j-1].getPiece().getCouleur()==Couleur.Noir) {
+										if ((i<this.getDamier().getTaille()-2)&&(j>1)) {
+											if (this.getDamier().getGrille()[i+2][j-2].getPiece()==null) {  //saut de pion
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if ((i>0)&&(j>0)) {		//diagonale haute gauche
+								if (this.getDamier().getGrille()[i-1][j-1].getPiece()==null) {
+									peutBouger=true;
+								}
+								else {
+									if (this.getDamier().getGrille()[i-1][j-1].getPiece().getCouleur()==Couleur.Noir) {
+										if ((i>1)&&(j>1)) {
+											if (this.getDamier().getGrille()[i-2][j-2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if (this.getDamier().getGrille()[i][j].getPiece() instanceof Reine) {
+								if ((i>0)&&(j<this.getDamier().getTaille()-1)) {		//diagonale basse gauche
+									if (this.getDamier().getGrille()[i-1][j+1].getPiece()==null) {
+										peutBouger=true;
+									}
+								}
+								if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {		//diagonale basse droite
+									if (this.getDamier().getGrille()[i+1][j+1].getPiece()==null) {
+										peutBouger=true;
+									}
+								}
+								
+							}
+							//situation ou le pion mange en arrière
+							if ((i>0)&&(j<this.getDamier().getTaille()-1)) {
+								if (this.getDamier().getGrille()[i-1][j+1].getPiece()!=null) {
+									if (this.getDamier().getGrille()[i-1][j+1].getPiece().getCouleur()==Couleur.Noir) {
+										if ((i>1)&&(j<this.getDamier().getTaille()-2)) {
+											if (this.getDamier().getGrille()[i-2][j+2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {
+								if (this.getDamier().getGrille()[i+1][j+1].getPiece()!=null) {
+									if (this.getDamier().getGrille()[i+1][j+1].getPiece().getCouleur()==Couleur.Noir) {
+										if ((i<this.getDamier().getTaille()-2)&&(j<this.getDamier().getTaille()-2)) {
+											if (this.getDamier().getGrille()[i+2][j+2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+						}
+						if ((!tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)) {  //tour noir
+							
+							if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {
+								if (this.getDamier().getGrille()[i+1][j+1].getPiece()==null) {
+									peutBouger=true;								}
+								else{
+									if (this.getDamier().getGrille()[i+1][j+1].getPiece().getCouleur()==Couleur.Blanc) {
+										if ((i<this.getDamier().getTaille()-2)&&(j<this.getDamier().getTaille()-2)) {
+											if (this.getDamier().getGrille()[i+2][j+2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if ((i>0)&&(j<this.getDamier().getTaille()-1)) {
+								if (this.getDamier().getGrille()[i-1][j+1].getPiece()==null) {
+									peutBouger=true;								}
+								else{
+									if (this.getDamier().getGrille()[i-1][j+1].getPiece().getCouleur()==Couleur.Blanc) {
+										if ((i>1)&&(j<this.getDamier().getTaille()-2)) {
+											if (this.getDamier().getGrille()[i-2][j+2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if (this.getDamier().getGrille()[i][j].getPiece() instanceof Reine) {
+								if ((i>0)&&(j>0)) {		//haut basse gauche
+									if (this.getDamier().getGrille()[i-1][j-1].getPiece()==null) {
+										peutBouger=true;
+									}
+								}
+								if ((i<this.getDamier().getTaille()-1)&&(j>0)) {		//diagonale haut droite
+									if (this.getDamier().getGrille()[i+1][j-1].getPiece()==null) {
+										peutBouger=true;
+									}
+								}
+								
+							}
+							//depassement en arrière pour pièces noires
+							if ((i>0)&&(j>0)) {
+								if (this.getDamier().getGrille()[i-1][j-1].getPiece()!=null) {
+									if (this.getDamier().getGrille()[i-1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
+										if ((i>1)&&(j>1)) {
+											if (this.getDamier().getGrille()[i-2][j-2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+							if ((i<this.getDamier().getTaille()-1)&&(j>0)) {
+								if (this.getDamier().getGrille()[i+1][j-1].getPiece()!=null) {
+									if (this.getDamier().getGrille()[i+1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
+										if ((i<this.getDamier().getTaille()-2)&&(j>1)) {
+											if (this.getDamier().getGrille()[i+2][j-2].getPiece()==null) {
+												peutBouger=true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if ((peutBouger==false)&&(b==false)) {
+			System.out.println("Plus aucun déplacement possible");
+			b=true;
+		}
+		return b;
+	}
+	
 	
 	
 	public void attendre(int ms) {

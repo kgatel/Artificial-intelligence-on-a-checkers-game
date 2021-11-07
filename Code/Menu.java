@@ -48,28 +48,32 @@ public class Menu {
 		int res=0;
 		String c="";
 		Scanner clavier = new Scanner(System.in);
-		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) ){
+		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) && (!c.equals("d")) ){
 			System.out.println("Quel taille de plateau voulez-vous jouer ? (a/b/c)");
-			System.out.println("a- Rapide (8*8)");
-			System.out.println("b- Classique (10*10)");
-			System.out.println("c- Longue (12*12)");
+			System.out.println("a - Expresso (6*6));");
+			System.out.println("b- Rapide (8*8)");
+			System.out.println("c- Classique (10*10)");
+			System.out.println("d- Longue (12*12)");
 			c = clavier.nextLine();
 			System.out.println();
 		}
 		if (c.equals("a")) {
-			res=8;
+			res=6;
 		}
 		if (c.equals("b")) {
-			res=10;
+			res=8;
 		}
 		if (c.equals("c")) {
+			res=10;
+		}
+		if (c.equals("d")) {
 			res=12;
 		}
 		return res;
 	}
 	
-	public Pion[] Pieces(int taille,Couleur couleur) {
-		Pion[] rep = new Pion[taille+taille/2];
+	public TableauPiece tableauPiece(int taille,Couleur couleur) {
+		Pion[] tableauPion = new Pion[(2+(taille-4)/2)*((taille-4)/2+1)];
 		int compteurB=0,compteurN=0;
 		
 		for (int j=taille-1;j>=0;j--) {
@@ -77,18 +81,18 @@ public class Menu {
 				if ( ((i+j)%2)==1) {
 					Coordonnees c = new Coordonnees(i,j);
 					if ((j>=taille/2+1)&&(couleur==Couleur.Blanc)) {
-						rep[compteurB]=new Pion(Couleur.Blanc,c,damier,grille);
+						tableauPion[compteurB]=new Pion(Couleur.Blanc,c,damier,grille);
 						compteurB++;
 					}
 					if ((j<=taille/2-2)&&(couleur==Couleur.Noir)) {
-						rep[compteurN]=new Pion(Couleur.Noir,c,damier,grille);
+						tableauPion[compteurN]=new Pion(Couleur.Noir,c,damier,grille);
 						compteurN++;
 					}
 				}
 			}
 		}
-		
-		return rep;
+		TableauPiece res = new TableauPiece(this.damier,this.grille,tableauPion,(2+(taille-4)/2)*((taille-4)/2+1),couleur);
+		return res;
 	}
 	
 	public boolean obligerLesSauts() {
