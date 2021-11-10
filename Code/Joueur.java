@@ -43,12 +43,14 @@ public class Joueur {
 		this.couleur = couleur;
 	}
 	
+	//Méthodes
 	public void Ajoue(int x, int y, boolean tourBlanc) {
 		boolean ordi = (this instanceof Ordi);
 		int ii=0,jj=0;
 		if (this.getDamier().getSautMultiple()&&(!this.getDamier().getGrille()[x][y].getSaut())) {
 			//ne rien faire tant que le pion ne mange pas l'autre pion
 			if (!ordi) {
+				System.out.println();
 				System.out.println("Vous devez manger le pion");
 			}
 		}
@@ -74,7 +76,8 @@ public class Joueur {
 				this.getDamier().getGrille()[x][y].click();
 				
 				if (this.getDamier().getGrille()[x][y].getPiece()!=null) {
-					this.getDamier().afficherDeplacement(x,y);
+					//this.getDamier().afficherDeplacement(x,y);
+					this.getDamier().getGrille()[x][y].getPiece().afficherDeplacement();
 				}
 				
 				
@@ -115,14 +118,14 @@ public class Joueur {
 					Coordonnees c = new Coordonnees(); //coordonnées de la pièce sautée
 					boolean b=false;
 					
-					c=this.getDamier().pieceMangee(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
+					c=this.pieceMangeeLorsDunSaut(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
 					
 					this.getDamier().getGrille()[ii][jj].click();
 					
 					if (c.getX()!=-1) {		//il y a eu une pièce mangée
 						this.getDamier().getGrille()[c.getX()][c.getY()].setPiece(null);  //enlever la pièce mangée
 						if (!( (pion)&&(this.getDamier().getGrille()[x][y].getPiece() instanceof Reine) )){   //vérifier qu'il ne peut pas continuer à manger s'il vient d'obtenir une reine
-							b = this.getDamier().sautPossible(x,y);		//si b=true alors le joueur peut continuer à sauter
+							b = this.getDamier().getGrille()[x][y].getPiece().sautPossible();		//si b=true alors le joueur peut continuer à sauter
 						}
 						if ((b)&&(ordi)) {
 							attendre(500);
@@ -161,6 +164,59 @@ public class Joueur {
 		this.getDamier().repaint();
 	}
 
+	public Coordonnees pieceMangeeLorsDunSaut(int x, int y,int i,int j,boolean tourBlanc) { //donne les coordonnées de la pièce mangée
+		Coordonnees c = new Coordonnees();
+		int delta=abs(y-j);
+		if (delta>=2) {
+			if (y-j<0) {
+				if (x-i>0) {		//diagonale haute droite
+					int k=1;
+					while (this.getDamier().getGrille()[i+k][j-k].getPiece()==null) {
+						k++;
+					}
+					if ( ((this.getDamier().getGrille()[i+k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[i+k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i+k);
+						c.setY(j-k);
+					}
+					
+				}
+				if (x-i<0)	{		//diagonale haute gauche
+					int k=1;
+					while (this.getDamier().getGrille()[i-k][j-k].getPiece()==null) {
+						k++;
+					}
+					if ( ((this.getDamier().getGrille()[i-k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[i-k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i-k);
+						c.setY(j-k);
+					}
+				}
+			}
+			else {  //y-j>0
+				if (x-i>0) {		//diagonale basse droite
+					int k=1;
+					while (this.getDamier().getGrille()[i+k][j+k].getPiece()==null) {
+						k++;
+					}
+					if ( ((this.getDamier().getGrille()[i+k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[i+k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i+k);
+						c.setY(j+k);
+					}
+				}
+				if (x-i<0)	{		//diagonale basse gauche
+					int k=1;
+					while (this.getDamier().getGrille()[i-k][j+k].getPiece()==null) {
+						k++;
+					}
+					if ( ((this.getDamier().getGrille()[i-k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[i-k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i-k);
+						c.setY(j+k);
+					}
+				}
+			}
+		}
+		return c;
+	}
+	
 	public boolean aGagne(boolean tourBlanc) {
 		boolean b=true;
 		boolean peutBouger=false;
@@ -319,7 +375,14 @@ public class Joueur {
 		return b;
 	}
 	
-	
+	public int abs(int a) {
+		if (a>=0) {
+			return a;
+		}
+		else {
+			return -a;
+		}
+	}
 	
 	public void attendre(int ms) {
 		try { Thread.sleep (ms); } 

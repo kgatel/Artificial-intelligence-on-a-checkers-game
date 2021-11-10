@@ -2,6 +2,11 @@ import javax.swing.JFrame;
 
 public class Lanceur extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L; //ligne obligatoire sinon warning lors de la compilation
+	
 	private static final int TAILLE=800;	//taille de la fenêtre	
 
 	public static void attendre(int ms) {
@@ -72,7 +77,6 @@ public class Lanceur extends JFrame{
 //fin menu
 						
 		boolean tourBlanc=true; 					 //vrai quand le tour est au joueur 1
-		boolean partieTerminee=false;
 			
 //Fenetre jeu de dames	
 		JFrame f = new JFrame("Jeu de Dames");
