@@ -6,6 +6,8 @@ public class Ordi extends Joueur {
 	}
 	
 	public void tourOrdi(boolean tourBlanc) {
+		//AlgoMinMax IA;
+		
 		int compteur=0,compteur2=0,compteur3=0;
 		for (int j=0;j<this.getDamier().getTaille();j++) { 
 			for (int i=0;i<this.getDamier().getTaille();i++) {

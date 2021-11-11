@@ -1,11 +1,6 @@
 import javax.swing.JFrame;
 
 public class Lanceur extends JFrame{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L; //ligne obligatoire sinon warning lors de la compilation
 	
 	private static final int TAILLE=800;	//taille de la fenêtre	
 
@@ -20,63 +15,77 @@ public class Lanceur extends JFrame{
 	
 	public static void main(String[] args) {
 		
-//menu
-		Menu m = new Menu();
-		
-		int typeDePartie=1;
-		//int typeDePartie=m.typeDePartie();
-		
+		int typeDePartie=0;
 		Joueur j1 = null;
 		Joueur j2 = null;
-		
-		if (typeDePartie==1) {	//J1 vs J2
-			j1 = new Humain(Couleur.Blanc,"Pascal");
-			j2 = new Humain(Couleur.Noir,"Obispo");
-			//j1 = new Humain(Couleur.Blanc,m.pseudoJoueur1());
-			//j2 = new Humain(Couleur.Noir,m.pseudoJoueur2());
-		}
-		
-		if (typeDePartie==2) {	//J1 vs ordi
-			j1 = new Humain(Couleur.Blanc,"Pascal");
-			//j1 = new Joueur(Couleur.Blanc,m.pseudoJoueur1());
-			j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
-		}
-		
-		if (typeDePartie==3) {	//ordi vs ordi
-			j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1");
-			j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
-		}	
-		
-		int taille=8;						 //taille du coté du plateau 8*8 ou 10*10 ou 12*12
-		//taille=m.definirTaille();
-		
+		int taille=0;
 		boolean peutMangerEnArriere=false;
-		//peutMangerEnArriere=m.peutMangerEnArriere();
+		boolean obligerLesSauts=false;
+		TableauPiece PiecesBlanches = null;
+		TableauPiece PiecesNoires = null;
+		Damier damier = null;
 		
-		boolean obligerLesSauts=false; 
-		//obligerLesSauts=m.obligerLesSauts();
+//Menu
+		boolean menu=false;		//savoir si on veut un menu ou non
 		
-		TableauPiece PiecesBlanches = m.tableauPiece(taille,Couleur.Blanc);
-		TableauPiece PiecesNoires = m.tableauPiece(taille, Couleur.Noir);
+		if (menu) {
+			Menu m = new Menu();
+			
+			typeDePartie=m.typeDePartie();
+
+			if (typeDePartie==1) {	//J1 vs J2
+				j1 = new Humain(Couleur.Blanc,m.pseudoJoueur(1));
+				j2 = new Humain(Couleur.Noir,m.pseudoJoueur(2));
+			}
+			if (typeDePartie==2) {	//J1 vs ordi
+				j1 = new Joueur(Couleur.Blanc,m.pseudoJoueur(1));
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
+			}
+			if (typeDePartie==3) {	//ordi vs ordi
+				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1");
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
+			}
+			
+			taille=m.definirTaille();
+			peutMangerEnArriere=m.peutMangerEnArriere();
+			obligerLesSauts=m.obligerLesSauts();
+			
+		}else {
+			typeDePartie=1;
+			
+			if (typeDePartie==1) {	//J1 vs J2
+				j1 = new Humain(Couleur.Blanc,"Pascal");
+				j2 = new Humain(Couleur.Noir,"Obispo");
+			}
+			if (typeDePartie==2) {	//J1 vs ordi
+				j1 = new Humain(Couleur.Blanc,"Pascal");
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
+			}
+			if (typeDePartie==3) {	//ordi vs ordi
+				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1");
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
+			}	
+			
+			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
+			peutMangerEnArriere=false;
+			obligerLesSauts=false;
+			
+		}
+//fin menu
+			
+		damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere); //10 par 10 pour l'original
 		
-		Damier damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere,PiecesBlanches,PiecesNoires); //10 par 10 pour l'original
-		m.setDamier(damier);
-		m.setGrille(damier.getGrille());
-		PiecesBlanches.setDamier(damier);
-		PiecesNoires.setDamier(damier);
-		PiecesBlanches.setGrille(damier.getGrille());
-		PiecesNoires.setGrille(damier.getGrille());
+		PiecesBlanches = new TableauPiece(damier,taille,Couleur.Blanc);
+		PiecesNoires = new TableauPiece(damier,taille,Couleur.Noir);
+		
+		damier.setPiecesBlanches(PiecesBlanches);
+		damier.setPiecesNoires(PiecesNoires);
+		
 		j1.setPieces(PiecesBlanches);
 		j2.setPieces(PiecesNoires);
 		j1.setDamier(damier);
 		j2.setDamier(damier);
 		
-		
-		
-		
-//fin menu
-						
-		boolean tourBlanc=true; 					 //vrai quand le tour est au joueur 1
 			
 //Fenetre jeu de dames	
 		JFrame f = new JFrame("Jeu de Dames");
@@ -87,12 +96,11 @@ public class Lanceur extends JFrame{
 		f.setVisible(true);
 		
 		Souris ecouteurDeSouris = new Souris(damier);
-		//attendre(1000);
 //fin fenêtre
 
 		
 //Début du jeu
-		
+		boolean tourBlanc=true; 	//vrai quand le tour est au joueur 1
 		while ( (!(j1.aGagne(tourBlanc))) && (!(j2.aGagne(!tourBlanc))) ) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
@@ -111,10 +119,11 @@ public class Lanceur extends JFrame{
 						int x= ecouteurDeSouris.getCoordonneesClique().getX();
 						int y= ecouteurDeSouris.getCoordonneesClique().getY();
 						j1.Ajoue(x,y,tourBlanc);
+												
 						f.removeMouseListener(ecouteurDeSouris);
 					}
 				}	
-				
+				damier.changementTour();
 				tourBlanc=false;
 				damier.setTourFini(false);
 
@@ -139,8 +148,8 @@ public class Lanceur extends JFrame{
 						j2.Ajoue(x,y,tourBlanc);
 						f.removeMouseListener(ecouteurDeSouris);
 					}
-				}	
-				
+				}
+				damier.changementTour();
 				tourBlanc=true;
 				damier.setTourFini(false);
 

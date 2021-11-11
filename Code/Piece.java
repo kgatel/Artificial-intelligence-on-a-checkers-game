@@ -5,14 +5,12 @@ public class Piece {
 
 	private Couleur couleur;
 	private Coordonnees c;
-	private Case[][] grille;
 	private Damier damier;
 	
-	public Piece(Couleur couleur,Coordonnees c,Damier damier,Case[][] grille) {
+	public Piece(Couleur couleur,Coordonnees c,Damier damier) {
 		this.couleur=couleur;
 		this.c=c;
 		this.damier=damier;
-		this.grille=grille;
 	}
 	
 	public Couleur getCouleur() {
@@ -30,14 +28,6 @@ public class Piece {
 	public void setCoordonnees(Coordonnees c) {
 		this.c = c;
 	}
-	
-	public Case[][] getGrille() {
-		return grille;
-	}
-
-	public void setGrille(Case[][] grille) {
-		this.grille = grille;
-	}
 
 	public Damier getDamier() {
 		return damier;
@@ -50,28 +40,28 @@ public class Piece {
 	
 	//Méthodes
 	
-	public boolean peutEtreMange(boolean tourBlanc) {
+	public boolean peutEtreMange(boolean tourBlanc,int taille) {
 		boolean b = false;
 		boolean pionRencontre=false;
 		int k=1;
-		if ((this.c.getX()-1>=0)&&(this.c.getX()+1<this.getDamier().getTaille())&&(this.c.getY()-1>=0)&&(this.c.getY()+1<this.getDamier().getTaille())) {
+		if ((this.c.getX()-1>=0)&&(this.c.getX()+1<taille)&&(this.c.getY()-1>=0)&&(this.c.getY()+1<taille)) {
 			while ( (this.c.getX()-k>=0)&&(this.c.getY()-k>=0)&&(!pionRencontre) ) {	//pièce qui mange en haut à gauche
-				if (grille[this.c.getX()-k][this.c.getY()-k].getPiece()!=null){
+				if (damier.getGrille()[this.c.getX()-k][this.c.getY()-k].getPiece()!=null){
 					pionRencontre=true;
 				}
 				k++;
 			}
 			k--;
-			if (grille[this.c.getX()-1][this.c.getY()-1].getPiece()!=null){	//mangé par un pion
-				if (  (((grille[this.c.getX()-1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.damier.getObligerLesSauts())) || ((grille[this.c.getX()-1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()+1][this.c.getY()+1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()-1][this.c.getY()-1].getPiece()!=null){	//mangé par un pion
+				if (  (((damier.getGrille()[this.c.getX()-1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.damier.getObligerLesSauts())) || ((damier.getGrille()[this.c.getX()-1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()+1][this.c.getY()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
 			}
-			if (grille[this.c.getX()-k][this.c.getY()-k].getPiece() instanceof Reine) {
-				if (  (((grille[this.c.getX()-k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((grille[this.c.getX()-k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()+1][this.c.getY()+1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()-k][this.c.getY()-k].getPiece() instanceof Reine) {
+				if (  (((damier.getGrille()[this.c.getX()-k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((damier.getGrille()[this.c.getX()-k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()+1][this.c.getY()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
@@ -79,23 +69,23 @@ public class Piece {
 			k=1;
 			pionRencontre = false;
 			
-			while ( (this.c.getX()+k<this.getDamier().getTaille())&&(this.c.getY()-k>=0)&&(!pionRencontre) ) {	//pièce qui mange en haut à droite
-				if (grille[this.c.getX()+k][this.c.getY()-k].getPiece()!=null){
+			while ( (this.c.getX()+k<taille)&&(this.c.getY()-k>=0)&&(!pionRencontre) ) {	//pièce qui mange en haut à droite
+				if (damier.getGrille()[this.c.getX()+k][this.c.getY()-k].getPiece()!=null){
 					pionRencontre=true;
 				}
 				k++;
 			}
 			k--;
-			if (grille[this.c.getX()+1][this.c.getY()-1].getPiece()!=null){	//mangé par un pion
-				if (  (((grille[this.c.getX()+1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.damier.getObligerLesSauts())) || ((grille[this.c.getX()+1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()-1][this.c.getY()+1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()+1][this.c.getY()-1].getPiece()!=null){	//mangé par un pion
+				if (  (((damier.getGrille()[this.c.getX()+1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.damier.getObligerLesSauts())) || ((damier.getGrille()[this.c.getX()+1][this.c.getY()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()-1][this.c.getY()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
 			}
-			if (grille[this.c.getX()+k][this.c.getY()-k].getPiece() instanceof Reine) {
-				if (  (((grille[this.c.getX()+k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((grille[this.c.getX()+k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()-1][this.c.getY()+1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()+k][this.c.getY()-k].getPiece() instanceof Reine) {
+				if (  (((damier.getGrille()[this.c.getX()+k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((damier.getGrille()[this.c.getX()+k][this.c.getY()-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()-1][this.c.getY()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
@@ -103,23 +93,23 @@ public class Piece {
 			k=1;
 			pionRencontre = false;
 			
-			while ( (this.c.getX()-k>=0)&&(this.c.getY()+k<this.getDamier().getTaille())&&(!pionRencontre) ) {	//pièce qui mange en bas à gauche
-				if (grille[this.c.getX()-k][this.c.getY()+k].getPiece()!=null){
+			while ( (this.c.getX()-k>=0)&&(this.c.getY()+k<taille)&&(!pionRencontre) ) {	//pièce qui mange en bas à gauche
+				if (damier.getGrille()[this.c.getX()-k][this.c.getY()+k].getPiece()!=null){
 					pionRencontre=true;
 				}
 				k++;
 			}
 			k--;
-			if (grille[this.c.getX()-1][this.c.getY()+1].getPiece()!=null){	//mangé par un pion
-				if (  ((grille[this.c.getX()-1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((grille[this.c.getX()-1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.damier.getObligerLesSauts())) ) {
-					if (grille[this.c.getX()+1][this.c.getY()-1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()-1][this.c.getY()+1].getPiece()!=null){	//mangé par un pion
+				if (  ((damier.getGrille()[this.c.getX()-1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getGrille()[this.c.getX()-1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.damier.getObligerLesSauts())) ) {
+					if (damier.getGrille()[this.c.getX()+1][this.c.getY()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
 			}
-			if (grille[this.c.getX()-k][this.c.getY()+k].getPiece() instanceof Reine) {
-				if (  (((grille[this.c.getX()-k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((grille[this.c.getX()-k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()+1][this.c.getY()-1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()-k][this.c.getY()+k].getPiece() instanceof Reine) {
+				if (  (((damier.getGrille()[this.c.getX()-k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((damier.getGrille()[this.c.getX()-k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()+1][this.c.getY()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
@@ -127,23 +117,23 @@ public class Piece {
 			k=1;
 			pionRencontre = false;
 			
-			while ( (this.c.getX()+k<this.getDamier().getTaille())&&(this.c.getY()+k<this.getDamier().getTaille())&&(!pionRencontre) ) {	//pièce qui mange en bas à droite
-				if (grille[this.c.getX()+k][this.c.getY()+k].getPiece()!=null){
+			while ( (this.c.getX()+k<taille)&&(this.c.getY()+k<taille)&&(!pionRencontre) ) {	//pièce qui mange en bas à droite
+				if (damier.getGrille()[this.c.getX()+k][this.c.getY()+k].getPiece()!=null){
 					pionRencontre=true;
 				}
 				k++;
 			}
 			k--;
-			if (grille[this.c.getX()+1][this.c.getY()+1].getPiece()!=null){	//mangé par un pion
-				if (  ((grille[this.c.getX()+1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((grille[this.c.getX()+1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.damier.getObligerLesSauts())) ) {
-					if (grille[this.c.getX()-1][this.c.getY()-1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()+1][this.c.getY()+1].getPiece()!=null){	//mangé par un pion
+				if (  ((damier.getGrille()[this.c.getX()+1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getGrille()[this.c.getX()+1][this.c.getY()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.damier.getObligerLesSauts())) ) {
+					if (damier.getGrille()[this.c.getX()-1][this.c.getY()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
 			}
-			if (grille[this.c.getX()+k][this.c.getY()+k].getPiece() instanceof Reine) {
-				if (  (((grille[this.c.getX()+k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((grille[this.c.getX()+k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-					if (grille[this.c.getX()-1][this.c.getY()-1].getPiece()==null) {	//espace libre
+			if (damier.getGrille()[this.c.getX()+k][this.c.getY()+k].getPiece() instanceof Reine) {
+				if (  (((damier.getGrille()[this.c.getX()+k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Blanc))&&(!tourBlanc)) || ((damier.getGrille()[this.c.getX()+k][this.c.getY()+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+					if (damier.getGrille()[this.c.getX()-1][this.c.getY()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
 				}
@@ -154,7 +144,7 @@ public class Piece {
 		return b;
 	}
 	
-	public boolean sautPossible() {
+	public boolean sautPossible(boolean tourBlanc) {
 		int x = this.c.getX();
 		int y = this.c.getY();
 		boolean b=false;
@@ -169,8 +159,8 @@ public class Piece {
 		k--;
 		if ( (x-2>=0) && (y-2>=0) ) {		// pour un pion
 			if ( (this.getDamier().getGrille()[x-2][y-2].getPiece()==null) && (this.getDamier().getGrille()[x-1][y-1].getPiece()!=null) ) {
-				if ( ((this.getDamier().getGrille()[x-1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || (((this.getDamier().getGrille()[x-1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc()))&&(!this.getDamier().getObligerLesSauts())) )  {
-					if ((this.getDamier().getPeutMangerEnArriere())||(this.getDamier().getTourBlanc())) {
+				if ( ((this.getDamier().getGrille()[x-1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((this.getDamier().getGrille()[x-1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.getDamier().getObligerLesSauts())) )  {
+					if ((this.getDamier().getPeutMangerEnArriere())||(tourBlanc)) {
 						this.getDamier().getGrille()[x-2][y-2].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -185,7 +175,7 @@ public class Piece {
 					pionRencontre=true;
 				}
 				else {
-					if ( ((this.getDamier().getGrille()[x-k][y-k].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || ((this.getDamier().getGrille()[x-k][y-k].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
+					if ( ((this.getDamier().getGrille()[x-k][y-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[x-k][y-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 						this.getDamier().getGrille()[x-k-l][y-k-l].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -205,8 +195,8 @@ public class Piece {
 		k--;
 		if ( (x+2<this.getDamier().getTaille()) && (y-2>=0) ) {		// pour un pion
 			if ( (this.getDamier().getGrille()[x+2][y-2].getPiece()==null) && (this.getDamier().getGrille()[x+1][y-1].getPiece()!=null) ) {
-				if ( ((this.getDamier().getGrille()[x+1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || (((this.getDamier().getGrille()[x+1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc()))&&(!this.getDamier().getObligerLesSauts())) )  {
-					if ((this.getDamier().getPeutMangerEnArriere())||(this.getDamier().getTourBlanc())) {	
+				if ( ((this.getDamier().getGrille()[x+1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((this.getDamier().getGrille()[x+1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!this.getDamier().getObligerLesSauts())) )  {
+					if ((this.getDamier().getPeutMangerEnArriere())||(tourBlanc)) {	
 						this.getDamier().getGrille()[x+2][y-2].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -221,7 +211,7 @@ public class Piece {
 					pionRencontre=true;
 				}
 				else {
-					if ( ((this.getDamier().getGrille()[x+k][y-k].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || ((this.getDamier().getGrille()[x+k][y-k].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
+					if ( ((this.getDamier().getGrille()[x+k][y-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[x+k][y-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 						this.getDamier().getGrille()[x+k+l][y-k-l].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -242,8 +232,8 @@ public class Piece {
 		k--;
 		if ( (x+2<this.getDamier().getTaille()) && (y+2<this.getDamier().getTaille()) ) {		// pour un pion
 			if ( (this.getDamier().getGrille()[x+2][y+2].getPiece()==null) && (this.getDamier().getGrille()[x+1][y+1].getPiece()!=null) ) {
-				if ( (((this.getDamier().getGrille()[x+1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc()))&&(!this.getDamier().getObligerLesSauts())) || ((this.getDamier().getGrille()[x+1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
-					if ((this.getDamier().getPeutMangerEnArriere())||(!this.getDamier().getTourBlanc())) {
+				if ( (((this.getDamier().getGrille()[x+1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.getDamier().getObligerLesSauts())) || ((this.getDamier().getGrille()[x+1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
+					if ((this.getDamier().getPeutMangerEnArriere())||(!tourBlanc)) {
 						this.getDamier().getGrille()[x+2][y+2].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -258,7 +248,7 @@ public class Piece {
 					pionRencontre=true;
 				}
 				else {
-					if ( ((this.getDamier().getGrille()[x+k][y+k].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || ((this.getDamier().getGrille()[x+k][y+k].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
+					if ( ((this.getDamier().getGrille()[x+k][y+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[x+k][y+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 						this.getDamier().getGrille()[x+k+l][y+k+l].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -279,8 +269,8 @@ public class Piece {
 		k--;
 		if ( (x-2>=0) && (y+2<this.getDamier().getTaille()) ) {		// pour un pion
 			if ( (this.getDamier().getGrille()[x-2][y+2].getPiece()==null) && (this.getDamier().getGrille()[x-1][y+1].getPiece()!=null) ) {
-				if ( (((this.getDamier().getGrille()[x-1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc()))&&(!this.getDamier().getObligerLesSauts())) || ((this.getDamier().getGrille()[x-1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
-					if ((this.getDamier().getPeutMangerEnArriere())||(!this.getDamier().getTourBlanc())) {
+				if ( (((this.getDamier().getGrille()[x-1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!this.getDamier().getObligerLesSauts())) || ((this.getDamier().getGrille()[x-1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
+					if ((this.getDamier().getPeutMangerEnArriere())||(!tourBlanc)) {
 						this.getDamier().getGrille()[x-2][y+2].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -295,7 +285,7 @@ public class Piece {
 					pionRencontre=true;
 				} 
 				else {
-					if ( ((this.getDamier().getGrille()[x-k][y+k].getPiece().getCouleur()==Couleur.Blanc)&&(!this.getDamier().getTourBlanc())) || ((this.getDamier().getGrille()[x-k][y+k].getPiece().getCouleur()==Couleur.Noir)&&(this.getDamier().getTourBlanc())) )  {
+					if ( ((this.getDamier().getGrille()[x-k][y+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((this.getDamier().getGrille()[x-k][y+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 						this.getDamier().getGrille()[x-k-l][y+k+l].setSaut(true);
 						this.getDamier().getGrille()[x][y].setClique(true);
 						b=true;
@@ -308,14 +298,12 @@ public class Piece {
 		return b;
 	}
 	
-	
-	
-	public void afficherDeplacement() {
+	public void afficherDeplacement(boolean tourBlanc) {
 		int i=this.c.getX();
 		int j=this.c.getY();
 		if (this.getDamier().getGrille()[i][j].getPiece()!=null) {  
 			if (this.getDamier().getGrille()[i][j].getPiece() instanceof Pion) {
-				if ((this.getDamier().getTourBlanc())&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)) {	//tour au blanc
+				if ((tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)) {	//tour au blanc
 					if ((i<this.getDamier().getTaille()-1)&&(j>0)) {	  //diagonale haute droite
 						if (this.getDamier().getGrille()[i+1][j-1].getPiece()==null) {	//
 							this.getDamier().getGrille()[i+1][j-1].setPossibleClique(true);
@@ -374,7 +362,7 @@ public class Piece {
 						}
 					}
 				}	//fin tour blanc
-				if ((!this.getDamier().getTourBlanc())&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)) {  //tour noir
+				if ((!tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)) {  //tour noir
 					
 					if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {
 						if (this.getDamier().getGrille()[i+1][j+1].getPiece()==null) {
@@ -438,7 +426,7 @@ public class Piece {
 			else {	//la pièce est une reine
 				int k=1,l=1;
 				boolean pionRencontre = false;
-				if ((this.getDamier().getTourBlanc())&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)) {
+				if ((tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)) {
 	
 					while ( (i+k<this.getDamier().getTaille())&&(j-k>=0) &&(!pionRencontre) ) {	//diagonale haute droite
 						if (this.getDamier().getGrille()[i+k][j-k].getPiece()!=null) {
@@ -568,7 +556,7 @@ public class Piece {
 					}
 										
 				}
-				if (((!this.getDamier().getTourBlanc())&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir))) {	//tour noir
+				if (((!tourBlanc)&&(this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir))) {	//tour noir
 					
 					while ( (i+k<this.getDamier().getTaille())&&(j-k>=0) &&(!pionRencontre) ) {	//diagonale haute droite
 						if (this.getDamier().getGrille()[i+k][j-k].getPiece()!=null) {
@@ -701,7 +689,10 @@ public class Piece {
 		}
 	}
 	
-		
+	public String toString() {
+		return "("+c.getX()+","+c.getY()+")";
+	}
+	
 	public void dessinerPiece(Graphics g, int x, int y,int TAILLE,int taille) {
 		switch(couleur) {
 		case Blanc : 

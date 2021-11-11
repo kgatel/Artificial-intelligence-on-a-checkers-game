@@ -77,7 +77,7 @@ public class Joueur {
 				
 				if (this.getDamier().getGrille()[x][y].getPiece()!=null) {
 					//this.getDamier().afficherDeplacement(x,y);
-					this.getDamier().getGrille()[x][y].getPiece().afficherDeplacement();
+					this.getDamier().getGrille()[x][y].getPiece().afficherDeplacement(tourBlanc);
 				}
 				
 				
@@ -112,8 +112,7 @@ public class Joueur {
 					pion=(this.getDamier().getGrille()[ii][jj].getPiece() instanceof Pion);
 					
 					//this.getDamier().deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
-					this.pieces.deplacer(ii, jj, x, y);
-					
+					this.pieces.deplacer(ii, jj, x, y, tourBlanc);
 					
 					Coordonnees c = new Coordonnees(); //coordonnées de la pièce sautée
 					boolean b=false;
@@ -124,8 +123,13 @@ public class Joueur {
 					
 					if (c.getX()!=-1) {		//il y a eu une pièce mangée
 						this.getDamier().getGrille()[c.getX()][c.getY()].setPiece(null);  //enlever la pièce mangée
+						if (tourBlanc) {
+							damier.getPiecesNoires().setPiece(null, damier.getPiecesNoires().trouverIndice(c));
+						}else {
+							damier.getPiecesBlanches().setPiece(null, damier.getPiecesBlanches().trouverIndice(c));
+						}
 						if (!( (pion)&&(this.getDamier().getGrille()[x][y].getPiece() instanceof Reine) )){   //vérifier qu'il ne peut pas continuer à manger s'il vient d'obtenir une reine
-							b = this.getDamier().getGrille()[x][y].getPiece().sautPossible();		//si b=true alors le joueur peut continuer à sauter
+							b = this.getDamier().getGrille()[x][y].getPiece().sautPossible(tourBlanc);		//si b=true alors le joueur peut continuer à sauter
 						}
 						if ((b)&&(ordi)) {
 							attendre(500);
@@ -141,7 +145,7 @@ public class Joueur {
 										if ( ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Blanc)&&(tourBlanc)) || ((this.getDamier().getGrille()[i][j].getPiece().getCouleur()==Couleur.Noir)&&(!(tourBlanc))) ) {
 											//if (this.getDamier().peutEtreMange(i,j)) {
 											Coordonnees coor = new Coordonnees(i,j);
-											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc)) {
+											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc,this.getDamier().getTaille())) {
 												ilYaUnPionQuiPeutSauter=true;
 											}
 											
@@ -150,9 +154,7 @@ public class Joueur {
 								}
 							}
 							this.getDamier().setSautObligatoire(ilYaUnPionQuiPeutSauter);
-						}
-						this.getDamier().changementTour();
-						
+						}						
 						this.getDamier().setTourFini(true);	
 					}
 					else {

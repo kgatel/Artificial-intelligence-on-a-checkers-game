@@ -6,7 +6,7 @@ public class Damier extends JPanel{
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
 	private Case[][] grille;  //tableau de cases
-	private boolean tourBlanc;  //savoir à qui est le tour
+	public boolean tourBlanc;
 	private boolean tourFini;	//savoir quand le tour du joueur est fini
 	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
@@ -16,7 +16,7 @@ public class Damier extends JPanel{
 	private TableauPiece PiecesNoires;
 
 
-	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere,TableauPiece PiecesBlanches,TableauPiece PiecesNoires) {
+	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
 		this.obligerLesSauts=obligerLesSauts;
@@ -25,8 +25,6 @@ public class Damier extends JPanel{
 		this.tourFini=false;
 		this.sautObligatoire=false;
 		this.sautMultiple=false;
-		this.PiecesBlanches=PiecesBlanches;
-		this.PiecesNoires=PiecesNoires;
 		this.grille = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
@@ -51,7 +49,23 @@ public class Damier extends JPanel{
 		}
 	}
 	
-		
+	//Constructeurs
+	public TableauPiece getPiecesBlanches() {
+		return PiecesBlanches;
+	}
+
+	public void setPiecesBlanches(TableauPiece piecesBlanches) {
+		PiecesBlanches = piecesBlanches;
+	}
+
+	public TableauPiece getPiecesNoires() {
+		return PiecesNoires;
+	}
+
+	public void setPiecesNoires(TableauPiece piecesNoires) {
+		PiecesNoires = piecesNoires;
+	}
+
 	public boolean getPeutMangerEnArriere() {
 		return peutMangerEnArriere;
 	}
@@ -104,21 +118,10 @@ public class Damier extends JPanel{
 		return grille;
 	}
 	
-	public boolean getTourBlanc() {
-		return tourBlanc;
-	}
-
-	public void setTourBlanc(boolean tourBlanc) {
-		this.tourBlanc = tourBlanc;
-	}
-		
-
-		
-		
-	
+	//fin constructeurs
 	
 	public void changementTour() {
-		this.tourBlanc=!tourBlanc;
+		this.tourBlanc=!this.tourBlanc;
 	}
 	
 	
@@ -126,20 +129,26 @@ public class Damier extends JPanel{
 	//cases
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
-				grille[i][j].dessinerCase(g,i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
+				grille[i][j].dessinerCase(g,i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille,tourBlanc);
 				if (grille[i][j].getPiece()!=null) {
-					grille[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
+					//grille[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
 				}
 			}
 		}
-		/*for (int k=0;k<this.PiecesBlanches.getTaille();k++) {
-			int x= this.PiecesBlanches.getPiece(k).getCoordonnees().getX();
-			int y= this.PiecesBlanches.getPiece(k).getCoordonnees().getY();
-			this.PiecesBlanches.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
-			x= this.PiecesNoires.getPiece(k).getCoordonnees().getX();
-			y= this.PiecesNoires.getPiece(k).getCoordonnees().getY();
-			this.PiecesNoires.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
-		}*/
+		for (int k=0;k<this.PiecesBlanches.getTailleTabPiece();k++) {
+			int x=-1;
+			int y=-1;
+			if (PiecesBlanches.getPiece(k)!=null) {
+				x= this.PiecesBlanches.getPiece(k).getCoordonnees().getX();
+				y= this.PiecesBlanches.getPiece(k).getCoordonnees().getY();
+				this.PiecesBlanches.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
+			}
+			if (PiecesNoires.getPiece(k)!=null) {
+				x= this.PiecesNoires.getPiece(k).getCoordonnees().getX();
+				y= this.PiecesNoires.getPiece(k).getCoordonnees().getY();
+				this.PiecesNoires.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
+			}
+		}
 	}
 	
 }

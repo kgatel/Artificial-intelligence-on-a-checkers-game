@@ -74,7 +74,7 @@ public class Case {
 		this.saut=b;
 	}
 	
-	public void dessinerCase(Graphics g, int x, int y,int TAILLE,int taille) {
+	public void dessinerCase(Graphics g, int x, int y,int TAILLE,int taille, boolean tourBlanc) {
 		switch(couleur) {
 		case Blanc : 
 			g.setColor(Color.WHITE);
@@ -85,7 +85,7 @@ public class Case {
 		}
 		if (clique) {
 			if (piece!=null) {
-				if ( ((damier.getTourBlanc())&&(piece.getCouleur()==Couleur.Blanc)) || ((!damier.getTourBlanc())&&(piece.getCouleur()==Couleur.Noir)) ) {
+				if ( ((tourBlanc)&&(piece.getCouleur()==Couleur.Blanc)) || ((!tourBlanc)&&(piece.getCouleur()==Couleur.Noir)) ) {
 					g.setColor(Color.green);
 				}
 				else {

@@ -1,46 +1,31 @@
 import java.util.Scanner;
 
 public class Menu {
-
-	private Damier damier;
-	private Case[][] grille;
 	
 	public Menu() {
-		this.damier=null;
-		this.grille=null;
 	}
-	
-	
-	public Damier getDamier() {
-		return damier;
-	}
-
-	public void setDamier(Damier damier) {
-		this.damier = damier;
-	}
-
-	public Case[][] getGrille() {
-		return grille;
-	}
-
-	public void setGrille(Case[][] grille) {
-		this.grille = grille;
-	}
-
 
 	public int typeDePartie() {
-		int res;
+		int res=0;
 		String c="";
 		Scanner clavier = new Scanner(System.in);
-		while ( (!c.equals("1")) && (!c.equals("2")) && (!c.equals("3")) ){
+		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) ){
 			System.out.println("Choisissez votre type de partie : (1/2/3)");
-			System.out.println("1- J1 vs J2");
-			System.out.println("2- J1 vs IA");
-			System.out.println("3- IA vs IA");
+			System.out.println("a- J1 vs J2");
+			System.out.println("b- J1 vs IA");
+			System.out.println("c- IA vs IA");
 			c = clavier.nextLine();
 			System.out.println();
 		}
-		res=Integer.valueOf(c);
+		if (c.equals("a")) {
+			res=1;
+		}
+		if (c.equals("b")) {
+			res=2;
+		}
+		if (c.equals("c")) {
+			res=3;
+		}
 		return res;
 	}
 	
@@ -48,6 +33,7 @@ public class Menu {
 		int res=0;
 		String c="";
 		Scanner clavier = new Scanner(System.in);
+		System.out.println();
 		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) && (!c.equals("d")) ){
 			System.out.println("Quel taille de plateau voulez-vous jouer ? (a/b/c)");
 			System.out.println("a - Expresso (6*6));");
@@ -69,29 +55,6 @@ public class Menu {
 		if (c.equals("d")) {
 			res=12;
 		}
-		return res;
-	}
-	
-	public TableauPiece tableauPiece(int taille,Couleur couleur) {
-		Pion[] tableauPion = new Pion[(2+(taille-4)/2)*((taille-4)/2+1)];
-		int compteurB=0,compteurN=0;
-		
-		for (int j=taille-1;j>=0;j--) {
-			for (int i=0;i<taille;i++) {
-				if ( ((i+j)%2)==1) {
-					Coordonnees c = new Coordonnees(i,j);
-					if ((j>=taille/2+1)&&(couleur==Couleur.Blanc)) {
-						tableauPion[compteurB]=new Pion(Couleur.Blanc,c,damier,grille);
-						compteurB++;
-					}
-					if ((j<=taille/2-2)&&(couleur==Couleur.Noir)) {
-						tableauPion[compteurN]=new Pion(Couleur.Noir,c,damier,grille);
-						compteurN++;
-					}
-				}
-			}
-		}
-		TableauPiece res = new TableauPiece(this.damier,this.grille,tableauPion,(2+(taille-4)/2)*((taille-4)/2+1),couleur);
 		return res;
 	}
 	
@@ -127,24 +90,13 @@ public class Menu {
 		return b;
 	}
 	
-	public String pseudoJoueur1() {
+	public String pseudoJoueur(int numero) {
 		String c="";
 		Scanner clavier = new Scanner(System.in);
 		while (c.equals("")){
-			System.out.print("Pseudo joueur 1 (Blanc) : ");
+			System.out.print("Pseudo joueur "+numero+" (Blanc) : ");
 			c = clavier.nextLine();
 		}
-		return c;
-	}
-	
-	public String pseudoJoueur2() {
-		String c="";
-		Scanner clavier = new Scanner(System.in);
-		while (c.equals("")){
-			System.out.print("Pseudo joueur 2 (Noir) : ");
-			c = clavier.nextLine();
-		}
-		System.out.println("");
 		return c;
 	}
 	

@@ -7,7 +7,7 @@ public class Pion extends Piece{
 
 
 	public Pion(Couleur couleur,Coordonnees c, Damier damier,Case[][] grille) {
-		super(couleur,c,damier,grille);
+		super(couleur,c,damier);
 	}
 
 
