@@ -43,7 +43,7 @@ public class TableauPiece {
 	public void setCouleur(Couleur couleur) {
 		this.couleur = couleur;
 	}
-
+	
 	public Piece getPiece(int i) {
 		return this.piece[i];
 	}

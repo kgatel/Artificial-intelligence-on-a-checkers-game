@@ -25,6 +25,10 @@ public class Joueur {
 	public TableauPiece getPieces() {
 		return pieces;
 	}
+	
+	public Piece getPieces(int i) {
+		return pieces.getPiece(i);
+	}
 
 	public void setPieces(TableauPiece pieces) {
 		this.pieces = pieces;
@@ -77,7 +81,7 @@ public class Joueur {
 				
 				if (this.getDamier().getCases()[x][y].getPiece()!=null) {
 					//this.getDamier().afficherDeplacement(x,y);
-					this.getDamier().getCases()[x][y].getPiece().afficherDeplacement(tourBlanc,peutMangerEnArriere,obligerLesSauts);
+					this.getDamier().getCases()[x][y].getPiece().afficherDeplacement(tourBlanc,peutMangerEnArriere);
 				}
 				
 				

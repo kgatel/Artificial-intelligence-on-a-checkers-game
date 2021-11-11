@@ -40,7 +40,7 @@ public class NoeudDame extends Noeud{
 
 //Méthodes
 	
-	public void ajoutersuccesseur (NoeudDame next) {
+	public void ajouterSuccesseur (NoeudDame next) {
 		next.setProfondeur(this.profondeur+1);
 		successeurs.add(next);
 	}

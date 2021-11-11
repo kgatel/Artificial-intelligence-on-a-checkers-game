@@ -7,6 +7,7 @@ public class Ordi extends Joueur {
 	
 	public void tourOrdi(boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) {
 		//AlgoMinMax IA;
+		Arbre arbre = creerArbre(this.getDamier(),peutMangerEnArriere);
 		
 		int compteur=0,compteur2=0,compteur3=0;
 		for (int j=0;j<this.getDamier().getTaille();j++) { 
@@ -43,7 +44,7 @@ public class Ordi extends Joueur {
 		}
 	}
 
-	public Coordonnees[] ListeDesCoupsPossibles(Piece piece, boolean peutMangerEnArriere, boolean obligerLesSauts) {
+	public Coordonnees[] ListeDesCoupsPossibles(Piece piece, boolean peutMangerEnArriere) {
 		Coordonnees[] res = new Coordonnees[(this.getDamier().getTaille()-1)*2];
 		for (int k=0;k<(this.getDamier().getTaille()-1)*2;k++) {
 			res[k]=null;
@@ -54,7 +55,7 @@ public class Ordi extends Joueur {
 		if (piece.getCouleur()==Couleur.Blanc) {
 			tourBlanc=true;
 		}
-		piece.afficherDeplacement(tourBlanc, peutMangerEnArriere, obligerLesSauts);
+		piece.afficherDeplacement(tourBlanc, peutMangerEnArriere);
 		int indice = 0;
 		for (int i=0;i<damierTest.getTaille();i++) {
 			for (int j=0;j<damierTest.getTaille();j++) {
@@ -67,6 +68,23 @@ public class Ordi extends Joueur {
 				damierTest.getCases()[i][j].setPossibleClique(false);
 				damierTest.getCases()[i][j].setSaut(false);
 				damierTest.getCases()[i][j].setClique(false);
+			}
+		}
+		
+		return res;
+	}
+	
+	public Arbre creerArbre(Damier damier, boolean peutMangerEnArriere) {
+		NoeudDame noeudDame= new NoeudDame(damier);
+		Arbre res = new Arbre(noeudDame);
+		int indice=0;
+		for (int i=0;i<this.getPieces().getTailleTabPiece();i++) {
+			if (this.getPieces(i)!=null) {
+				Coordonnees[] listeDeCoupPossible = this.ListeDesCoupsPossibles(this.getPieces(i), peutMangerEnArriere);
+				indice=0;
+				while (listeDeCoupPossible[indice]!=null) {
+					
+				}
 			}
 		}
 		

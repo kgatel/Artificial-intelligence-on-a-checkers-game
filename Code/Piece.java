@@ -298,7 +298,7 @@ public class Piece {
 		return b;
 	}
 	
-	public void afficherDeplacement(boolean tourBlanc, boolean peutMangerEnArriere, boolean obligerLesSauts) {
+	public void afficherDeplacement(boolean tourBlanc, boolean peutMangerEnArriere) {
 		int i=this.c.getX();
 		int j=this.c.getY();
 		if (this.getDamier().getCases()[i][j].getPiece()!=null) {  
