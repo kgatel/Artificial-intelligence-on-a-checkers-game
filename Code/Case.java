@@ -2,18 +2,14 @@ import java.awt.*;
 
 public class Case {
 
-	private Damier damier;
-	private Case[][] grille;
 	private Coordonnees c;
 	private Couleur couleur;
 	private Piece piece;
 	private boolean saut;
-	private boolean clique;
-	private boolean possibleClique;
+	private boolean clique;		//case cliquée
+	private boolean possibleClique;	
 	
-	public Case(Couleur couleur, Coordonnees c, Damier damier,Case[][] grille) {
-		this.damier = damier;
-		this.grille = grille;
+	public Case(Couleur couleur, Coordonnees c) {
 		this.c=c;
 		this.couleur=couleur;
 		piece = null;
@@ -22,13 +18,11 @@ public class Case {
 		possibleClique=false;
 	}
 	
-	public Case(Couleur couleurCase,Coordonnees c,Couleur couleurPiece, Damier damier, Case[][] grille) {
+	public Case(Damier damier,Couleur couleurCase,Coordonnees c,Couleur couleurPiece) {
 		super();
-		this.damier = damier;
-		this.grille = grille;
 		this.c=c;
 		this.couleur=couleurCase;
-		piece = new Pion(couleurPiece,c,damier,grille);
+		piece = new Pion(couleurPiece,c,damier);
 		saut = false;
 		clique = false;
 		possibleClique = false;
@@ -74,7 +68,9 @@ public class Case {
 		this.saut=b;
 	}
 	
-	public void dessinerCase(Graphics g, int x, int y,int TAILLE,int taille, boolean tourBlanc) {
+	public void dessinerCase(Graphics g, int TAILLE,int taille, boolean tourBlanc) {
+		int x=c.getX()*TAILLE/taille;
+		int y=c.getY()*TAILLE/taille;
 		switch(couleur) {
 		case Blanc : 
 			g.setColor(Color.WHITE);

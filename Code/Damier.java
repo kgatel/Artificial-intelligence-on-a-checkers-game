@@ -3,45 +3,43 @@ import javax.swing.*;
 
 public class Damier extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
-	private Case[][] grille;  //tableau de cases
+	private Case[][] cases;  //tableau de cases
 	public boolean tourBlanc;
 	private boolean tourFini;	//savoir quand le tour du joueur est fini
-	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours
+	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours (dans le cas ou on a l'obligation des sauts)
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
-	private boolean obligerLesSauts;
-	private boolean peutMangerEnArriere;
 	private TableauPiece PiecesBlanches;
 	private TableauPiece PiecesNoires;
 
 
-	public Damier(int TAILLE,int taille,boolean obligerLesSauts,boolean peutMangerEnArriere) {
+	public Damier(int TAILLE,int taille) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
-		this.obligerLesSauts=obligerLesSauts;
-		this.peutMangerEnArriere=peutMangerEnArriere;
 		this.tourBlanc=true;
 		this.tourFini=false;
 		this.sautObligatoire=false;
 		this.sautMultiple=false;
-		this.grille = new Case[taille][taille];
+		this.cases = new Case[taille][taille];
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
 				Coordonnees c = new Coordonnees(i,j);
 				if ( (i+j)%2==0 ) {
-					grille[i][j]= new Case(Couleur.Blanc,c,this,grille);
+					cases[i][j]= new Case(Couleur.Blanc,c);
 				}
 				else {
 					if (j<=(taille-2)/2-1) {
-						grille[i][j]= new Case(Couleur.Noir,c,Couleur.Noir,this,grille);
+						cases[i][j]= new Case(this,Couleur.Noir,c,Couleur.Noir);
 					}
 					else {
 						if (j>=taille/2+1) {
-							grille[i][j]= new Case(Couleur.Noir,c,Couleur.Blanc,this,grille);
+							cases[i][j]= new Case(this,Couleur.Noir,c,Couleur.Blanc);
 						}
 						else {
-							grille[i][j]= new Case(Couleur.Noir,c,this,grille);
+							cases[i][j]= new Case(Couleur.Noir,c);
 						}
 					}
 				}
@@ -66,14 +64,6 @@ public class Damier extends JPanel{
 		PiecesNoires = piecesNoires;
 	}
 
-	public boolean getPeutMangerEnArriere() {
-		return peutMangerEnArriere;
-	}
-
-	public void setPeutMangerEnArriere(boolean peutMangerEnArriere) {
-		this.peutMangerEnArriere = peutMangerEnArriere;
-	}
-	
 	public boolean isTourFini() {
 		return tourFini;
 	}
@@ -88,14 +78,6 @@ public class Damier extends JPanel{
 
 	public void setSautMultiple(boolean sautMultiple) {
 		this.sautMultiple = sautMultiple;
-	}
-
-	public boolean getObligerLesSauts() {
-		return obligerLesSauts;
-	}
-
-	public void setObligerLesSauts(boolean obligerLesSauts) {
-		this.obligerLesSauts = obligerLesSauts;
 	}
 
 	public boolean getSautObligatoire() {
@@ -114,8 +96,8 @@ public class Damier extends JPanel{
 		return TAILLE;
 	}
 	
-	public Case[][] getGrille(){
-		return grille;
+	public Case[][] getCases(){
+		return cases;
 	}
 	
 	//fin constructeurs
@@ -129,9 +111,9 @@ public class Damier extends JPanel{
 	//cases
 		for (int i=0; i<taille; i++) {
 			for (int j=0; j<taille; j++) {
-				grille[i][j].dessinerCase(g,i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille,tourBlanc);
-				if (grille[i][j].getPiece()!=null) {
-					//grille[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
+				cases[i][j].dessinerCase(g,TAILLE,taille,tourBlanc);
+				if (cases[i][j].getPiece()!=null) {
+					//cases[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
 				}
 			}
 		}

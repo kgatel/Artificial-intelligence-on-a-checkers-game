@@ -63,11 +63,11 @@ public class TableauPiece {
 				if ( ((i+j)%2)==1) {
 					Coordonnees c = new Coordonnees(i,j);
 					if ((j>=taille/2+1)&&(couleur==Couleur.Blanc)) {
-						res[compteurB]=new Pion(Couleur.Blanc,c,damier,this.getDamier().getGrille());
+						res[compteurB]=new Pion(Couleur.Blanc,c,damier);
 						compteurB++;
 					}
 					if ((j<=taille/2-2)&&(couleur==Couleur.Noir)) {
-						res[compteurN]=new Pion(Couleur.Noir,c,damier,this.getDamier().getGrille());
+						res[compteurN]=new Pion(Couleur.Noir,c,damier);
 						compteurN++;
 					}
 				}
@@ -92,42 +92,42 @@ public class TableauPiece {
 	}
 
 	public void deplacer(int i, int j, int x, int y, boolean tourBlanc) { //déplacer la pièce de (i,j) à (x,y)		
-		boolean reine = (this.getDamier().getGrille()[i][j].getPiece() instanceof Reine);
+		boolean reine = (this.getDamier().getCases()[i][j].getPiece() instanceof Reine);
 		Coordonnees c1 = new Coordonnees(i,j);
 		Coordonnees c2 = new Coordonnees(x,y);
 		
 		int indice = trouverIndice(c1);
 		if (tourBlanc) {	//piece blanche
 			if ((y==0)||(reine)) {
-				this.setPiece(new Reine(Couleur.Blanc,c2,damier,this.getDamier().getGrille()), indice);
-				this.getDamier().getGrille()[x][y].setPiece(new Reine(Couleur.Blanc,c2,damier,this.getDamier().getGrille()));
+				this.setPiece(new Reine(Couleur.Blanc,c2,damier), indice);
+				this.getDamier().getCases()[x][y].setPiece(new Reine(Couleur.Blanc,c2,damier));
 				//on vient d'obtenir une reine
 			}
 			else {
-				this.setPiece(new Pion(Couleur.Blanc,c2,damier,this.getDamier().getGrille()), indice);
-				this.getDamier().getGrille()[x][y].setPiece(new Pion(Couleur.Blanc,c2,damier,this.getDamier().getGrille()));
+				this.setPiece(new Pion(Couleur.Blanc,c2,damier), indice);
+				this.getDamier().getCases()[x][y].setPiece(new Pion(Couleur.Blanc,c2,damier));
 			}
 		}
 		else {	//piece noire
 			if ((y==this.getDamier().getTaille()-1)||(reine)) {
-				this.setPiece(new Reine(Couleur.Noir,c2,damier,this.getDamier().getGrille()), indice);
-				this.getDamier().getGrille()[x][y].setPiece(new Reine(Couleur.Noir,c2,damier,this.getDamier().getGrille()));
+				this.setPiece(new Reine(Couleur.Noir,c2,damier), indice);
+				this.getDamier().getCases()[x][y].setPiece(new Reine(Couleur.Noir,c2,damier));
 				//on vient d'obtenir une reine
 			}
 			else {
-				this.setPiece(new Pion(Couleur.Noir,c2,damier,this.getDamier().getGrille()), indice);
-				this.getDamier().getGrille()[x][y].setPiece(new Pion(Couleur.Noir,c2,damier,this.getDamier().getGrille()));
+				this.setPiece(new Pion(Couleur.Noir,c2,damier), indice);
+				this.getDamier().getCases()[x][y].setPiece(new Pion(Couleur.Noir,c2,damier));
 			}
 		}
 		
 		for (int ii=0;ii<this.damier.getTaille();ii++) {
 			for (int jj=0;jj<this.damier.getTaille();jj++) {
-				if (this.getDamier().getGrille()[ii][jj].getPossibleClique()) {		//rénitialiser toutes les cases sur lesquelles le pion pouvait bouger
-					this.getDamier().getGrille()[ii][jj].setPossibleClique(false);
+				if (this.getDamier().getCases()[ii][jj].getPossibleClique()) {		//rénitialiser toutes les cases sur lesquelles le pion pouvait bouger
+					this.getDamier().getCases()[ii][jj].setPossibleClique(false);
 				}
 			}
 		}
-		this.getDamier().getGrille()[i][j].setPiece(null);
+		this.getDamier().getCases()[i][j].setPiece(null);
 				
 	}
 	

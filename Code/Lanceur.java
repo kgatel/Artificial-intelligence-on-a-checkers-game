@@ -2,6 +2,8 @@ import javax.swing.JFrame;
 
 public class Lanceur extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
+	
 	private static final int TAILLE=800;	//taille de la fenêtre	
 
 	public static void attendre(int ms) {
@@ -73,7 +75,7 @@ public class Lanceur extends JFrame{
 		}
 //fin menu
 			
-		damier = new Damier(TAILLE,taille,obligerLesSauts,peutMangerEnArriere); //10 par 10 pour l'original
+		damier = new Damier(TAILLE,taille); //10 par 10 pour l'original
 		
 		PiecesBlanches = new TableauPiece(damier,taille,Couleur.Blanc);
 		PiecesNoires = new TableauPiece(damier,taille,Couleur.Noir);
@@ -106,7 +108,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j1).tourOrdi(tourBlanc);
+						((Ordi)j1).tourOrdi(tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -118,7 +120,7 @@ public class Lanceur extends JFrame{
 						System.out.print(" ");
 						int x= ecouteurDeSouris.getCoordonneesClique().getX();
 						int y= ecouteurDeSouris.getCoordonneesClique().getY();
-						j1.Ajoue(x,y,tourBlanc);
+						j1.Ajoue(x,y,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 												
 						f.removeMouseListener(ecouteurDeSouris);
 					}
@@ -133,7 +135,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j2 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j2).tourOrdi(tourBlanc);
+						((Ordi)j2).tourOrdi(tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -145,7 +147,7 @@ public class Lanceur extends JFrame{
 						System.out.print(" ");
 						int x= ecouteurDeSouris.getCoordonneesClique().getX();
 						int y= ecouteurDeSouris.getCoordonneesClique().getY();
-						j2.Ajoue(x,y,tourBlanc);
+						j2.Ajoue(x,y,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 						f.removeMouseListener(ecouteurDeSouris);
 					}
 				}

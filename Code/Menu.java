@@ -17,6 +17,7 @@ public class Menu {
 			c = clavier.nextLine();
 			System.out.println();
 		}
+		clavier.close();
 		if (c.equals("a")) {
 			res=1;
 		}
@@ -43,6 +44,7 @@ public class Menu {
 			c = clavier.nextLine();
 			System.out.println();
 		}
+		clavier.close();
 		if (c.equals("a")) {
 			res=6;
 		}
@@ -70,7 +72,7 @@ public class Menu {
 		if (c.equals("o")) {
 			b=true;
 		}
-		
+		clavier.close();
 		return b;
 	}
 	
@@ -83,10 +85,10 @@ public class Menu {
 			c = clavier.nextLine();
 			System.out.println();
 		}
+		clavier.close();
 		if (c.equals("o")) {
 			b=true;
 		}
-		
 		return b;
 	}
 	
@@ -97,6 +99,7 @@ public class Menu {
 			System.out.print("Pseudo joueur "+numero+" (Blanc) : ");
 			c = clavier.nextLine();
 		}
+		clavier.close();
 		return c;
 	}
 	
