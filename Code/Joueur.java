@@ -219,9 +219,14 @@ public class Joueur {
 		return c;
 	}
 	
-	public boolean aGagne(boolean tourBlanc) {
+	public boolean APerdu(boolean peutMangerEnArriere) {
+		boolean tourBlanc=false;
+		if (this.couleur==Couleur.Blanc){
+			tourBlanc=true;
+		}
 		boolean b=true;
 		boolean peutBouger=false;
+		//savoir s'il reste au moins une pièce
 		for (int i=0; i<this.getDamier().getTaille();i++) {
 			for (int j=0;j<this.getDamier().getTaille();j++) {
 				if (this.getDamier().getCases()[i][j].getPiece()!=null) {
@@ -231,6 +236,7 @@ public class Joueur {
 				}
 			}
 		}
+		//
 		if (b==false) {
 			for (int i=0; i<this.getDamier().getTaille();i++) {
 				for (int j=0;j<this.getDamier().getTaille();j++) {
@@ -278,23 +284,25 @@ public class Joueur {
 								
 							}
 							//situation ou le pion mange en arrière
-							if ((i>0)&&(j<this.getDamier().getTaille()-1)) {
-								if (this.getDamier().getCases()[i-1][j+1].getPiece()!=null) {
-									if (this.getDamier().getCases()[i-1][j+1].getPiece().getCouleur()==Couleur.Noir) {
-										if ((i>1)&&(j<this.getDamier().getTaille()-2)) {
-											if (this.getDamier().getCases()[i-2][j+2].getPiece()==null) {
-												peutBouger=true;
+							if ((peutMangerEnArriere)||(damier.getCases()[i][j].getPiece() instanceof Reine)) {
+								if ((i>0)&&(j<this.getDamier().getTaille()-1)) {
+									if (this.getDamier().getCases()[i-1][j+1].getPiece()!=null) {
+										if (this.getDamier().getCases()[i-1][j+1].getPiece().getCouleur()==Couleur.Noir) {
+											if ((i>1)&&(j<this.getDamier().getTaille()-2)) {
+												if (this.getDamier().getCases()[i-2][j+2].getPiece()==null) {
+													peutBouger=true;
+												}
 											}
 										}
 									}
 								}
-							}
-							if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {
-								if (this.getDamier().getCases()[i+1][j+1].getPiece()!=null) {
-									if (this.getDamier().getCases()[i+1][j+1].getPiece().getCouleur()==Couleur.Noir) {
-										if ((i<this.getDamier().getTaille()-2)&&(j<this.getDamier().getTaille()-2)) {
-											if (this.getDamier().getCases()[i+2][j+2].getPiece()==null) {
-												peutBouger=true;
+								if ((i<this.getDamier().getTaille()-1)&&(j<this.getDamier().getTaille()-1)) {
+									if (this.getDamier().getCases()[i+1][j+1].getPiece()!=null) {
+										if (this.getDamier().getCases()[i+1][j+1].getPiece().getCouleur()==Couleur.Noir) {
+											if ((i<this.getDamier().getTaille()-2)&&(j<this.getDamier().getTaille()-2)) {
+												if (this.getDamier().getCases()[i+2][j+2].getPiece()==null) {
+													peutBouger=true;
+												}
 											}
 										}
 									}
@@ -343,23 +351,25 @@ public class Joueur {
 								
 							}
 							//depassement en arrière pour pièces noires
-							if ((i>0)&&(j>0)) {
-								if (this.getDamier().getCases()[i-1][j-1].getPiece()!=null) {
-									if (this.getDamier().getCases()[i-1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
-										if ((i>1)&&(j>1)) {
-											if (this.getDamier().getCases()[i-2][j-2].getPiece()==null) {
-												peutBouger=true;
+							if ((peutMangerEnArriere)||(damier.getCases()[i][j].getPiece() instanceof Reine)) {
+								if ((i>0)&&(j>0)) {
+									if (this.getDamier().getCases()[i-1][j-1].getPiece()!=null) {
+										if (this.getDamier().getCases()[i-1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
+											if ((i>1)&&(j>1)) {
+												if (this.getDamier().getCases()[i-2][j-2].getPiece()==null) {
+													peutBouger=true;
+												}
 											}
 										}
 									}
 								}
-							}
-							if ((i<this.getDamier().getTaille()-1)&&(j>0)) {
-								if (this.getDamier().getCases()[i+1][j-1].getPiece()!=null) {
-									if (this.getDamier().getCases()[i+1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
-										if ((i<this.getDamier().getTaille()-2)&&(j>1)) {
-											if (this.getDamier().getCases()[i+2][j-2].getPiece()==null) {
-												peutBouger=true;
+								if ((i<this.getDamier().getTaille()-1)&&(j>0)) {
+									if (this.getDamier().getCases()[i+1][j-1].getPiece()!=null) {
+										if (this.getDamier().getCases()[i+1][j-1].getPiece().getCouleur()==Couleur.Blanc) {
+											if ((i<this.getDamier().getTaille()-2)&&(j>1)) {
+												if (this.getDamier().getCases()[i+2][j-2].getPiece()==null) {
+													peutBouger=true;
+												}
 											}
 										}
 									}

@@ -44,7 +44,8 @@ public class Ordi extends Joueur {
 	}
 
 	public Coordonnees[] ListeDesCoupsPossibles() {
-		Coordonnees[] res;
+		Coordonnees[] res = new Coordonnees[(this.getDamier().getTaille()-1)*2];
+		
 		return res;
 	}
 	

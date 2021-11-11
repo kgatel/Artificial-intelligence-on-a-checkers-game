@@ -5,9 +5,10 @@ public class Damier extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private Case[][] cases;  //tableau de cases
+	
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
-	private Case[][] cases;  //tableau de cases
 	public boolean tourBlanc;
 	private boolean tourFini;	//savoir quand le tour du joueur est fini
 	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours (dans le cas ou on a l'obligation des sauts)

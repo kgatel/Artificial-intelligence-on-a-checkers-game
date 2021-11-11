@@ -102,8 +102,10 @@ public class Lanceur extends JFrame{
 
 		
 //Début du jeu
+		boolean partieTerminee=false;
 		boolean tourBlanc=true; 	//vrai quand le tour est au joueur 1
-		while ( (!(j1.aGagne(tourBlanc))) && (!(j2.aGagne(!tourBlanc))) ) {
+		while (!partieTerminee) {
+		//while ( (!(j1.aGagne(tourBlanc,peutMangerEnArriere))) && (!(j2.aGagne(!tourBlanc,peutMangerEnArriere))) ) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
@@ -124,11 +126,15 @@ public class Lanceur extends JFrame{
 												
 						f.removeMouseListener(ecouteurDeSouris);
 					}
-				}	
-				damier.changementTour();
-				tourBlanc=false;
+				}
+				
 				damier.setTourFini(false);
-
+				
+				partieTerminee=j2.APerdu(peutMangerEnArriere);
+				if (!partieTerminee) {
+					damier.changementTour();
+					tourBlanc=false;
+				}
 				
 			}else {
 				
@@ -151,20 +157,24 @@ public class Lanceur extends JFrame{
 						f.removeMouseListener(ecouteurDeSouris);
 					}
 				}
-				damier.changementTour();
-				tourBlanc=true;
 				damier.setTourFini(false);
-
+				
+				partieTerminee=j1.APerdu(peutMangerEnArriere);
+				if (!partieTerminee) {
+					damier.changementTour();
+					tourBlanc=true;
+				}
+				
 			}
 			
 		}
 		
 		
 	    if (tourBlanc) {
-			System.out.println("\n"+j2.getPseudo()+" a remporté la partie");
+			System.out.println("\n"+j1.getPseudo()+" a remporté la partie");
 		}
 		else {
-			System.out.println("\n"+j1.getPseudo()+" a remporté la partie");
+			System.out.println("\n"+j2.getPseudo()+" a remporté la partie");
 		}
 	    
 		attendre(1000);
