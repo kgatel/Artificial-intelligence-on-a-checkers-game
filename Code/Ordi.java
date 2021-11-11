@@ -43,8 +43,32 @@ public class Ordi extends Joueur {
 		}
 	}
 
-	public Coordonnees[] ListeDesCoupsPossibles() {
+	public Coordonnees[] ListeDesCoupsPossibles(Piece piece, boolean peutMangerEnArriere, boolean obligerLesSauts) {
 		Coordonnees[] res = new Coordonnees[(this.getDamier().getTaille()-1)*2];
+		for (int k=0;k<(this.getDamier().getTaille()-1)*2;k++) {
+			res[k]=null;
+		}
+		Damier damierTest = this.getDamier();	
+		piece.setDamier(damierTest);	//pour pas qu'on modifie notre damier
+		boolean tourBlanc=false;
+		if (piece.getCouleur()==Couleur.Blanc) {
+			tourBlanc=true;
+		}
+		piece.afficherDeplacement(tourBlanc, peutMangerEnArriere, obligerLesSauts);
+		int indice = 0;
+		for (int i=0;i<damierTest.getTaille();i++) {
+			for (int j=0;j<damierTest.getTaille();j++) {
+				
+				if ( (damierTest.getCases()[i][j].getPossibleClique())||(damierTest.getCases()[i][j].getSaut()) ) {
+					Coordonnees c = new Coordonnees(i,j);
+					res[indice]=c;
+					indice++;
+				}
+				damierTest.getCases()[i][j].setPossibleClique(false);
+				damierTest.getCases()[i][j].setSaut(false);
+				damierTest.getCases()[i][j].setClique(false);
+			}
+		}
 		
 		return res;
 	}
