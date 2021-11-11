@@ -1,24 +1,24 @@
 import java.util.ArrayList;
 
-public class Noeuddame extends Noeud{
-	private ArrayList<Noeuddame> successeurs;
+public class NoeudDame extends Noeud{
+	private ArrayList<NoeudDame> successeurs;
 	private Damier valeur;
 	private int profondeur;
 
 //Constructeur
 	
-	public Noeuddame(Damier damier) {
+	public NoeudDame(Damier damier) {
 		valeur=damier;
-		this.successeurs=new ArrayList<Noeuddame>();
+		this.successeurs=new ArrayList<NoeudDame>();
 	}
 
 //Accesseurs
 	
-	public ArrayList<Noeuddame> getSuccesseurs() {
+	public ArrayList<NoeudDame> getSuccesseurs() {
 		return successeurs;
 	}
 
-	public void setSuccesseurs(ArrayList<Noeuddame> successeurs) {
+	public void setSuccesseurs(ArrayList<NoeudDame> successeurs) {
 		this.successeurs = successeurs;
 	}
 
@@ -40,7 +40,7 @@ public class Noeuddame extends Noeud{
 
 //Méthodes
 	
-	public void ajoutersuccesseur (Noeuddame next) {
+	public void ajoutersuccesseur (NoeudDame next) {
 		next.setProfondeur(this.profondeur+1);
 		successeurs.add(next);
 	}
