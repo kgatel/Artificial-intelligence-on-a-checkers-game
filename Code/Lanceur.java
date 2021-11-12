@@ -15,7 +15,7 @@ public class Lanceur extends JFrame{
 		return 2*a;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		int typeDePartie=0;
 		Joueur j1 = null;
@@ -53,7 +53,7 @@ public class Lanceur extends JFrame{
 			obligerLesSauts=m.obligerLesSauts();
 			
 		}else {
-			typeDePartie=1;
+			typeDePartie=2;
 			
 			if (typeDePartie==1) {	//J1 vs J2
 				j1 = new Humain(Couleur.Blanc,"Pascal");
@@ -75,7 +75,7 @@ public class Lanceur extends JFrame{
 		}
 //fin menu
 			
-		damier = new Damier(TAILLE,taille); //10 par 10 pour l'original
+		damier = new Damier(TAILLE,taille,"damier"); //10 par 10 pour l'original
 		
 		PiecesBlanches = new TableauPiece(damier,taille,Couleur.Blanc);
 		PiecesNoires = new TableauPiece(damier,taille,Couleur.Noir);
@@ -88,7 +88,7 @@ public class Lanceur extends JFrame{
 		j1.setDamier(damier);
 		j2.setDamier(damier);
 		
-			
+		
 //Fenetre jeu de dames	
 		JFrame f = new JFrame("Jeu de Dames");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,23 +96,20 @@ public class Lanceur extends JFrame{
 		
 		f.add(damier);
 		f.setVisible(true);
-		
 		Souris ecouteurDeSouris = new Souris(damier);
 //fin fenêtre
-
+		
 		
 //Début du jeu
 		boolean partieTerminee=false;
 		boolean tourBlanc=true; 	//vrai quand le tour est au joueur 1
 		
-		/*Ordi j3 = new Ordi(Couleur.Noir,"L'Ordinateur");
+		Ordi j3 = new Ordi(Couleur.Noir,"L'Ordinateur");
 		j3.setDamier(damier);
-		Coordonnees[] test = j3.ListeDesCoupsPossibles(PiecesBlanches.getPiece(1), peutMangerEnArriere, obligerLesSauts);
-		System.out.println(test[0]);*/
-		
+		Coordonnees[] test = j3.ListeDesCoupsPossibles(PiecesBlanches.getPiece(9), peutMangerEnArriere);
+		//System.out.println(test[0]);
 		
 		while (!partieTerminee) {
-		//while ( (!(j1.aGagne(tourBlanc,peutMangerEnArriere))) && (!(j2.aGagne(!tourBlanc,peutMangerEnArriere))) ) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
@@ -127,8 +124,8 @@ public class Lanceur extends JFrame{
 						}
 						ecouteurDeSouris.setAClique(false);
 						System.out.print(" ");
-						int x= ecouteurDeSouris.getCoordonneesClique().getX();
-						int y= ecouteurDeSouris.getCoordonneesClique().getY();
+						int x= ecouteurDeSouris.getCoordonneesClique().X();
+						int y= ecouteurDeSouris.getCoordonneesClique().Y();
 						j1.Ajoue(x,y,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 												
 						f.removeMouseListener(ecouteurDeSouris);
@@ -158,8 +155,8 @@ public class Lanceur extends JFrame{
 						}
 						ecouteurDeSouris.setAClique(false);
 						System.out.print(" ");
-						int x= ecouteurDeSouris.getCoordonneesClique().getX();
-						int y= ecouteurDeSouris.getCoordonneesClique().getY();
+						int x= ecouteurDeSouris.getCoordonneesClique().X();
+						int y= ecouteurDeSouris.getCoordonneesClique().Y();
 						j2.Ajoue(x,y,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 						f.removeMouseListener(ecouteurDeSouris);
 					}

@@ -3,6 +3,7 @@ import javax.swing.*;
 
 public class Damier extends JPanel{
 	
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Case[][] cases;  //tableau de cases
@@ -15,11 +16,12 @@ public class Damier extends JPanel{
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
 	private TableauPiece PiecesBlanches;
 	private TableauPiece PiecesNoires;
+	private String name;
 
-
-	public Damier(int TAILLE,int taille) {
+	public Damier(int TAILLE,int taille,String name) {
 		this.TAILLE=TAILLE;
 		this.taille=taille;
+		this.name=name;
 		this.tourBlanc=true;
 		this.tourFini=false;
 		this.sautObligatoire=false;
@@ -48,7 +50,62 @@ public class Damier extends JPanel{
 		}
 	}
 	
+	
+	public Damier clone() {
+		Damier res = new Damier (TAILLE,taille,name);
+		
+		Case[][] cases = new Case[taille][taille];
+		for (int i=0;i<taille;i++) {
+			for (int j=0;j<taille;j++) {
+				cases[i][j]=this.cases[i][j];
+			}
+		}
+		res.setCases(cases);
+		res.setTourBlanc(tourBlanc);
+		res.setTourFini(tourFini);
+		res.setSautObligatoire(sautObligatoire);
+		res.setSautMultiple(sautMultiple);
+		
+		TableauPiece PiecesBlanches = new TableauPiece(this,taille,Couleur.Blanc);
+		TableauPiece PiecesNoires = new TableauPiece(this,taille,Couleur.Blanc);
+		for (int i=0;i<PiecesBlanches.getTailleTabPiece();i++) {
+			PiecesBlanches.setPiece(this.getPiecesBlanches().getPiece(i), i);
+			PiecesNoires.setPiece(this.getPiecesNoires().getPiece(i), i);
+		}
+		
+		for (int i=0;i<taille;i++) {
+			for (int j=0;j<taille;j++) {
+				if (cases[i][j].getPiece()!=null) {
+					res.getCases()[i][j].getPiece().setDamier(res);
+				}
+			}
+		}
+		
+		for (int i=0;i<PiecesBlanches.getTailleTabPiece();i++) {
+			PiecesBlanches.setDamier(res);
+			PiecesNoires.setDamier(res);
+		}
+		
+		return res;
+	}
+	
 	//Constructeurs
+	public boolean getTourBlanc() {
+		return tourBlanc;
+	}
+
+	public void setTourBlanc(boolean tourBlanc) {
+		this.tourBlanc = tourBlanc;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public TableauPiece getPiecesBlanches() {
 		return PiecesBlanches;
 	}
@@ -101,6 +158,18 @@ public class Damier extends JPanel{
 		return cases;
 	}
 	
+	public Case getCase(int i,int j) {
+		return cases[i][j];
+	}
+	
+	public Piece getPiece(int i,int j) {
+		return cases[i][j].getPiece();
+	}
+	
+	public void setCases(Case[][] cases) {
+		this.cases = cases;
+	}
+
 	//fin constructeurs
 	
 	public void changementTour() {
@@ -114,24 +183,24 @@ public class Damier extends JPanel{
 			for (int j=0; j<taille; j++) {
 				cases[i][j].dessinerCase(g,TAILLE,taille,tourBlanc);
 				if (cases[i][j].getPiece()!=null) {
-					//cases[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
+					cases[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
 				}
 			}
 		}
-		for (int k=0;k<this.PiecesBlanches.getTailleTabPiece();k++) {
+		/*for (int k=0;k<this.PiecesBlanches.getTailleTabPiece();k++) {
 			int x=-1;
 			int y=-1;
 			if (PiecesBlanches.getPiece(k)!=null) {
-				x= this.PiecesBlanches.getPiece(k).getCoordonnees().getX();
-				y= this.PiecesBlanches.getPiece(k).getCoordonnees().getY();
+				x= this.PiecesBlanches.getPiece(k).getCoordonnees().X();
+				y= this.PiecesBlanches.getPiece(k).getCoordonnees().Y();
 				this.PiecesBlanches.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
 			}
 			if (PiecesNoires.getPiece(k)!=null) {
-				x= this.PiecesNoires.getPiece(k).getCoordonnees().getX();
-				y= this.PiecesNoires.getPiece(k).getCoordonnees().getY();
+				x= this.PiecesNoires.getPiece(k).getCoordonnees().X();
+				y= this.PiecesNoires.getPiece(k).getCoordonnees().Y();
 				this.PiecesNoires.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
 			}
-		}
+		}*/
 	}
 	
 }

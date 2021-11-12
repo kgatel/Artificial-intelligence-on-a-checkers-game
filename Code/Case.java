@@ -68,9 +68,12 @@ public class Case {
 		this.saut=b;
 	}
 	
+	
+	
+	
 	public void dessinerCase(Graphics g, int TAILLE,int taille, boolean tourBlanc) {
-		int x=c.getX()*TAILLE/taille;
-		int y=c.getY()*TAILLE/taille;
+		int x=c.X()*TAILLE/taille;
+		int y=c.Y()*TAILLE/taille;
 		switch(couleur) {
 		case Blanc : 
 			g.setColor(Color.WHITE);

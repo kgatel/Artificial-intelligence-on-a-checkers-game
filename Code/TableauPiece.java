@@ -82,7 +82,7 @@ public class TableauPiece {
 		int i=0;
 		while ((res==-1)&&(i<this.tailleTabPiece)) {
 			if (piece[i]!=null) {
-				if ((this.piece[i].getCoordonnees().getX()==c.getX())&&(this.piece[i].getCoordonnees().getY()==c.getY())) {
+				if ((this.piece[i].getCoordonnees().X()==c.X())&&(this.piece[i].getCoordonnees().Y()==c.Y())) {
 					res=i;
 				}
 			}

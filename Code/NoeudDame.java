@@ -8,7 +8,8 @@ public class NoeudDame extends Noeud{
 //Constructeur
 	
 	public NoeudDame(Damier damier) {
-		valeur=damier;
+		this.valeur=damier;
+		this.profondeur=-1;
 		this.successeurs=new ArrayList<NoeudDame>();
 	}
 
@@ -47,7 +48,6 @@ public class NoeudDame extends Noeud{
 	
 	@Override
 	public int heuristique() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
