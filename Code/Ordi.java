@@ -1,3 +1,4 @@
+import javax.swing.JFrame;
 
 public class Ordi extends Joueur {
 	
@@ -8,7 +9,7 @@ public class Ordi extends Joueur {
 	public void tourOrdi(boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
 		//AlgoMinMax IA;
 		Arbre arbre = creerArbre(this.getDamier(),peutMangerEnArriere);
-		
+		//attendre(100000);
 		int compteur=0,compteur2=0,compteur3=0;
 		for (int j=0;j<this.getDamier().getTaille();j++) { 
 			for (int i=0;i<this.getDamier().getTaille();i++) {
@@ -82,7 +83,7 @@ public class Ordi extends Joueur {
 	
 	public Arbre creerArbre(Damier damier, boolean peutMangerEnArriere) throws CloneNotSupportedException {
 		int indice=0;
-		int indiceCumules=0;
+		int indicesCumules=0;
 		
 		//On travaille avec un copie du tableau de pièce pour ne pas changer les valeurs du vrai tableau
 		Damier damierCopie = (Damier)this.getDamier().clone();
@@ -101,12 +102,18 @@ public class Ordi extends Joueur {
 				indice=0;
 				while (listeDeCoupPossible[indice]!=null) {
 					Damier damierIndice = (Damier)damierCopie.clone();
+					damierIndice.setName(""+indicesCumules);
 					piecesTemp.setDamier(damierIndice);
 					piecesTemp.deplacer(piecesTemp.getPiece(i).getCoordonnees().X(), piecesTemp.getPiece(i).getCoordonnees().Y(), listeDeCoupPossible[indice].X(), listeDeCoupPossible[indice].Y(), peutMangerEnArriere);
-
+					//Ajout de la fenetre pour voir si tout fonctionne
+					JFrame f = new JFrame(damierIndice.getName());
+					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
+					f.add(damierIndice);
+					//f.setVisible(true);
+					//fin fenêtre
 					indice++;
-					indiceCumules++;
-					indice++;
+					indicesCumules++;
 					NoeudDame nouveauNoeud = new NoeudDame(damierIndice);
 					racine.ajouterSuccesseur(nouveauNoeud);
 				}

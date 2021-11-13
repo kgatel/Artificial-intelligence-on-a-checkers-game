@@ -139,7 +139,59 @@ public class TableauPiece implements Cloneable{
 			}
 		}
 		this.getDamier().getCases()[i][j].setPiece(null);
-				
+	}
+	
+	public Coordonnees pieceMangeeLorsDunSaut(int x, int y,int i,int j,boolean tourBlanc) { //donne les coordonnées de la pièce mangée
+		Coordonnees c = new Coordonnees();
+		int delta=abs(y-j);
+		if (delta>=2) {
+			if (y-j<0) {
+				if (x-i>0) {		//diagonale haute droite
+					int k=1;
+					while (damier.getCases()[i+k][j-k].getPiece()==null) {
+						k++;
+					}
+					if ( ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i+k);
+						c.setY(j-k);
+					}
+					
+				}
+				if (x-i<0)	{		//diagonale haute gauche
+					int k=1;
+					while (damier.getCases()[i-k][j-k].getPiece()==null) {
+						k++;
+					}
+					if ( ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i-k);
+						c.setY(j-k);
+					}
+				}
+			}
+			else {  //y-j>0
+				if (x-i>0) {		//diagonale basse droite
+					int k=1;
+					while (damier.getCases()[i+k][j+k].getPiece()==null) {
+						k++;
+					}
+					if ( ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i+k);
+						c.setY(j+k);
+					}
+				}
+				if (x-i<0)	{		//diagonale basse gauche
+					int k=1;
+					while (damier.getCases()[i-k][j+k].getPiece()==null) {
+						k++;
+					}
+					if ( ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+						c.setX(i-k);
+						c.setY(j+k);
+					}
+				}
+			}
+		}
+		return c;
 	}
 	
 	public Object clone(){
@@ -160,5 +212,14 @@ public class TableauPiece implements Cloneable{
 	        catch (CloneNotSupportedException e)
 	           {throw new InternalError(); }
 	 }
+	
+	private int abs(int a) {
+		if (a>=0) {
+			return a;
+		}
+		else {
+			return -a;
+		}
+	}
 	
 }

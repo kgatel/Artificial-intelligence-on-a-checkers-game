@@ -93,7 +93,6 @@ public class Lanceur extends JFrame{
 		JFrame f = new JFrame("Jeu de Dames");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(TAILLE,TAILLE+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
-		
 		f.add(damier);
 		f.setVisible(true);
 		Souris ecouteurDeSouris = new Souris(damier);
