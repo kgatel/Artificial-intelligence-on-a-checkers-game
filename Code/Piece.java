@@ -13,10 +13,18 @@ public class Piece implements Cloneable{
 		this.damier=damier;
 	}
 	
-	public Object clone() throws CloneNotSupportedException 
-	   {
-	      return (Piece)super.clone();
-	   }
+	
+	public Object clone() {
+		try {
+			Piece res = (Piece) super.clone();
+		    Damier tmp = (Damier)damier.clone();
+		    res.setDamier(tmp);
+		    return res;
+		}
+		catch (CloneNotSupportedException e)
+			{throw new InternalError(); }
+	}
+	
 	
 	public Couleur getCouleur() {
 		return couleur;

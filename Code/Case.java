@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Case {
+public class Case implements Cloneable{
 
 	private Coordonnees c;
 	private Couleur couleur;
@@ -27,6 +27,15 @@ public class Case {
 		clique = false;
 		possibleClique = false;
 	}
+	
+	public Object clone(){
+	       try {
+	           Case tmp = (Case) super.clone();
+	           return tmp;
+	        }
+	        catch (CloneNotSupportedException e)
+	           {throw new InternalError(); }
+	 }
 	
 	public Couleur getCouleur() {
 		return couleur;

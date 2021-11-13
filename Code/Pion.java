@@ -10,5 +10,8 @@ public class Pion extends Piece{
 		super(couleur,c,damier);
 	}
 
+	public String toString() {
+		return "pion";
+	}
 
 }

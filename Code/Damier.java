@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class Damier extends JPanel{
+public class Damier extends JPanel implements Cloneable{
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -10,7 +10,7 @@ public class Damier extends JPanel{
 	
 	private int TAILLE; //taille de la fenêtre
 	private int taille; //taille=8 pour un plateau 8*8 par exemple
-	public boolean tourBlanc;
+	private boolean tourBlanc;
 	private boolean tourFini;	//savoir quand le tour du joueur est fini
 	private boolean sautObligatoire;	//savoir si le joueur a un saut obligatoire en cours (dans le cas ou on a l'obligation des sauts)
 	private boolean sautMultiple;	//savoir si le joueur est dans une situation de saut multiple ou non
@@ -49,47 +49,10 @@ public class Damier extends JPanel{
 			}
 		}
 	}
-	
-	
-	public Damier clone() {
-		Damier res = new Damier (TAILLE,taille,name);
-		
-		Case[][] cases = new Case[taille][taille];
-		for (int i=0;i<taille;i++) {
-			for (int j=0;j<taille;j++) {
-				cases[i][j]=this.cases[i][j];
-			}
-		}
-		res.setCases(cases);
-		res.setTourBlanc(tourBlanc);
-		res.setTourFini(tourFini);
-		res.setSautObligatoire(sautObligatoire);
-		res.setSautMultiple(sautMultiple);
-		
-		TableauPiece PiecesBlanches = new TableauPiece(this,taille,Couleur.Blanc);
-		TableauPiece PiecesNoires = new TableauPiece(this,taille,Couleur.Blanc);
-		for (int i=0;i<PiecesBlanches.getTailleTabPiece();i++) {
-			PiecesBlanches.setPiece(this.getPiecesBlanches().getPiece(i), i);
-			PiecesNoires.setPiece(this.getPiecesNoires().getPiece(i), i);
-		}
-		
-		for (int i=0;i<taille;i++) {
-			for (int j=0;j<taille;j++) {
-				if (cases[i][j].getPiece()!=null) {
-					res.getCases()[i][j].getPiece().setDamier(res);
-				}
-			}
-		}
-		
-		for (int i=0;i<PiecesBlanches.getTailleTabPiece();i++) {
-			PiecesBlanches.setDamier(res);
-			PiecesNoires.setDamier(res);
-		}
-		
-		return res;
-	}
+
 	
 	//Constructeurs
+	
 	public boolean getTourBlanc() {
 		return tourBlanc;
 	}
@@ -174,6 +137,34 @@ public class Damier extends JPanel{
 	
 	public void changementTour() {
 		this.tourBlanc=!this.tourBlanc;
+	}
+	
+	
+	public Object clone(){
+	       try {
+	           Damier tmp = (Damier) super.clone();
+	           
+	           Case [][] casesTmp = new Case[taille][taille];
+	           for (int i=0;i<taille;i++) {
+	        	   for (int j=0;j<taille;j++) {
+	        		   casesTmp[i][j]=(Case) this.cases[i][j].clone();
+	        	   }
+	           }
+	           tmp.setCases(casesTmp);
+	           
+	           /*TableauPiece PiecesBlanchesTmp = new TableauPiece(tmp,this.getPiecesBlanches().getTailleTabPiece(),Couleur.Blanc);
+	           TableauPiece PiecesNoiresTmp = new TableauPiece(tmp,this.getPiecesNoires().getTailleTabPiece(),Couleur.Noir);	           
+	           for (int i=0;i<this.PiecesBlanches.getTailleTabPiece();i++) {
+	        	   //PiecesBlanchesTmp
+	           }*/
+	           TableauPiece PiecesBlanchesTmp = (TableauPiece) this.PiecesBlanches.clone();
+	           TableauPiece PiecesNoiresTmp = (TableauPiece) this.PiecesNoires.clone();
+	           tmp.setPiecesBlanches(PiecesBlanchesTmp);
+	           tmp.setPiecesNoires(PiecesNoiresTmp);
+	           return tmp;
+	        }
+	        catch (CloneNotSupportedException e)
+	           {throw new InternalError(); }
 	}
 	
 	

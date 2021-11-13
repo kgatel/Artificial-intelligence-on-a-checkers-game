@@ -1,5 +1,5 @@
 
-public class TableauPiece {
+public class TableauPiece implements Cloneable{
 
 	//Attributs
 	private Damier damier;
@@ -15,8 +15,9 @@ public class TableauPiece {
 		this.couleur=couleur;
 	}
 	
+	
 	//Constructeurs
-		
+	
 	public int getTailleTabPiece() {
 		return tailleTabPiece;
 	}
@@ -32,7 +33,9 @@ public class TableauPiece {
 	public void setDamier(Damier damier) {
 		this.damier = damier;
 		for (int i=0;i<tailleTabPiece;i++) {
-			this.piece[i].setDamier(damier);
+			if (this.piece[i]!=null) {
+				this.piece[i].setDamier(damier);
+			}
 		}
 	}
 	
@@ -42,6 +45,14 @@ public class TableauPiece {
 
 	public void setCouleur(Couleur couleur) {
 		this.couleur = couleur;
+	}
+	
+	public Piece[] getPieces() {
+		return this.piece;
+	}
+	
+	public void setPieces(Piece[] piece) {
+		this.piece=piece;
 	}
 	
 	public Piece getPiece(int i) {
@@ -131,5 +142,23 @@ public class TableauPiece {
 				
 	}
 	
+	public Object clone(){
+	       try {
+	           TableauPiece tmp = (TableauPiece) super.clone();
+	           Piece[] pieceTmp = new Piece[this.tailleTabPiece];
+	           for (int i=0;i<this.tailleTabPiece;i++) {
+	        	   if (this.getPiece(i)==null) {
+	        		   pieceTmp[i]=null;
+	        	   }else {
+	        		   pieceTmp[i]=new Piece(this.couleur,this.getPiece(i).getCoordonnees(),this.damier);
+	        	   }
+	        	   
+	           }
+	           tmp.setPieces(pieceTmp);
+	           return tmp;
+	        }
+	        catch (CloneNotSupportedException e)
+	           {throw new InternalError(); }
+	 }
 	
 }

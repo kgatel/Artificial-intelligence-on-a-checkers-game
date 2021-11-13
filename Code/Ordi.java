@@ -7,7 +7,7 @@ public class Ordi extends Joueur {
 	
 	public void tourOrdi(boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
 		//AlgoMinMax IA;
-		//Arbre arbre = creerArbre(this.getDamier(),peutMangerEnArriere);
+		Arbre arbre = creerArbre(this.getDamier(),peutMangerEnArriere);
 		
 		int compteur=0,compteur2=0,compteur3=0;
 		for (int j=0;j<this.getDamier().getTaille();j++) { 
@@ -50,25 +50,8 @@ public class Ordi extends Joueur {
 			res[k]=null;
 		}
 		//Creation d'un damier et d'une pièce copies de test
-		Damier damierTest = this.getDamier().clone();
-		Piece pieceTest = new Piece(piece.getCouleur(),piece.getCoordonnees(),damierTest);
-		
-		/*System.out.println(pieceTest.getDamier()==this.getDamier());
-		System.out.println(pieceTest.getDamier().getCases()==this.getDamier().getCases());
-		//System.out.println(pieceTest.getDamier().getPiecesBlanches()==this.getDamier().getPiecesBlanches());
-		System.out.println();
-		System.out.println(this.getDamier().getCase(1,1).getSaut());
-		pieceTest.getDamier().getCase(1,1).setSaut(true);
-		System.out.println(this.getDamier().getCase(1,1).getSaut());
-		//piece
-		System.out.println();*/
-		
-		System.out.println(this.getDamier().getName());
-		System.out.println(pieceTest.getDamier().getName());
-		pieceTest.getDamier().setName("wow");
-		System.out.println(this.getDamier().getName());
-		
-		
+		Damier damierTest = (Damier) this.getDamier().clone();
+		Piece pieceTest = new Piece(piece.getCouleur(),piece.getCoordonnees(),damierTest);		
 		
 		boolean tourBlanc=false;
 		if (pieceTest.getCouleur()==Couleur.Blanc) {
@@ -86,9 +69,11 @@ public class Ordi extends Joueur {
 					res[indice]=c;
 					indice++;
 				}
+				//remettre à neuf le damier à chaque fois
 				damierTest.getCases()[i][j].setPossibleClique(false);
 				damierTest.getCases()[i][j].setSaut(false);
 				damierTest.getCases()[i][j].setClique(false);
+				//
 			}
 		}
 		
@@ -96,37 +81,37 @@ public class Ordi extends Joueur {
 	}
 	
 	public Arbre creerArbre(Damier damier, boolean peutMangerEnArriere) throws CloneNotSupportedException {
-		NoeudDame racine= new NoeudDame(damier);
-		/*int indice=0;
+		int indice=0;
 		int indiceCumules=0;
-		Damier damierTest = (Damier)this.getDamier().clone();
+		
 		//On travaille avec un copie du tableau de pièce pour ne pas changer les valeurs du vrai tableau
-		TableauPiece piecesTemp = new TableauPiece(damierTest,damierTest.getTaille(),this.getCouleur());
+		Damier damierCopie = (Damier)this.getDamier().clone();
+		TableauPiece piecesTemp = new TableauPiece(damierCopie,damierCopie.getTaille(),this.getCouleur());
+		
+		NoeudDame racine = new NoeudDame(damierCopie);
+		
 		//affectation de toutes les pièces
 		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
 			piecesTemp.setPiece(this.getPieces(i), i);
 		}
 		
-		for (int i=0;i<this.getPieces().getTailleTabPiece();i++) {
+		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
 			if (piecesTemp.getPiece(i)!=null) {
 				Coordonnees[] listeDeCoupPossible = this.ListeDesCoupsPossibles(piecesTemp.getPiece(i), peutMangerEnArriere);
 				indice=0;
 				while (listeDeCoupPossible[indice]!=null) {
-					Damier damierIndice = new Damier(damierTest.getTAILLE(),damierTest.getTaille(),"damier"+indiceCumules);
-					damierIndice.setCases(damierTest.getCases());
-					damierIndice.setTourBlanc(damierTest.getTourBlanc());
-					damierIndice.setPiecesBlanches(damierTest.getPiecesBlanches());
-					damierIndice.setPiecesNoires(damierTest.getPiecesNoires());	
-					//System.out.println(damierIndice.getName());
-					//System.out.println(piecesTemp.getDamier().getName());
+					Damier damierIndice = (Damier)damierCopie.clone();
+					piecesTemp.setDamier(damierIndice);
 					piecesTemp.deplacer(piecesTemp.getPiece(i).getCoordonnees().X(), piecesTemp.getPiece(i).getCoordonnees().Y(), listeDeCoupPossible[indice].X(), listeDeCoupPossible[indice].Y(), peutMangerEnArriere);
-					//NoeudDame noeudDame = new
+
 					indice++;
 					indiceCumules++;
 					indice++;
+					NoeudDame nouveauNoeud = new NoeudDame(damierIndice);
+					racine.ajouterSuccesseur(nouveauNoeud);
 				}
 			}
-		}*/
+		}
 		
 		Arbre res = new Arbre(racine);
 		return res;

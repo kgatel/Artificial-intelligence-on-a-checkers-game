@@ -7,4 +7,7 @@ public class Reine extends Piece{
 		super(couleur,c,damier);
 	}
 	
+	public String toString() {
+		return "reine";
+	}
 }
