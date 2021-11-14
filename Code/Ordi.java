@@ -8,7 +8,7 @@ public class Ordi extends Joueur {
 	
 	public void tourOrdi(boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
 		//AlgoMinMax IA;
-		Arbre arbre = creerArbre(this.getDamier(),peutMangerEnArriere);
+		Arbre arbre = creerArbreCoupPossible(this.getDamier(),peutMangerEnArriere);
 		//attendre(100000);
 		int compteur=0,compteur2=0,compteur3=0;
 		for (int j=0;j<this.getDamier().getTaille();j++) { 
@@ -81,7 +81,7 @@ public class Ordi extends Joueur {
 		return res;
 	}
 	
-	public Arbre creerArbre(Damier damier, boolean peutMangerEnArriere) throws CloneNotSupportedException {
+	public Arbre creerArbreCoupPossible(Damier damier, boolean peutMangerEnArriere) throws CloneNotSupportedException {
 		int indice=0;
 		int indicesCumules=0;
 		
@@ -90,7 +90,6 @@ public class Ordi extends Joueur {
 		TableauPiece piecesTemp = new TableauPiece(damierCopie,damierCopie.getTaille(),this.getCouleur());
 		
 		NoeudDame racine = new NoeudDame(damierCopie);
-		
 		//affectation de toutes les pièces
 		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
 			piecesTemp.setPiece(this.getPieces(i), i);
@@ -103,14 +102,37 @@ public class Ordi extends Joueur {
 				while (listeDeCoupPossible[indice]!=null) {
 					Damier damierIndice = (Damier)damierCopie.clone();
 					damierIndice.setName(""+indicesCumules);
-					piecesTemp.setDamier(damierIndice);
-					piecesTemp.deplacer(piecesTemp.getPiece(i).getCoordonnees().X(), piecesTemp.getPiece(i).getCoordonnees().Y(), listeDeCoupPossible[indice].X(), listeDeCoupPossible[indice].Y(), peutMangerEnArriere);
+					TableauPiece piecesIndices = (TableauPiece)piecesTemp.clone();
+					if (this.getCouleur()==Couleur.Blanc) {
+						damierIndice.setPiecesBlanches(piecesIndices);
+					}else {
+						damierIndice.setPiecesNoires(piecesIndices);
+					}					
+					piecesIndices.setDamier(damierIndice);
+					piecesIndices.deplacer(piecesIndices.getPiece(i).getCoordonnees().X(), piecesIndices.getPiece(i).getCoordonnees().Y(), listeDeCoupPossible[indice].X(), listeDeCoupPossible[indice].Y(), peutMangerEnArriere);
+					//si une pièce a été mangée il faut la supprimer
+					boolean tourBlanc = false;
+					if (this.getCouleur()==Couleur.Blanc) {
+						tourBlanc=true;
+					}
+					Coordonnees c = piecesIndices.pieceMangeeLorsDunSaut(listeDeCoupPossible[indice].X(),listeDeCoupPossible[indice].Y(),piecesIndices.getPiece(i).getCoordonnees().X(),piecesIndices.getPiece(i).getCoordonnees().Y(),tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
+					if (c.X()!=-1) {		//il y a eu une pièce mangée
+						System.out.println(""+indicesCumules);
+						damierIndice.getCase(c.X(),c.Y()).setPiece(null);  //enlever la pièce mangée
+						if (tourBlanc) {
+							damierIndice.getPiecesNoires().setPiece(null, damierIndice.getPiecesNoires().trouverIndice(c));
+						}else {
+							damierIndice.getPiecesBlanches().setPiece(null, damierIndice.getPiecesBlanches().trouverIndice(c));
+						}
+					}
+					//
+					
 					//Ajout de la fenetre pour voir si tout fonctionne
 					JFrame f = new JFrame(damierIndice.getName());
 					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
 					f.add(damierIndice);
-					//f.setVisible(true);
+					f.setVisible(true);
 					//fin fenêtre
 					indice++;
 					indicesCumules++;

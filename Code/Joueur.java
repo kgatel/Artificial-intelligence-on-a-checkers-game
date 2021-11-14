@@ -118,10 +118,8 @@ public class Joueur {
 					//damier.deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
 					this.pieces.deplacer(ii, jj, x, y, tourBlanc);
 					
-					Coordonnees c = new Coordonnees(); //coordonnées de la pièce sautée
+					Coordonnees c = this.getPieces().pieceMangeeLorsDunSaut(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
 					boolean b=false;
-					
-					c=this.getPieces().pieceMangeeLorsDunSaut(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non
 					
 					damier.getCase(ii,jj).click();
 					
