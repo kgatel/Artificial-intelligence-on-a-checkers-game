@@ -15,8 +15,8 @@ public class Ordi extends Joueur {
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
 			f.add(arbre.getRacine().getSuccesseurs(indice).getValeur());
-			f.setVisible(true);
-		}
+			f.setVisible(true); 
+		} 
 		
 		
 		//attendre(100000);
@@ -53,6 +53,8 @@ public class Ordi extends Joueur {
 				}
 			}
 		}
+	// je ne sais pas si ça sert à grand chose finalement
+	// arbre.getRacine().clear();
 	}
 
 	public Coordonnees[] ListeDesCoupsPossibles(Piece piece, boolean peutMangerEnArriere, boolean sautMultiple) throws CloneNotSupportedException {

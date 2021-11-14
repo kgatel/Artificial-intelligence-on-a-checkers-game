@@ -54,6 +54,10 @@ public class NoeudDame extends Noeud{
 		successeurs.add(next);
 	}
 	
+	public void clear () {
+		successeurs.clear();
+	}
+	
 	@Override
 	public int heuristique() {
 		return 0;
