@@ -174,11 +174,11 @@ public class Damier extends JPanel implements Cloneable{
 			for (int j=0; j<taille; j++) {
 				cases[i][j].dessinerCase(g,TAILLE,taille,tourBlanc);
 				if (cases[i][j].getPiece()!=null) {
-					cases[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
+					//cases[i][j].getPiece().dessinerPiece(g, i*TAILLE/taille,j*TAILLE/taille,TAILLE,taille);
 				}
 			}
 		}
-		/*for (int k=0;k<this.PiecesBlanches.getTailleTabPiece();k++) {
+		for (int k=0;k<this.PiecesBlanches.getTailleTabPiece();k++) {
 			int x=-1;
 			int y=-1;
 			if (PiecesBlanches.getPiece(k)!=null) {
@@ -191,7 +191,7 @@ public class Damier extends JPanel implements Cloneable{
 				y= this.PiecesNoires.getPiece(k).getCoordonnees().Y();
 				this.PiecesNoires.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
 			}
-		} */
+		}
 	}
 	
 }

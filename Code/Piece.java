@@ -157,7 +157,7 @@ public class Piece implements Cloneable{
 		return b;
 	}
 	
-	public boolean sautPossible(boolean tourBlanc, boolean peutMangerEnArriere,boolean obligerLesSauts) {
+	public boolean sautPossible(boolean tourBlanc, boolean peutMangerEnArriere) {
 		int x = this.c.X();
 		int y = this.c.Y();
 		boolean b=false;
@@ -172,7 +172,7 @@ public class Piece implements Cloneable{
 		k--;
 		if ( (x-2>=0) && (y-2>=0) ) {		// pour un pion
 			if ( (damier.getCases()[x-2][y-2].getPiece()==null) && (damier.getCases()[x-1][y-1].getPiece()!=null) ) {
-				if ( ((damier.getCases()[x-1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[x-1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!obligerLesSauts)) )  {
+				if ( ((damier.getCases()[x-1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[x-1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))) )  {
 					if ((peutMangerEnArriere)||(tourBlanc)) {
 						damier.getCases()[x-2][y-2].setSaut(true);
 						damier.getCases()[x][y].setClique(true);
@@ -208,7 +208,7 @@ public class Piece implements Cloneable{
 		k--;
 		if ( (x+2<damier.getTaille()) && (y-2>=0) ) {		// pour un pion
 			if ( (damier.getCases()[x+2][y-2].getPiece()==null) && (damier.getCases()[x+1][y-1].getPiece()!=null) ) {
-				if ( ((damier.getCases()[x+1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[x+1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!obligerLesSauts)) )  {
+				if ( ((damier.getCases()[x+1][y-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[x+1][y-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))) )  {
 					if ((peutMangerEnArriere)||(tourBlanc)) {	
 						damier.getCases()[x+2][y-2].setSaut(true);
 						damier.getCases()[x][y].setClique(true);
@@ -245,7 +245,7 @@ public class Piece implements Cloneable{
 		k--;
 		if ( (x+2<damier.getTaille()) && (y+2<damier.getTaille()) ) {		// pour un pion
 			if ( (damier.getCases()[x+2][y+2].getPiece()==null) && (damier.getCases()[x+1][y+1].getPiece()!=null) ) {
-				if ( (((damier.getCases()[x+1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!obligerLesSauts)) || ((damier.getCases()[x+1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
+				if ( (((damier.getCases()[x+1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))) || ((damier.getCases()[x+1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 					if ((peutMangerEnArriere)||(!tourBlanc)) {
 						damier.getCases()[x+2][y+2].setSaut(true);
 						damier.getCases()[x][y].setClique(true);
@@ -282,7 +282,7 @@ public class Piece implements Cloneable{
 		k--;
 		if ( (x-2>=0) && (y+2<damier.getTaille()) ) {		// pour un pion
 			if ( (damier.getCases()[x-2][y+2].getPiece()==null) && (damier.getCases()[x-1][y+1].getPiece()!=null) ) {
-				if ( (((damier.getCases()[x-1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!obligerLesSauts)) || ((damier.getCases()[x-1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
+				if ( (((damier.getCases()[x-1][y+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))) || ((damier.getCases()[x-1][y+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) )  {
 					if ((peutMangerEnArriere)||(!tourBlanc)) {
 						damier.getCases()[x-2][y+2].setSaut(true);
 						damier.getCases()[x][y].setClique(true);

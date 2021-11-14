@@ -112,8 +112,7 @@ public class Joueur {
 						}
 					}
 					
-					boolean pion;
-					pion=(damier.getPiece(ii,jj) instanceof Pion);
+					boolean pion=(damier.getPiece(ii,jj) instanceof Pion);
 					
 					//damier.deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
 					this.pieces.deplacer(ii, jj, x, y, tourBlanc);
@@ -131,7 +130,7 @@ public class Joueur {
 							damier.getPiecesBlanches().setPiece(null, damier.getPiecesBlanches().trouverIndice(c));
 						}
 						if (!( (pion)&&(damier.getCase(x,y).getPiece() instanceof Reine) )){   //vérifier qu'il ne peut pas continuer à manger s'il vient d'obtenir une reine
-							b = damier.getCase(x,y).getPiece().sautPossible(tourBlanc,peutMangerEnArriere,obligerLesSauts);		//si b=true alors le joueur peut continuer à sauter
+							b = damier.getCase(x,y).getPiece().sautPossible(tourBlanc,peutMangerEnArriere);		//si b=true alors le joueur peut continuer à sauter
 						}
 						if ((b)&&(ordi)) {
 							attendre(500);

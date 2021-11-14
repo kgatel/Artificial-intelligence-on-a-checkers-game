@@ -69,7 +69,7 @@ public class Lanceur extends JFrame{
 			}	
 			
 			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
-			peutMangerEnArriere=false;
+			peutMangerEnArriere=true;
 			obligerLesSauts=false;
 			
 		}
@@ -105,7 +105,7 @@ public class Lanceur extends JFrame{
 		
 		Ordi j3 = new Ordi(Couleur.Noir,"L'Ordinateur");
 		j3.setDamier(damier);
-		Coordonnees[] test = j3.ListeDesCoupsPossibles(PiecesBlanches.getPiece(9), peutMangerEnArriere);
+		Coordonnees[] test = j3.ListeDesCoupsPossibles(PiecesBlanches.getPiece(9), peutMangerEnArriere,false);
 		//System.out.println(test[0]);
 		
 		while (!partieTerminee) {

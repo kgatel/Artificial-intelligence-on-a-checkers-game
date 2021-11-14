@@ -18,9 +18,17 @@ public class NoeudDame extends Noeud{
 	public ArrayList<NoeudDame> getSuccesseurs() {
 		return successeurs;
 	}
+	
+	public NoeudDame getSuccesseurs(int i) {
+		return successeurs.get(i);
+	}
 
 	public void setSuccesseurs(ArrayList<NoeudDame> successeurs) {
 		this.successeurs = successeurs;
+	}
+	
+	public void setSuccesseurs(int i,NoeudDame noeudDame) {
+		successeurs.set(i, noeudDame);
 	}
 
 	public Damier getValeur() {
