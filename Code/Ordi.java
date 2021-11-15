@@ -140,11 +140,13 @@ public class Ordi extends Joueur {
 					}else {
 						damierIndice.setPiecesNoires(piecesIndices);
 					}					
-					piecesIndices.setDamier(damierIndice);
+					
 				}else {
 					damierIndice=damierCopie;
 					piecesIndices = piecesTemp;
 				}
+				
+				piecesIndices.setDamier(damierIndice);
 				
 				//garder en mémoire les coordonnees de la pièce avant qu'elle se déplace
 				int x = piecesIndices.getPiece(i).getCoordonnees().X();
@@ -173,6 +175,13 @@ public class Ordi extends Joueur {
 						b = damierIndice.getCase(piecesIndices.getPiece(i).getCoordonnees().X(),piecesIndices.getPiece(i).getCoordonnees().Y()).getPiece().sautPossible(tourBlanc,peutMangerEnArriere);		//si b=true alors le joueur peut continuer à sauter
 					}
 				}
+				
+				if (this.getCouleur()==Couleur.Blanc) {
+					damierIndice.setPiecesBlanches(piecesIndices);
+				}else {
+					damierIndice.setPiecesNoires(piecesIndices);
+				}			
+				
 				if (b) {
 					this.genererArbreParPiece(racine, piecesIndices, i, damierIndice,false, true, peutMangerEnArriere);
 					damierIndice.getCase(piecesIndices.getPiece(i).getCoordonnees().X(),piecesIndices.getPiece(i).getCoordonnees().Y()).setSaut(false);
