@@ -148,7 +148,7 @@ public class TableauPiece implements Cloneable{
 			if (y-j<0) {
 				if (x-i>0) {		//diagonale haute droite
 					int k=1;
-					while (damier.getCases()[i+k][j-k].getPiece()==null) {
+					while ((i+k<damier.getTaille())&&(j-k>=0)&&(damier.getCases()[i+k][j-k].getPiece()==null)) {
 						k++;
 					}
 					if ( ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
@@ -159,9 +159,10 @@ public class TableauPiece implements Cloneable{
 				}
 				if (x-i<0)	{		//diagonale haute gauche
 					int k=1;
-					while (damier.getCases()[i-k][j-k].getPiece()==null) {
+					while ((i-k>=0)&&(j-k>=0)&&(damier.getCases()[i-k][j-k].getPiece()==null)) {
 						k++;
 					}
+					
 					if ( ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
 						c.setX(i-k);
 						c.setY(j-k);
@@ -171,7 +172,7 @@ public class TableauPiece implements Cloneable{
 			else {  //y-j>0
 				if (x-i>0) {		//diagonale basse droite
 					int k=1;
-					while (damier.getCases()[i+k][j+k].getPiece()==null) {
+					while ((i+k<damier.getTaille())&&(j+k<damier.getTaille())&&(damier.getCases()[i+k][j+k].getPiece()==null)) {
 						k++;
 					}
 					if ( ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
@@ -181,7 +182,7 @@ public class TableauPiece implements Cloneable{
 				}
 				if (x-i<0)	{		//diagonale basse gauche
 					int k=1;
-					while (damier.getCases()[i-k][j+k].getPiece()==null) {
+					while ((i-k>=0)&&(damier.getCases()[i-k][j+k].getPiece()==null)) {
 						k++;
 					}
 					if ( ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {

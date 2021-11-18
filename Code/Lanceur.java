@@ -103,11 +103,6 @@ public class Lanceur extends JFrame{
 		boolean partieTerminee=false;
 		boolean tourBlanc=true; 	//vrai quand le tour est au joueur 1
 		
-		Ordi j3 = new Ordi(Couleur.Noir,"L'Ordinateur");
-		j3.setDamier(damier);
-		Coordonnees[] test = j3.ListeDesCoupsPossibles(PiecesBlanches.getPiece(9), peutMangerEnArriere,false);
-		//System.out.println(test[0]);
-		
 		while (!partieTerminee) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
