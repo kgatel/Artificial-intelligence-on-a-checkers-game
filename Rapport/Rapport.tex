@@ -57,11 +57,11 @@ numbers=left}
 	\vspace{5mm}
 	\includegraphics[width=0.4\textwidth]{./Images/insa}\\[1.0 cm]
 
-	\textsc{\Large Projet MSRO GM3 - Vague 2 - Sujet 1}\\[0.6cm]
+	\textsc{\Large Projet Info GM4 - Vague 1}\\[0.6cm]
 
 	% Title
 	\HRule \\[0.5cm]
-	{ \Huge \bfseries TP4 : Pompe à chaleur réversible}\\[0.2cm]
+	{ \Huge \bfseries Algorithme Min-Max}\\[0.2cm]
 	\HRule \\[0.75cm]
 
 	\includegraphics[width=0.7\textwidth]{./Images/Page_de_garde}\\[0.9 cm]
@@ -73,7 +73,9 @@ numbers=left}
 			Thibaut \textsc{André-Gallis} \\
 			{\small\href{mailto:thibaut.andregallis@insa-rouen.fr}{thibaut.andregallis@insa-rouen.fr}} \\
 			Kévin \textsc{Gatel} \\
-			{\small\href{mailto:kevin.gatel@insa-rouen.fr}{kevin.gatel@insa-				rouen.fr}}
+			{\small\href{mailto:kevin.gatel@insa-rouen.fr}{kevin.gatel@insa-				rouen.fr}}\\
+			Chloé \textsc{Mechelinck} \\
+			{\small\href{mailto:chloe.mechelinck@insa-rouen.fr}{chloe.mechelinck@insa-rouen.fr}}
 		\end{flushleft}
 	\end{minipage}
 	\begin{minipage}{0.4\textwidth}
@@ -96,7 +98,9 @@ numbers=left}
 
 \renewcommand{\chaptername}{}
 
-\section{But du projet :}
+\chapter*{Introduction}
+
+But du projet : \\
 
 Afin de mettre en ½uvre les compétences acquises dans le codage en
 langage objet, nous avons choisi le projet consistant à implémenter
@@ -105,6 +109,8 @@ l'algorithme Min-Max dans le cas d'un jeu de dames.
 Nous avons donc réaliser des recherches pour comprendre ces concepts
 et pouvoir les implémenter. Cela nous a aussi permis de travailler
 en équipe avec des personnes différentes de nos précédents projets.
+
+\chapter{L'algorithme}
 
 \section{Explication de l'algorithme du Minimax }
 
@@ -148,58 +154,8 @@ dont la qualité (le gain, l'intérêt) sera inférieur à un noeud déjà
 évalué. Pour cela on va d'ailleurs travailler sur l'arbre dans un
 sens fixé, ici de gauche à droite. 
 
-\section{Application de la méthode à des exemples}
 
-Pour mieux comprendre cette méthode et les différents cas possibles,
-voici plusieurs exemples (simplifier car on a choisit de représenter
-deux pions sur plusieurs coups en ayant attribué des valeurs aux noeuds).
-
-\section{Modélisation UML}
-
-\subsection{diagramme de cas d'utilisation}
-
-\selectlanguage{french}%
-\begin{figure}
-\centering{}
-\end{figure}
-
-L'utilisateur peut ainsi choisir de jouer à 2, de jouer contre l'ordinateur
-ou afficher les règles, stockées dans un fichier texte extérieur.
-
-\subsection{diagramme de séquences}
-
-\selectlanguage{french}%
-\begin{figure}
-\centering{}
-\end{figure}
-
-\begin{figure}
-\centering{}
-\end{figure}
-
-
-Nous avons réalisé plusieurs diagrammes de séquences pour détailler
-la partie algorithme Minimax. Les voici:
-
-\subsection{diagramme de classes}
-
-\selectlanguage{french}%
-\begin{figure}
-\centering{}
-\end{figure}
-
-%\loadgame{\string"Diagramme UML\string"}\showboard
-
-
-Voici le diagramme de classe de notre projet. Celui-ci est susceptible
-d'évoluer jusqu'à la fin de notre code, il se sépare en deux parties:
-la première pour l'implémentation du jeu de Dames la seconde pour
-celle de l'algorithme Minimax.
-
-Un certain nombre de fonction seront détaillées dans les parties suivantes.
-
-
-\section{Réalisation du projet}
+\chapter{Le jeu de Dame}
 
 \section{Implémentation du jeu de Dames}
 
@@ -255,7 +211,73 @@ En bonus nous essayerons de rajouter la fonction élagage qui réalisera
 l'élagage détaillé dans les parties 3 et 4 juste avant la fonction
 parcoursminimax.
 
-\section{Pour aller plus loin:}
+
+\section{Application de la méthode à des exemples}
+
+Pour mieux comprendre cette méthode et les différents cas possibles,
+voici plusieurs exemples (simplifier car on a choisit de représenter
+deux pions sur plusieurs coups en ayant attribué des valeurs aux noeuds).
+
+\chapter{UML}
+
+\section{diagramme de cas d'utilisation}
+
+\begin{figure}[H]
+	\center
+	\includegraphics[width=1\textwidth]{./Images/Diagramme_use_case}
+	\caption{Diagramme use case du jeu de dame}
+\end{figure}\vspace{0.2cm}
+
+L'utilisateur peut ainsi choisir de jouer à 2, de jouer contre l'ordinateur
+ou afficher les règles, stockées dans un fichier texte extérieur.
+
+\section{diagramme de séquences}
+
+Nous avons réalisé plusieurs diagrammes de séquences pour détailler
+la partie algorithme Min-max. Les voici:
+
+\begin{figure}[H]
+	\center
+	\includegraphics[width=0.8\textwidth]{./Images/Diagramme_de_sequence1}
+	\caption{Diagramme de séquence choix coup ordi}
+\end{figure}\vspace{0.2cm}
+
+\begin{figure}[H]
+	\center
+	\includegraphics[width=0.8\textwidth]{./Images/Diagramme_de_sequence2}
+	\caption{Diagramme de séquence heuristique}
+\end{figure}\vspace{0.2cm}
+
+\section{diagramme de classes}
+
+\begin{figure}[H]
+	\center
+	\includegraphics[width=1\textwidth]{./Images/Diagramme_classe}
+	\caption{Diagramme des classes}
+\end{figure}\vspace{0.2cm}
+
+%\loadgame{\string"Diagramme UML\string"}\showboard
+
+
+Voici le diagramme de classe de notre projet. Celui-ci est susceptible
+d'évoluer jusqu'à la fin de notre code, il se sépare en deux parties:
+la première pour l'implémentation du jeu de Dames la seconde pour
+celle de l'algorithme Minimax.
+
+Un certain nombre de fonction seront détaillées dans les parties suivantes.
+
+\chapter*{Conclusion:}
+
+Cette première partie nous a permis de nous renseigner sur la théorie
+des jeux, les spécificité du jeu de Dames (les différents types de
+positions des pions...). Nous avons aussi commencé à coder après avoir
+réalisé nos diagrammes en essayant de rendre notre code le plus portable
+possible, tout cela en travaillant en équipe à trois. Nous allons
+poursuivre le codage de notre programme, tout en réalisant certaines
+parties en pseudo-code d'abord car la fonction euristique est très
+importante mais aussi assez importante.\\
+
+\textbf{Pour aller plus loin :} \\
 
 Comme dit précédemment nous ne sommes qu'au milieu de notre projet
 et nous n'avons donc pas fini les fonctions de la partie implémentation
@@ -273,17 +295,6 @@ actuelle et la branche choisie.
 Nous voulons aussi réaliser un menu pour notre jeu avant le début
 de la partie où l'on peut choisir de jouer à deux, seul contre l'ordinateur
 ou bien d'afficher les règles.
-
-\section{Conclusion:}
-
-Cette première partie nous a permis de nous renseigner sur la théorie
-des jeux, les spécificité du jeu de Dames (les différents types de
-positions des pions...). Nous avons aussi commencé à coder après avoir
-réalisé nos diagrammes en essayant de rendre notre code le plus portable
-possible, tout cela en travaillant en équipe à trois. Nous allons
-poursuivre le codage de notre programme, tout en réalisant certaines
-parties en pseudo-code d'abord car la fonction euristique est très
-importante mais aussi assez importante.
 
 
 \chapter*{Annexe}
