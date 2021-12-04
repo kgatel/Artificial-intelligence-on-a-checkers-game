@@ -29,6 +29,12 @@ public class Coordonnees {
 		this.y = y;
 	}
 	
+	public boolean testexistance ( int taille, int x, int y) {
+	boolean test= false;
+	if (((x>taille)|(x<0))|((y> taille)|(y<0))) {
+		test=true;}
+	return(test);
+	}
 	public String toString() {
 		return "("+this.x+","+this.y+")";
 	}

@@ -13,12 +13,15 @@ public class Ordi extends Joueur {
 		boolean afficherLesDamiers = true;
 		
 		if (afficherLesDamiers) {
-			for (int indice=0;indice<arbre.getRacine().getSuccesseurs().size();indice++) {
+			//for (int indice=0;indice<arbre.getRacine().getSuccesseurs().size();indice++) {
+			for (int indice=0;indice<1;indice++) {
 				JFrame f = new JFrame(arbre.getRacine().getSuccesseurs(indice).getValeur().getName());
 				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
 				f.add(arbre.getRacine().getSuccesseurs(indice).getValeur());
 				f.setVisible(true);
+				System.out.println(arbre.getRacine().getSuccesseurs(indice).getCoup().getPieceAvantD().getCoordonnees());
+				System.out.println(arbre.getRacine().getSuccesseurs(indice).getCoup().getPieceApresD().getCoordonnees());
 			}
 		}
 		
@@ -112,9 +115,11 @@ public class Ordi extends Joueur {
 			}
 		}
 		
+	
 		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
 			if (piecesTemp.getPiece(i)!=null) {
-				this.genererArbreParPiece(racine,piecesTemp,i,damierCopie, true, false,peutMangerEnArriere);
+				Piece pieceInitiale=(Piece) piecesTemp.clone();
+				this.genererArbreParPiece(racine,piecesTemp,i,damierCopie,pieceInitiale,true, false,peutMangerEnArriere);
 			}
 		}
 		
@@ -122,7 +127,7 @@ public class Ordi extends Joueur {
 		return res;
 	}
 	
-	private void genererArbreParPiece(NoeudDame racine,TableauPiece piecesTemp,int i, Damier damierCopie, boolean premierCoup,boolean sautMultiple,boolean peutMangerEnArriere) throws CloneNotSupportedException {
+	private void genererArbreParPiece(NoeudDame racine,TableauPiece piecesTemp,int i, Damier damierCopie,Piece pieceInitiale,boolean premierCoup,boolean sautMultiple,boolean peutMangerEnArriere) throws CloneNotSupportedException {
 		boolean premierCoupCopie=premierCoup;
 		if (sautMultiple) {
 			damierCopie.getCase(piecesTemp.getPiece(i).getCoordonnees().X(),piecesTemp.getPiece(i).getCoordonnees().Y()).setSaut(false);
@@ -134,6 +139,7 @@ public class Ordi extends Joueur {
 			while (listeDeCoupPossible[indice]!=null) {
 				
 				Damier damierIndice = null;
+				Coup coupIndice = new Coup(pieceInitiale,null);
 				TableauPiece piecesIndices = null;
 				
 				damierIndice = (Damier)damierCopie.clone();
@@ -181,18 +187,59 @@ public class Ordi extends Joueur {
 				}			
 				
 				if (b) {
-
-					this.genererArbreParPiece(racine, piecesIndices, i, damierIndice,false, true, peutMangerEnArriere);
+					this.genererArbreParPiece(racine, piecesIndices, i, damierIndice,pieceInitiale ,false, true, peutMangerEnArriere);
 					
 				}else {
 					damierIndice.getCase(piecesIndices.getPiece(i).getCoordonnees().X(), piecesIndices.getPiece(i).getCoordonnees().Y()).setSaut(false);
-					NoeudDame nouveauNoeud = new NoeudDame(damierIndice);
+					coupIndice.setPieceApresD(piecesIndices.getPiece(i));
+					NoeudDame nouveauNoeud = new NoeudDame(damierIndice,coupIndice);
 					racine.ajouterSuccesseur(nouveauNoeud);
 				}
 				indice++;
 			}
 			
 		}
+	}
+	
+	private Resultat_minMax algoMiniMax(Arbre arbre, boolean tourBlanc){ //besoin de la profondeur, noeud, créer la classe feuille 
+		Resultat_minMax res=new Resultat_minMax();
+		return res;
+	}
+	
+	
+	
+	
+	private int minMax(NoeudDame noeud,int profondeurArbre,boolean tourBlanc) {
+		int val=0;
+		
+		if ((noeud.getProfondeur()==0) | (noeud.getProfondeur()==profondeurArbre)) {
+			return noeud.Heuristique();	
+		}
+		if (  ((tourBlanc)&&(this.getCouleur()==Couleur.Blanc)) || ((!tourBlanc)&&(this.getCouleur()==Couleur.Noir)) ) {          //faudra remplacer si c'est l'IA qui est en train de jouer ou le joueur
+			val=-100000;
+			for(int i=0;i<noeud.getSuccesseurs().size();i++){
+				val=max(val, minMax(noeud.getSuccesseurs(i),profondeurArbre,tourBlanc));
+			}
+		}
+		else {
+			val= 100000;
+		}
+		for(int j=0;j<noeud.getSuccesseurs().size();j++){
+			val= min(val, minMax(noeud.getSuccesseurs(j),profondeurArbre,!tourBlanc));
+		}
+		return val;
+	}
+	
+	private int max(int i,int j) {
+		if (i>j) {
+			return i;
+		}else {
+			return j;
+		}
+	}
+	
+	private int min(int i,int j) {
+		return -max(-i,-j);
 	}
 	
 }
