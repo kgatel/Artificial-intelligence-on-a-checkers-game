@@ -13,7 +13,7 @@ public class Arbre {
 		return racine;
 	}
 	
-	public int getprofondeur(){
+	public int getProfondeur(){
 		return profondeur;
 	}
 	

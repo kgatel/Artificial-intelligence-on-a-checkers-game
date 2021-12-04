@@ -1,36 +1,43 @@
-import java.util;
+
 
 public class Coup{
-	private Coordonnees actuelles;
 	private Coordonnees anciennes;
-	private Couleur couleur;
+	private Piece piece;
 
 
 //Constructeur
-	public Coup(){
-		actuelles.X=3;
-		actuelles.Y=2;
-		anciennes.X=1;
-		anciennes.Y=4;
-		couleur = Noir;
+
+	public Coup(int a,int b, Piece piece1){
+		anciennes.setX(a);
+		anciennes.setY(b);
+		piece= piece1;
 	}
 	
-	public Coup(int a,int b,int c,int d,Couleur coul){
-		actuelles.X=a;
-		actuelles.Y=b;
-		anciennes.X=c;
-		anciennes.Y=d;
-		couleur= coul;
+	
+	public Coordonnees getAncien(){
+		return(anciennes);
+		
+		
 	}
 	
-	public int getAncienX(){
-		
-		
-			
-			
-		
 		
 		
 	
+	public Piece getPiece(){
+		return(piece);
+		
+		
 	}
 }
+		
+		
+		
+		
+			
+			
+		
+		
+		
+	
+
+

@@ -4,6 +4,7 @@ public class NoeudDame extends Noeud{
 	private ArrayList<NoeudDame> successeurs;
 	private Damier valeur;
 	private int profondeur;
+	
 
 //Constructeur
 	
@@ -58,9 +59,9 @@ public class NoeudDame extends Noeud{
 		successeurs.clear();
 	}
 	
-/*	@Override
-	private int Heuristique( Damier damierCopie ) {
-	Piece exemple;
+	
+	public int Heuristique( Damier damierCopie, Coup coup ) {
+	Piece exemple=coup.getPiece();
 
 		//donne un score entier au coup réalisé
 		int tmp=0;
@@ -70,14 +71,14 @@ public class NoeudDame extends Noeud{
 		//test position imprenable
 		if ((exemple.getCoordonnees().Y() ==0 )|(exemple.getCoordonnees().Y()== damierCopie.getTaille() )) {
 			tmp= tmp + 7;}
-		// à une pièce à proximité = reste vérifier qu'il peut la manger
+		// à une pièce à proximité = reste vérifier si il peut manger
 		if (exemple.getCoordonnees().testexistance(damierCopie.getTaille(), exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()+1)){
-			if (damierCopie.getPiece(exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()+1) = exemple(couleur, exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()+1)){  //comparer couleur de la pièce présente sur cette case)
+			if (damierCopie.getPiece(exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()+1).getCouleur() == exemple.getCouleur()){  //comparer couleur de la pièce présente sur cette case)
 				tmp = tmp + 5;
 			}
 		}
-				if (exemple.getCoordonnees().testexistance(taille, exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1)){
-					if (damierCopie.getPiece(exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1) = (exemple.couleur, exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1));{  //comparer couleur de la pièce présente sur cette case)
+				if (exemple.getCoordonnees().testexistance(damierCopie.getTaille(), exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1)){
+					if (damierCopie.getPiece(exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1).getCouleur() == exemple.getCouleur()){  //comparer couleur de la pièce présente sur cette case)
 					tmp = tmp + 5;
 			}
 		}
@@ -86,6 +87,6 @@ public class NoeudDame extends Noeud{
 		//faire aussi en cas de sauts multiples
 	return(tmp);
 	}
-*/	
+	
 
 }

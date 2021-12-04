@@ -195,24 +195,27 @@ public class Ordi extends Joueur {
 		}
 	}
 	
-/*	private Damier algoMiniMax(Arbre arbre){ //besoin de la profondeur, noeud, créer la classe feuille ?
+	private Damier algoMiniMax(Arbre arbre){ //besoin de la profondeur, noeud, créer la classe feuille ?
 		int val=0;
+		
 		NoeudDame N;
-		if ((profondeur==0) | (noeud == N)) {
+		if ((arbre.getProfondeur()==0) | (noeud == N)) {
 			return (arbre.N.Heuristique);}
 		if (true){          //faudra remplacer si c'est l'IA qui est en train de jouer ou le joueur
 			return (-100000);
-		for(i=0,i<arbre.N.getSuccesseurs.size(),i++){
-			val= max(val, algoMiniMax(arbre.N.getSuccesseurs(i), profondeur-1, false));
-			return(val);}
-			else {
-		val= 100000;}
-		for(i=0,i<arbre.N.getSuccesseurs.size(),i++){
-			val= min(val, algoMiniMax(arbre.N.getSuccesseurs(i), profondeur-1, true));
-			return(val);
-		}
-		}
-		}
-*/		
+			for(int i=0;i<arbre.getNo.getSuccesseurs.size();i++){
+				val= max(val, algoMiniMax(arbre.N.getSuccesseurs(i), profondeur-1, false));
+				return(val);
+			}
+				}
+					else {
+						val= 100000;}
+				for(int j=0;j<arbre.N.getSuccesseurs.size();j++){
+					val= min(val, algoMiniMax(arbre.N.getSuccesseurs(j), profondeur-1, true));
+					return(val);
+					}
+			}
+		
+	
 	
 	}
