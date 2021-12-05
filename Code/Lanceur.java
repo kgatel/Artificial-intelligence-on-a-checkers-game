@@ -70,7 +70,7 @@ public class Lanceur extends JFrame{
 			
 			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
 			peutMangerEnArriere=true;
-			obligerLesSauts=false;
+			obligerLesSauts=true;
 			
 		}
 //fin menu

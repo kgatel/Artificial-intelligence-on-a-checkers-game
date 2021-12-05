@@ -149,7 +149,6 @@ public class Joueur {
 											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc,damier.getTaille(),peutMangerEnArriere,obligerLesSauts)) {
 												ilYaUnPionQuiPeutSauter=true;
 											}
-											
 										}
 									}
 								}

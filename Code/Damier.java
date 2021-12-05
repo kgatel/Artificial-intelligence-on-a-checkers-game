@@ -170,7 +170,7 @@ public class Damier extends JPanel implements Cloneable{
 	
 	public void paintComponent(Graphics g) {
 	//cases
-		boolean afficherAvecCases=false;
+		boolean afficherAvecCases=true;
 		if (afficherAvecCases){
 			for (int i=0; i<taille; i++) {
 				for (int j=0; j<taille; j++) {

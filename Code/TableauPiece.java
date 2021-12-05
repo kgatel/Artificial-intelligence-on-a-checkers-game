@@ -148,46 +148,53 @@ public class TableauPiece implements Cloneable{
 			if (y-j<0) {
 				if (x-i>0) {		//diagonale haute droite
 					int k=1;
-					while ((i+k<damier.getTaille())&&(j-k>=0)&&(damier.getCases()[i+k][j-k].getPiece()==null)) {
+					while ((i+k<damier.getTaille())&&(j-k>0)&&(damier.getCases()[i+k][j-k].getPiece()==null)) {
 						k++;
 					}
-					if ( ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-						c.setX(i+k);
-						c.setY(j-k);
+					if ((i+k<damier.getTaille())&&(j-k>0)) {
+						if ( ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+							c.setX(i+k);
+							c.setY(j-k);
+						}
 					}
 					
 				}
 				if (x-i<0)	{		//diagonale haute gauche
 					int k=1;
-					while ((i-k>=0)&&(j-k>=0)&&(damier.getCases()[i-k][j-k].getPiece()==null)) {
+					while ((i-k>0)&&(j-k>0)&&(damier.getCases()[i-k][j-k].getPiece()==null)) {
 						k++;
 					}
-					
-					if ( ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-						c.setX(i-k);
-						c.setY(j-k);
+					if ((i-k>0)&&(j-k>0)) {
+						if ( ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j-k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+							c.setX(i-k);
+							c.setY(j-k);
+						}
 					}
 				}
 			}
 			else {  //y-j>0
 				if (x-i>0) {		//diagonale basse droite
 					int k=1;
-					while ((i+k<damier.getTaille())&&(j+k<damier.getTaille())&&(damier.getCases()[i+k][j+k].getPiece()==null)) {
+					while ((i+k<damier.getTaille()-1)&&(j+k<damier.getTaille()-1)&&(damier.getCases()[i+k][j+k].getPiece()==null)) {
 						k++;
 					}
-					if ( ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-						c.setX(i+k);
-						c.setY(j+k);
+					if ((i+k<damier.getTaille()-1)&&(j+k<damier.getTaille()-1)) {
+						if ( ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i+k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+							c.setX(i+k);
+							c.setY(j+k);
+						}
 					}
 				}
 				if (x-i<0)	{		//diagonale basse gauche
 					int k=1;
-					while ((i-k>=0)&&(damier.getCases()[i-k][j+k].getPiece()==null)) {
+					while ((i-k>0)&&(j+k<damier.getTaille()-1)&&(damier.getCases()[i-k][j+k].getPiece()==null)) {
 						k++;
 					}
-					if ( ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
-						c.setX(i-k);
-						c.setY(j+k);
+					if ((i-k>0)&&(j+k<damier.getTaille()-1)) {
+						if ( ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || ((damier.getCases()[i-k][j+k].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+							c.setX(i-k);
+							c.setY(j+k);
+						}
 					}
 				}
 			}

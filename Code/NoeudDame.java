@@ -78,7 +78,7 @@ public class NoeudDame extends Noeud{
 	}
 	
 	
-	public int Heuristique(boolean peutMangerEnArriere) {
+	public int Heuristique(boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		
 		//donne un score entier au coup réalisé
 		int tmp=0;
@@ -111,7 +111,11 @@ public class NoeudDame extends Noeud{
 			int x1=listeDeCoups.get(0).getPieceAvantD().getC().X();
 			int x2=listeDeCoups.get(0).getPieceApresD().getC().X();
 			if (abs(x1-x2)>=2) {
-				tmp=+(listeDeCoups.size())*5;
+				if (obligerLesSauts) {
+					tmp=+(listeDeCoups.size())*50000;
+				}else {
+					tmp=+(listeDeCoups.size())*5;
+				}
 			}
 			
 		}

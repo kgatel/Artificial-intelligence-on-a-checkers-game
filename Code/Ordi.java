@@ -18,41 +18,40 @@ public class Ordi extends Joueur {
 		if ((afficherMeilleurCoup)||(afficherLesDamiers)) {
 			arbreAffichage = creerArbre(1,this.getDamier(),peutMangerEnArriere);
 		}
-			if (afficherMeilleurCoup) {
-				ArrayList<Coup> meilleurCoup = algoMinMax(arbreAffichage,tourBlanc,peutMangerEnArriere) ;
-				int indice=0;
-				System.out.print(meilleurCoup.get(indice).getPieceAvantD().getC());
-				while (indice<meilleurCoup.size()) {
-					System.out.print(meilleurCoup.get(indice).getPieceApresD().getC());
-					indice++;
+		if (afficherMeilleurCoup) {
+			ArrayList<Coup> meilleurCoup = algoMinMax(arbreAffichage,tourBlanc,peutMangerEnArriere,obligerLesSauts) ;
+			int indice=0;
+			System.out.print(meilleurCoup.get(indice).getPieceAvantD().getC());
+			while (indice<meilleurCoup.size()) {
+				System.out.print(meilleurCoup.get(indice).getPieceApresD().getC());
+				indice++;
+			}
+			System.out.println();
+		}
+		if (afficherLesDamiers) {
+			for (int indice=0;indice<arbreAffichage.getRacine().getSuccesseurs().size();indice++) {	
+				JFrame f = new JFrame(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur().getName());
+				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
+				f.add(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur());
+				f.setVisible(true);
+				int indice2=0;
+				System.out.print(arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(0).getPieceAvantD().getC());
+				while (indice2<arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().size()) {
+					System.out.print("-"+arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(indice2).getPieceApresD().getC());
+					indice2++;
 				}
 				System.out.println();
 			}
+		}
 		
-		
-			if (afficherLesDamiers) {
-				for (int indice=0;indice<arbreAffichage.getRacine().getSuccesseurs().size();indice++) {	
-					JFrame f = new JFrame(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur().getName());
-					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
-					f.add(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur());
-					f.setVisible(true);
-					int indice2=0;
-					System.out.print(arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(0).getPieceAvantD().getC());
-					while (indice2<arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().size()) {
-						System.out.print("-"+arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(indice2).getPieceApresD().getC());
-						indice2++;
-					}
-					System.out.println();
-				}
-			}
 		
 		boolean IA = true;
 		if (!IA) {
 			ordiBeteEtMechant(tourBlanc,peutMangerEnArriere,obligerLesSauts); //joue le premier coup qu'il peut jouer
 		}else {
 			Arbre arbre = creerArbre(1,this.getDamier(),peutMangerEnArriere);
-			ArrayList<Coup> meilleurCoup = algoMinMax(arbre,tourBlanc,peutMangerEnArriere) ;
+			ArrayList<Coup> meilleurCoup = algoMinMax(arbre,tourBlanc,peutMangerEnArriere,obligerLesSauts) ;
 			int indice=0;
 			this.Ajoue(meilleurCoup.get(0).getPieceAvantD().getC().X(), meilleurCoup.get(0).getPieceAvantD().getC().Y(), tourBlanc, peutMangerEnArriere, obligerLesSauts);
 			while (indice<meilleurCoup.size()) {
@@ -247,25 +246,24 @@ public class Ordi extends Joueur {
 		}
 	}
 	
-	private ArrayList<Coup> algoMinMax(Arbre arbre, boolean tourBlanc,boolean peutMangerEnArriere){ //besoin de la profondeur, noeud, créer la classe feuille 
-		ArrayList<Coup> res =minMax(arbre.getRacine(),arbre.getProfondeur(),tourBlanc,peutMangerEnArriere).getListeDeCoup();
+	private ArrayList<Coup> algoMinMax(Arbre arbre, boolean tourBlanc,boolean peutMangerEnArriere,boolean obligerLesSauts){ //besoin de la profondeur, noeud, créer la classe feuille 
+		ArrayList<Coup> res =minMax(arbre.getRacine(),arbre.getProfondeur(),tourBlanc,peutMangerEnArriere,obligerLesSauts).getListeDeCoup();
 		return res;
 	}
-		
 	
-	private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean tourBlanc,boolean peutMangerEnArriere) {
+	private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean tourBlanc,boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		Resultat_minMax res=new Resultat_minMax();
 		res.setValeur(0); 	//val=0
 
 		if (noeud.getProfondeur()==profondeurArbre) {
-			res.setValeur(noeud.Heuristique(peutMangerEnArriere));
+			res.setValeur(noeud.Heuristique(peutMangerEnArriere,obligerLesSauts));
 		}
 		else {
 			if (  ((tourBlanc)&&(this.getCouleur()==Couleur.Blanc)) || ((!tourBlanc)&&(this.getCouleur()==Couleur.Noir)) ) {          //faudra remplacer si c'est l'IA qui est en train de jouer ou le joueur
 				res.setValeur(-100000);
 				for(int i=0;i<noeud.getSuccesseurs().size();i++){
 					//res.setValeur(max(res.getValeur(), minMax(noeud.getSuccesseurs(j),profondeurArbre,!tourBlanc).getValeur()));
-					int tmp=minMax(noeud.getSuccesseurs(i),profondeurArbre,tourBlanc,peutMangerEnArriere).getValeur();
+					int tmp=minMax(noeud.getSuccesseurs(i),profondeurArbre,tourBlanc,peutMangerEnArriere,obligerLesSauts).getValeur();
 					if (res.getValeur()<tmp) {
 						res.setValeur(tmp);
 						if (noeud.getSuccesseurs(i).getProfondeur()==1) {
@@ -278,7 +276,7 @@ public class Ordi extends Joueur {
 			else {
 				res.setValeur(100000);
 				for(int j=0;j<noeud.getSuccesseurs().size();j++){
-					res.setValeur(min(res.getValeur(), minMax(noeud.getSuccesseurs(j),profondeurArbre,!tourBlanc,peutMangerEnArriere).getValeur()));
+					res.setValeur(min(res.getValeur(), minMax(noeud.getSuccesseurs(j),profondeurArbre,!tourBlanc,peutMangerEnArriere,obligerLesSauts).getValeur()));
 				}
 			}
 		}
