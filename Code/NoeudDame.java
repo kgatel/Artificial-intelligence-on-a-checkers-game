@@ -1,37 +1,38 @@
 import java.util.ArrayList;
 
 public class NoeudDame extends Noeud{
-	
-	private ArrayList<NoeudDame> successeurs;
+
 	private Damier valeur;
-	private Coup coup;
+	private ArrayList<NoeudDame> successeurs;
+	private ArrayList<Coup> listeDeCoups;
 	private int profondeur;
 	
 
 //Constructeur
 	public NoeudDame(Damier damier) {
 		this.valeur=damier;
-		this.coup=null;
+		this.listeDeCoups=null;
 		this.profondeur=-1;
 		this.successeurs=new ArrayList<NoeudDame>();
 	}
 	
-	public NoeudDame(Damier damier, Coup coup) {
+	public NoeudDame(Damier damier, ArrayList<Coup> listeDeCoups) {
 		this.valeur=damier;
 		this.profondeur=-1;
-		this.coup=coup;
+		this.listeDeCoups=listeDeCoups;
 		this.successeurs=new ArrayList<NoeudDame>();
 	}
 
 //Accesseurs
 	
-	public Coup getCoup() {
-		return coup;
+	public ArrayList<Coup> getListeDeCoups() {
+		return listeDeCoups;
 	}
 
-	public void setCoup(Coup coup) {
-		this.coup = coup;
+	public void setListeDeCoups(ArrayList<Coup> listeDeCoups) {
+		this.listeDeCoups = listeDeCoups;
 	}
+
 	
 	public ArrayList<NoeudDame> getSuccesseurs() {
 		return successeurs;
@@ -77,11 +78,11 @@ public class NoeudDame extends Noeud{
 	}
 	
 	
-	public int Heuristique() {
-	Piece exemple=coup.getPiece();
-
+	public int Heuristique(boolean peutMangerEnArriere) {
+		
 		//donne un score entier au coup réalisé
 		int tmp=0;
+		/*
 		//test si est une dame (
 		if (exemple.getCoordonnees().Y() ==0 ) {
 			tmp = tmp+15;}
@@ -98,12 +99,32 @@ public class NoeudDame extends Noeud{
 					if (valeur.getPiece(exemple.getCoordonnees().X()+1,exemple.getCoordonnees().Y()-1).getCouleur() == exemple.getCouleur()){  //comparer couleur de la pièce présente sur cette case)
 					tmp = tmp + 5;
 			}
+		}*/
+		boolean tourBlanc;
+		if (listeDeCoups.get(0).getPieceAvantD().getCouleur()==Couleur.Blanc) {
+			tourBlanc=true;
+		}else {
+			tourBlanc=false;
 		}
-		
-		
+		//if (listeDeCoups.get(0).getPieceAvantD().sautPossible(tourBlanc, peutMangerEnArriere, true)&&(listeDeCoups.get(0).getPieceApresD().getC())) {
+		if (listeDeCoups.get(0).getPieceAvantD().sautPossible(tourBlanc, peutMangerEnArriere, true)) {
+			int x1=listeDeCoups.get(0).getPieceAvantD().getC().X();
+			int x2=listeDeCoups.get(0).getPieceApresD().getC().X();
+			if (abs(x1-x2)>=2) {
+				tmp=+(listeDeCoups.size())*5;
+			}
+			
+		}
 		//faire aussi en cas de sauts multiples
 	return(tmp);
 	}
 	
+	private int abs(int a) {
+		if (a>=0) {
+			return a;
+		}else {
+			return -a;
+		}
+	}
 
 }

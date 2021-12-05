@@ -190,13 +190,13 @@ public class Damier extends JPanel implements Cloneable{
 				int x=-1;
 				int y=-1;
 				if (PiecesBlanches.getPiece(k)!=null) {
-					x= this.PiecesBlanches.getPiece(k).getCoordonnees().X();
-					y= this.PiecesBlanches.getPiece(k).getCoordonnees().Y();
+					x= this.PiecesBlanches.getPiece(k).getC().X();
+					y= this.PiecesBlanches.getPiece(k).getC().Y();
 					this.PiecesBlanches.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
 				}
 				if (PiecesNoires.getPiece(k)!=null) {
-					x= this.PiecesNoires.getPiece(k).getCoordonnees().X();
-					y= this.PiecesNoires.getPiece(k).getCoordonnees().Y();
+					x= this.PiecesNoires.getPiece(k).getC().X();
+					y= this.PiecesNoires.getPiece(k).getC().Y();
 					this.PiecesNoires.getPiece(k).dessinerPiece(g,x*TAILLE/taille,y*TAILLE/taille, TAILLE, taille);
 				}
 			}

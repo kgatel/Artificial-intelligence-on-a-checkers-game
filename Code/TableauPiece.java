@@ -93,7 +93,7 @@ public class TableauPiece implements Cloneable{
 		int i=0;
 		while ((res==-1)&&(i<this.tailleTabPiece)) {
 			if (piece[i]!=null) {
-				if ((this.piece[i].getCoordonnees().X()==c.X())&&(this.piece[i].getCoordonnees().Y()==c.Y())) {
+				if ((this.piece[i].getC().X()==c.X())&&(this.piece[i].getC().Y()==c.Y())) {
 					res=i;
 				}
 			}
@@ -203,7 +203,7 @@ public class TableauPiece implements Cloneable{
 	        	   if (this.getPiece(i)==null) {
 	        		   pieceTmp[i]=null;
 	        	   }else {
-	        		   pieceTmp[i]=new Piece(this.couleur,this.getPiece(i).getCoordonnees(),this.damier);
+	        		   pieceTmp[i]=new Piece(this.couleur,this.getPiece(i).getC(),this.damier);
 	        	   }
 	        	   
 	           }

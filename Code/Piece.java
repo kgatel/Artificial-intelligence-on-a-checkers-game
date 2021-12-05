@@ -34,11 +34,11 @@ public class Piece implements Cloneable{
 		this.couleur = couleur;
 	}
 	
-	public Coordonnees getCoordonnees() {
+	public Coordonnees getC() {
 		return c;
 	}
 
-	public void setCoordonnees(Coordonnees c) {
+	public void setC(Coordonnees c) {
 		this.c = c;
 	}
 

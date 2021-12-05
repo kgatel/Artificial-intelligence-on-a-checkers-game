@@ -1,28 +1,28 @@
 
 public class Arbre {
-
-	private NoeudDame racine;
-	private int profondeur;
 	
-	public Arbre(NoeudDame root) {
-		racine=root;
-		racine.setProfondeur(0);
+	private int profondeur;
+	private NoeudDame racine;
+	
+	public Arbre(int profondeur,NoeudDame root) {
+		this.profondeur=profondeur;
+		this.racine=root;
 	}
 
 	public NoeudDame getRacine() {
 		return racine;
 	}
-	
-	public int getProfondeur(){
-		return profondeur;
-	}
-	
-	
 
 	public void setRacine(NoeudDame racine) {
 		this.racine = racine;
 	}
 	
-	
+	public int getProfondeur() {
+		return profondeur;
+	}
+
+	public void setProfondeur(int profondeur) {
+		this.profondeur = profondeur;
+	}
 		
 }
