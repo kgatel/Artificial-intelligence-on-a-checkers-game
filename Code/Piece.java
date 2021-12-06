@@ -53,6 +53,7 @@ public class Piece implements Cloneable{
 	
 	//Méthodes
 	
+	//rajouter l'option peutMnagerEnArriere
 	public boolean peutEtreMange(boolean tourBlanc,int taille,boolean peutMangerEnArriere, boolean obligerLesSauts) {
 		boolean b = false;
 		boolean pionRencontre=false;
@@ -715,7 +716,7 @@ public class Piece implements Cloneable{
 	}
 	
 	public String toString() {
-		return "("+c.X()+","+c.Y()+")";
+		return couleur+"("+c.X()+","+c.Y()+")";
 	}
 	
 	public void dessinerPiece(Graphics g, int x, int y,int TAILLE,int taille) {

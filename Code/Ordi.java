@@ -8,15 +8,18 @@ public class Ordi extends Joueur {
 		super(couleur,pseudo);
 	}
 	
-	public void tourOrdi(boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
+	public void tourOrdi(int difficulte,boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
 		
-				
+		int profondeurArbre = difficulte;
+		//int profondeurArbre = 1;		
+		
 		boolean afficherMeilleurCoup = false;
 		boolean afficherLesDamiers = false;
+		int profondeurAffichage = 2;		//pas plus de 5 sinon ça prend beauuucoup de temps
 		Arbre arbreAffichage = null;
 		
 		if ((afficherMeilleurCoup)||(afficherLesDamiers)) {
-			arbreAffichage = creerArbre(1,this.getDamier(),peutMangerEnArriere);
+			arbreAffichage = creerArbre(profondeurAffichage,peutMangerEnArriere);
 		}
 		if (afficherMeilleurCoup) {
 			ArrayList<Coup> meilleurCoup = algoMinMax(arbreAffichage,tourBlanc,peutMangerEnArriere,obligerLesSauts) ;
@@ -29,28 +32,25 @@ public class Ordi extends Joueur {
 			System.out.println();
 		}
 		if (afficherLesDamiers) {
-			for (int indice=0;indice<arbreAffichage.getRacine().getSuccesseurs().size();indice++) {	
-				JFrame f = new JFrame(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur().getName());
+			ArrayList<NoeudDame> ListeNoeudaAfficher=arbreAffichage.getRacine().getSuccesseurs();
+			for (int profondeur=1;profondeur<profondeurAffichage;profondeur++) {
+				ListeNoeudaAfficher=ListeNoeudaAfficher.get(2).getSuccesseurs();
+			}
+			for (int indice=0;indice<ListeNoeudaAfficher.size();indice++) {	
+				JFrame f = new JFrame(ListeNoeudaAfficher.get(indice).getValeur().getName());
 				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
-				f.add(arbreAffichage.getRacine().getSuccesseurs(indice).getValeur());
+				f.add(ListeNoeudaAfficher.get(indice).getValeur());
 				f.setVisible(true);
-				int indice2=0;
-				System.out.print(arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(0).getPieceAvantD().getC());
-				while (indice2<arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().size()) {
-					System.out.print("-"+arbreAffichage.getRacine().getSuccesseurs(indice).getListeDeCoups().get(indice2).getPieceApresD().getC());
-					indice2++;
-				}
-				System.out.println();
 			}
+
 		}
 		
 		
-		boolean IA = true;
-		if (!IA) {
+		if (difficulte==0) {
 			ordiBeteEtMechant(tourBlanc,peutMangerEnArriere,obligerLesSauts); //joue le premier coup qu'il peut jouer
 		}else {
-			Arbre arbre = creerArbre(1,this.getDamier(),peutMangerEnArriere);
+			Arbre arbre = creerArbre(profondeurArbre,peutMangerEnArriere);
 			ArrayList<Coup> meilleurCoup = algoMinMax(arbre,tourBlanc,peutMangerEnArriere,obligerLesSauts) ;
 			int indice=0;
 			this.Ajoue(meilleurCoup.get(0).getPieceAvantD().getC().X(), meilleurCoup.get(0).getPieceAvantD().getC().Y(), tourBlanc, peutMangerEnArriere, obligerLesSauts);
@@ -121,6 +121,7 @@ public class Ordi extends Joueur {
 					Coordonnees c = new Coordonnees(i,j);
 					res[indice]=c;
 					indice++;
+					
 				}
 				//remettre à neuf le damier à chaque fois
 				damierTest.getCases()[i][j].setPossibleClique(false);
@@ -133,35 +134,55 @@ public class Ordi extends Joueur {
 		return res;
 	}
 	
-	private Arbre creerArbre(int profondeur,Damier damier, boolean peutMangerEnArriere) throws CloneNotSupportedException {
-		
-		//On travaille avec un copie du tableau de pièce pour ne pas changer les valeurs du vrai tableau
+	private Arbre creerArbre(int profondeurArbre, boolean peutMangerEnArriere) throws CloneNotSupportedException {
 		Damier damierCopie = (Damier)this.getDamier().clone();
-		TableauPiece piecesTemp = new TableauPiece(damierCopie,damierCopie.getTaille(),this.getCouleur());
-		
 		NoeudDame racine = new NoeudDame(damierCopie);
 		racine.setProfondeur(0);
+		genererArbreParNoeud(profondeurArbre,racine,peutMangerEnArriere);
+		return new Arbre(profondeurArbre,racine);
+	}
+	
+	private void genererArbreParNoeud(int profondeurArbre,NoeudDame noeud,boolean peutMangerEnArriere) throws CloneNotSupportedException {
+	//On travaille avec un copie du tableau de pièce pour ne pas changer les valeurs du vrai tableau
+		Damier damierCopie = (Damier)noeud.getValeur().clone();
+		Couleur couleurPiece=Couleur.Blanc;	//couleur random juste pour initialiser la variable
+		if (noeud.getProfondeur()%2==0) {
+			couleurPiece = this.getCouleur();
+		}else {
+			couleurPiece = this.getCouleur().inverser(this.getCouleur());
+		}
+		TableauPiece piecesTemp = new TableauPiece(damierCopie,damierCopie.getTaille(),couleurPiece);
 		
 		//affectation de toutes les pièces
 		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
-			if (this.getPieces(i)==null) {
-				piecesTemp.setPiece(null,i);
+			if (couleurPiece==Couleur.Blanc) {
+				if (damierCopie.getPiecesBlanches().getPiece(i)==null) {
+					piecesTemp.setPiece(null,i);
+				}else {
+					piecesTemp.setPiece((Piece) damierCopie.getPiecesBlanches().getPiece(i).clone(), i);
+				}
 			}else {
-				piecesTemp.setPiece((Piece) this.getPieces(i).clone(), i);
+				if (damierCopie.getPiecesNoires().getPiece(i)==null) {
+					piecesTemp.setPiece(null,i);
+				}else {
+					piecesTemp.setPiece((Piece) damierCopie.getPiecesNoires().getPiece(i).clone(), i);
+				}
+			}
+			
+		}
+		
+		
+		
+		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
+			if (piecesTemp.getPiece(i)!=null) {
+				this.genererArbreParPiece(profondeurArbre,noeud,piecesTemp,i,damierCopie,null,true, false,peutMangerEnArriere);
 			}
 		}
 		
-	
-		for (int i=0;i<piecesTemp.getTailleTabPiece();i++) {
-			if (piecesTemp.getPiece(i)!=null) {				
-				this.genererArbreParPiece(racine,piecesTemp,i,damierCopie,null,true, false,peutMangerEnArriere);
-			}
-		}
-		Arbre res = new Arbre(profondeur,racine);
-		return res;
+		
 	}
 	
-	private void genererArbreParPiece(NoeudDame racine,TableauPiece piecesTemp,int i, Damier damierCopie,ArrayList<Coup> listeDeCoordonnees,boolean premierCoup,boolean sautMultiple,boolean peutMangerEnArriere) throws CloneNotSupportedException {
+	private void genererArbreParPiece(int profondeurArbre,NoeudDame noeud,TableauPiece piecesTemp,int i, Damier damierCopie,ArrayList<Coup> listeDeCoordonnees,boolean premierCoup,boolean sautMultiple,boolean peutMangerEnArriere) throws CloneNotSupportedException {
 		boolean premierCoupCopie=premierCoup;
 		if (sautMultiple) {
 			damierCopie.getCase(piecesTemp.getPiece(i).getC().X(),piecesTemp.getPiece(i).getC().Y()).setSaut(false);
@@ -169,7 +190,11 @@ public class Ordi extends Joueur {
 
 		if ((sautMultiple)||(premierCoupCopie)){
 			
+			Damier tmp = piecesTemp.getPiece(i).getDamier();
+			piecesTemp.getPiece(i).setDamier(damierCopie);
 			Coordonnees[] listeDeCoupPossible = this.ListeDesCoupsPossibles(piecesTemp.getPiece(i), peutMangerEnArriere,sautMultiple);
+			piecesTemp.getPiece(i).setDamier(tmp);
+			
 			int indice=0;
 			while (listeDeCoupPossible[indice]!=null) {
 				
@@ -177,9 +202,9 @@ public class Ordi extends Joueur {
 				TableauPiece piecesIndices = null;
 				
 				damierIndice = (Damier)damierCopie.clone();
-				damierIndice.setName(""+racine.getSuccesseurs().size());
+				damierIndice.setName(noeud.getProfondeur()+1+"-"+noeud.getSuccesseurs().size());
 				piecesIndices = (TableauPiece)piecesTemp.clone();
-				if (this.getCouleur()==Couleur.Blanc) {
+				if (piecesIndices.getCouleur()==Couleur.Blanc) {
 					damierIndice.setPiecesBlanches(piecesIndices);
 				}else {
 					damierIndice.setPiecesNoires(piecesIndices);
@@ -198,7 +223,7 @@ public class Ordi extends Joueur {
 				boolean pion=(damierIndice.getPiece(piecesIndices.getPiece(i).getC().X(),piecesIndices.getPiece(i).getC().Y()) instanceof Pion);
 				boolean b=false;
 				boolean tourBlanc=false;
-				if (this.getCouleur()==Couleur.Blanc) {
+				if (piecesIndices.getCouleur()==Couleur.Blanc) {
 					tourBlanc=true;
 				}
 				
@@ -222,23 +247,26 @@ public class Ordi extends Joueur {
 						b = damierIndice.getCase(piecesIndices.getPiece(i).getC().X(),piecesIndices.getPiece(i).getC().Y()).getPiece().sautPossible(tourBlanc,peutMangerEnArriere,true);		//si b=true alors le joueur peut continuer à sauter
 					}
 				}
+			
 				
-				if (this.getCouleur()==Couleur.Blanc) {
-					damierIndice.setPiecesBlanches(piecesIndices);
-				}else {
-					damierIndice.setPiecesNoires(piecesIndices);
-				}			
 				Piece pieceCopie = (Piece) piecesIndices.getPiece(i).clone();
 				if (b) {
 					listeDeCoordonneesIndices.get(listeDeCoordonneesIndices.size()-1).setPieceApresD(pieceCopie);
 					listeDeCoordonneesIndices.add(new Coup(pieceCopie,null));
-					this.genererArbreParPiece(racine, piecesIndices, i, damierIndice,listeDeCoordonneesIndices,false, true, peutMangerEnArriere);
+					this.genererArbreParPiece(profondeurArbre,noeud, piecesIndices, i, damierIndice,listeDeCoordonneesIndices,false, true, peutMangerEnArriere);
 					
 				}else {
 					damierIndice.getCase(piecesIndices.getPiece(i).getC().X(), piecesIndices.getPiece(i).getC().Y()).setSaut(false);
 					listeDeCoordonneesIndices.get(listeDeCoordonneesIndices.size()-1).setPieceApresD(pieceCopie);
 					NoeudDame nouveauNoeud = new NoeudDame(damierIndice,listeDeCoordonneesIndices);
-					racine.ajouterSuccesseur(nouveauNoeud);
+					
+					noeud.ajouterSuccesseur(nouveauNoeud);
+					
+					if (profondeurArbre!=nouveauNoeud.getProfondeur()) {
+						genererArbreParNoeud(profondeurArbre,nouveauNoeud,peutMangerEnArriere);				
+					}
+					
+					
 				}
 				indice++;
 			}
@@ -274,6 +302,7 @@ public class Ordi extends Joueur {
 				}
 			}
 			else {
+				System.out.println("wow");
 				res.setValeur(100000);
 				for(int j=0;j<noeud.getSuccesseurs().size();j++){
 					res.setValeur(min(res.getValeur(), minMax(noeud.getSuccesseurs(j),profondeurArbre,!tourBlanc,peutMangerEnArriere,obligerLesSauts).getValeur()));

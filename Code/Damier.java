@@ -161,6 +161,7 @@ public class Damier extends JPanel implements Cloneable{
 	           TableauPiece PiecesNoiresTmp = (TableauPiece) this.PiecesNoires.clone();
 	           tmp.setPiecesBlanches(PiecesBlanchesTmp);
 	           tmp.setPiecesNoires(PiecesNoiresTmp);
+	           
 	           return tmp;
 	        }
 	        catch (CloneNotSupportedException e)
@@ -170,7 +171,7 @@ public class Damier extends JPanel implements Cloneable{
 	
 	public void paintComponent(Graphics g) {
 	//cases
-		boolean afficherAvecCases=true;
+		boolean afficherAvecCases=false;
 		if (afficherAvecCases){
 			for (int i=0; i<taille; i++) {
 				for (int j=0; j<taille; j++) {

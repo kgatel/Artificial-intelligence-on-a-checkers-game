@@ -18,6 +18,7 @@ public class Lanceur extends JFrame{
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		int typeDePartie=0;
+		int difficulte=0;
 		Joueur j1 = null;
 		Joueur j2 = null;
 		int taille=0;
@@ -68,9 +69,10 @@ public class Lanceur extends JFrame{
 				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
 			}	
 			
+			difficulte=2;
 			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
-			peutMangerEnArriere=true;
-			obligerLesSauts=true;
+			peutMangerEnArriere=false;
+			obligerLesSauts=false;
 			
 		}
 //fin menu
@@ -102,13 +104,13 @@ public class Lanceur extends JFrame{
 //Début du jeu
 		boolean partieTerminee=false;
 		boolean tourBlanc=true; 	//vrai quand le tour est au joueur 1
-		
 		while (!partieTerminee) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j1).tourOrdi(tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						System.out.println("wow");
+						((Ordi)j1).tourOrdi(difficulte,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -139,7 +141,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j2 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j2).tourOrdi(tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						((Ordi)j2).tourOrdi(difficulte,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -185,6 +187,7 @@ public class Lanceur extends JFrame{
 		f.removeMouseListener(ecouteurDeSouris);
 //fin	
 	    f.dispose();
+	    attendre(200);
 		System.out.println("Fin.");
 	}
 	
