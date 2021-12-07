@@ -190,10 +190,8 @@ public class Ordi extends Joueur {
 
 		if ((sautMultiple)||(premierCoupCopie)){
 			
-			Damier tmp = piecesTemp.getPiece(i).getDamier();
 			piecesTemp.getPiece(i).setDamier(damierCopie);
 			Coordonnees[] listeDeCoupPossible = this.ListeDesCoupsPossibles(piecesTemp.getPiece(i), peutMangerEnArriere,sautMultiple);
-			piecesTemp.getPiece(i).setDamier(tmp);
 			
 			int indice=0;
 			while (listeDeCoupPossible[indice]!=null) {

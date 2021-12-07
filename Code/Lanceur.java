@@ -54,7 +54,7 @@ public class Lanceur extends JFrame{
 			obligerLesSauts=m.obligerLesSauts();
 			
 		}else {
-			typeDePartie=1;
+			typeDePartie=2;
 			
 			if (typeDePartie==1) {	//J1 vs J2
 				j1 = new Humain(Couleur.Blanc,"Pascal");
