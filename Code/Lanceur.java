@@ -54,7 +54,7 @@ public class Lanceur extends JFrame{
 			obligerLesSauts=m.obligerLesSauts();
 			
 		}else {
-			typeDePartie=2;
+			typeDePartie=1;
 			
 			if (typeDePartie==1) {	//J1 vs J2
 				j1 = new Humain(Couleur.Blanc,"Pascal");
@@ -69,7 +69,7 @@ public class Lanceur extends JFrame{
 				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
 			}	
 			
-			difficulte=2;
+			difficulte=1;
 			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
 			peutMangerEnArriere=false;
 			obligerLesSauts=false;
@@ -109,7 +109,6 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						System.out.println("wow");
 						((Ordi)j1).tourOrdi(difficulte,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {

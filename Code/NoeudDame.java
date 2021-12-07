@@ -133,7 +133,7 @@ public class NoeudDame extends Noeud{
 			
 		
 		//faire aussi en cas de sauts multiples
-		System.out.println(tmp);
+		//System.out.println(tmp);
 	return(tmp);
 	}
 
