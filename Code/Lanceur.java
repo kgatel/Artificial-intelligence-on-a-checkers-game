@@ -18,7 +18,7 @@ public class Lanceur extends JFrame{
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		int typeDePartie=0;
-		int difficulte=0;
+		int difficulte=-4;
 		Joueur j1 = null;
 		Joueur j2 = null;
 		int taille=0;

@@ -34,4 +34,5 @@ public class Resultat_minMax {
 		this.valeur = valeur;
 	}
 	
+	
 }
