@@ -68,7 +68,7 @@ public class Ordi extends Joueur {
 			Arbre arbre = creerArbre(profondeurArbre,peutMangerEnArriere);
 			ArrayList<Coup> meilleurCoup = algoMinMax(arbre,tourBlanc,peutMangerEnArriere,obligerLesSauts) ;
 			int indice=0;
-			System.out.println(meilleurCoup==null);
+			//System.out.println(meilleurCoup==null);
 			this.Ajoue(meilleurCoup.get(0).getPieceAvantD().getC().X(), meilleurCoup.get(0).getPieceAvantD().getC().Y(), tourBlanc, peutMangerEnArriere, obligerLesSauts);
 			while (indice<meilleurCoup.size()) {
 				this.Ajoue(meilleurCoup.get(indice).getPieceApresD().getC().X(), meilleurCoup.get(indice).getPieceApresD().getC().Y(), tourBlanc, peutMangerEnArriere, obligerLesSauts);
@@ -329,7 +329,7 @@ public class Ordi extends Joueur {
 		Resultat_minMax res = new Resultat_minMax() ;
 		
 		if (feuille(noeud,profondeurArbre)) {
-			res.setValeur(noeud.Heuristique(peutMangerEnArriere,obligerLesSauts));
+			res.setValeur(noeud.TotalHeuristique( peutMangerEnArriere, obligerLesSauts, noeud.getValeur().getPiecesBlanches(),  noeud.getValeur().getPiecesNoires()));
 		}
 		else {
 			if (noeud.getProfondeur()%2==0) { //Quand on est à une profondeur paire on cherche à avoir le max des fils

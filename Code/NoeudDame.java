@@ -89,20 +89,94 @@ public class NoeudDame extends Noeud{
 		
 		if (tourBlanc){
 			for (int j=0; j<PiecesBlanches.getTailleTabPiece(); j++) {
-					tmp=+Heuristique(peutMangerEnArriere,obligerLesSauts);
+					tmp=+Heuristique(PiecesBlanches.getPiece(j),peutMangerEnArriere,obligerLesSauts);
 				//System.out.println(tmp);	
 			}
 		} else {
 
 			for (int j=0; j<PiecesNoires.getTailleTabPiece(); j++) {
-				tmp=+Heuristique(peutMangerEnArriere,obligerLesSauts);
+				tmp=+Heuristique(PiecesNoires.getPiece(j),peutMangerEnArriere,obligerLesSauts);
 				//System.out.println(tmp);	
 			}
 		}
 	return (tmp);
 	}
 	
-	public int Heuristique(boolean peutMangerEnArriere,boolean obligerLesSauts) {
+	public int Heuristique(Piece Piecebougee, boolean peutMangerEnArriere,boolean obligerLesSauts) {
+		
+		//donne un score entier au coup réalisé
+		int tmp=0;
+		int x2=Piecebougee.getC().X();
+		int y2=Piecebougee.getC().Y();
+		
+		boolean tourBlanc;
+		if (Piecebougee.getCouleur()==Couleur.Blanc) {
+			tourBlanc=true;
+		}else {
+			tourBlanc=false;
+		}
+// faire une dame en distinguant si pièce noire ou blanc
+
+		if (tourBlanc){
+			if ((y2== 0)&&(Piecebougee instanceof Pion)){	
+			//if (listeDeCoups.get(0).getPieceAvantD() instanceof Reine)
+				tmp=+25;
+
+			}
+		} else {
+			if ((y2== valeur.getTaille()-1)&&(Piecebougee instanceof Pion)){	
+				tmp=+25;
+
+			}
+		}
+
+
+//position imprenable d'une dame 
+		if (Piecebougee instanceof Reine){
+			if ((y2== 0)||(y2== valeur.getTaille()-1)||(x2== 0)||(x2== valeur.getTaille()-1))
+
+				tmp=+4;
+//position imprenable d'un pion
+		}else{ 
+			
+			if (tourBlanc){
+				if ((x2== 0)||(x2== valeur.getTaille()-1)||(y2== valeur.getTaille()-1)){	
+
+				tmp=+4;
+			}
+			} else {
+				if ((x2== 0)||(x2== valeur.getTaille()-1)||(y2== 0)){	
+				tmp=+4;
+				}
+			}			
+		}
+//position de se faire manger
+
+			if (Piecebougee.peutEtreMange(tourBlanc, valeur.getTaille(), peutMangerEnArriere,obligerLesSauts)){  //ça me propose être manger c'est normal ? ça fait bien les choses ?
+				tmp=-25;
+			}
+
+
+//position de manger 
+			if (Piecebougee.sautPossible(tourBlanc,peutMangerEnArriere, true) ){  //ça me propose être manger c'est normal ? ça fait bien les choses ?
+				tmp=+100;
+			}
+
+	return(tmp);
+}
+	
+
+	private int abs(int a) {
+		if (a>=0) {
+			return a;
+		}else {
+			return -a;
+		}
+	}
+
+
+
+	/*public int Heuristique(boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		
 		//donne un score entier au coup réalisé
 		int tmp=0;
@@ -186,7 +260,9 @@ public class NoeudDame extends Noeud{
 		}else {
 			return -a;
 		}
-	}
+	}*/
+
+
 
 
 }
