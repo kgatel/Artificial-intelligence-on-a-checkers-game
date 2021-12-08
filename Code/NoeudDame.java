@@ -89,16 +89,23 @@ public class NoeudDame extends Noeud{
 		
 		if (tourBlanc){
 			for (int j=0; j<PiecesBlanches.getTailleTabPiece(); j++) {
-					tmp=+Heuristique(PiecesBlanches.getPiece(j),peutMangerEnArriere,obligerLesSauts);
-				//System.out.println(tmp);	
+					if (PiecesBlanches.getPiece(j)!=null) {
+						tmp=+Heuristique(PiecesBlanches.getPiece(j),peutMangerEnArriere,obligerLesSauts);
+						System.out.println(PiecesBlanches.getPiece(j).getC()+" : "+tmp);
+						//System.out.println(tmp);	
+					}
 			}
 		} else {
 
 			for (int j=0; j<PiecesNoires.getTailleTabPiece(); j++) {
-				tmp=+Heuristique(PiecesNoires.getPiece(j),peutMangerEnArriere,obligerLesSauts);
-				//System.out.println(tmp);	
+				if (PiecesNoires.getPiece(j)!=null) {
+					tmp=+Heuristique(PiecesNoires.getPiece(j),peutMangerEnArriere,obligerLesSauts);
+					System.out.println(PiecesNoires.getPiece(j).getC()+" : "+tmp);
+					//System.out.println(tmp);	
+				}
 			}
 		}
+	
 	return (tmp);
 	}
 	

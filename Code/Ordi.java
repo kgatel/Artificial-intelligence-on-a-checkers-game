@@ -12,7 +12,7 @@ public class Ordi extends Joueur {
 		//int profondeurArbre = difficulte;
 		int profondeurArbre = 1;		
 		
-		boolean afficherMeilleurCoup = false;
+		boolean afficherMeilleurCoup = true;
 		boolean afficherLesDamiers = false;
 		boolean afficherLesCoups = false;
 		int profondeurAffichage = 1;		//pas plus de 5 sinon ça prend beauuucoup de temps
@@ -288,12 +288,12 @@ public class Ordi extends Joueur {
 		}
 	}
 	
-	/*private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean tourBlanc,boolean peutMangerEnArriere,boolean obligerLesSauts) {
+	private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean tourBlanc,boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		Resultat_minMax res=new Resultat_minMax();
 		res.setValeur(0); 	//val=0
 
 		if (noeud.getProfondeur()==profondeurArbre) {
-			res.setValeur(noeud.Heuristique(peutMangerEnArriere,obligerLesSauts));
+			res.setValeur(noeud.TotalHeuristique( peutMangerEnArriere, obligerLesSauts, noeud.getValeur().getPiecesBlanches(),  noeud.getValeur().getPiecesNoires()));
 		}
 		else {
 			if (  ((tourBlanc)&&(this.getCouleur()==Couleur.Blanc)) || ((!tourBlanc)&&(this.getCouleur()==Couleur.Noir)) ) {          //faudra remplacer si c'est l'IA qui est en train de jouer ou le joueur
@@ -319,13 +319,13 @@ public class Ordi extends Joueur {
 			}
 		}
 		return res;
-	} */
+	} 
 	
 	private ArrayList<Coup> algoMinMax(Arbre arbre, boolean tourBlanc,boolean peutMangerEnArriere,boolean obligerLesSauts){ //besoin de la profondeur, noeud, créer la classe feuille 
-		return minMax(arbre.getRacine(),arbre.getProfondeur(),peutMangerEnArriere,obligerLesSauts).getListeDeCoup();
+		return minMax(arbre.getRacine(),arbre.getProfondeur(),tourBlanc,peutMangerEnArriere,obligerLesSauts).getListeDeCoup();
 	}
 	
-	private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean peutMangerEnArriere,boolean obligerLesSauts) {
+	/*private Resultat_minMax minMax(NoeudDame noeud,int profondeurArbre,boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		Resultat_minMax res = new Resultat_minMax() ;
 		
 		if (feuille(noeud,profondeurArbre)) {
@@ -378,7 +378,7 @@ public class Ordi extends Joueur {
 			}
 		}
 		return res;
-	}
+	}*/
 	
 	private int max(int i,int j) {
 		if (i>j) {
