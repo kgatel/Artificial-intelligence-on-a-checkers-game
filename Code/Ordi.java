@@ -10,7 +10,7 @@ public class Ordi extends Joueur {
 	public void tourOrdi(int difficulte,boolean tourBlanc,boolean peutMangerEnArriere, boolean obligerLesSauts) throws CloneNotSupportedException {
 		
 		//int profondeurArbre = difficulte;
-		int profondeurArbre = 3;		
+		int profondeurArbre = 1;		
 		
 		boolean afficherMeilleurCoup = false;
 		boolean afficherLesDamiers = false;

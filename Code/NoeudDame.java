@@ -77,6 +77,30 @@ public class NoeudDame extends Noeud{
 		successeurs.clear();
 	}
 	
+	public int TotalHeuristique(boolean peutMangerEnArriere,boolean obligerLesSauts, TableauPiece PiecesBlanches, TableauPiece PiecesNoires){
+		int tmp=0;
+		
+		boolean tourBlanc;
+		if (listeDeCoups.get(0).getPieceAvantD().getCouleur()==Couleur.Blanc) {
+			tourBlanc=true;
+		}else {
+			tourBlanc=false;
+		}
+		
+		if (tourBlanc){
+			for (int j=0; j<PiecesBlanches.getTailleTabPiece(); j++) {
+					tmp=+Heuristique(peutMangerEnArriere,obligerLesSauts);
+				//System.out.println(tmp);	
+			}
+		} else {
+
+			for (int j=0; j<PiecesNoires.getTailleTabPiece(); j++) {
+				tmp=+Heuristique(peutMangerEnArriere,obligerLesSauts);
+				//System.out.println(tmp);	
+			}
+		}
+	return (tmp);
+	}
 	
 	public int Heuristique(boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		
@@ -86,43 +110,65 @@ public class NoeudDame extends Noeud{
 		int x2=listeDeCoups.get(0).getPieceApresD().getC().X();
 		int y1=listeDeCoups.get(0).getPieceAvantD().getC().Y();
 		int y2=listeDeCoups.get(0).getPieceApresD().getC().Y();
+		
 		boolean tourBlanc;
-			if (listeDeCoups.get(0).getPieceAvantD().getCouleur()==Couleur.Blanc) {
-				tourBlanc=true;
-			}else {
-				tourBlanc=false;
-			}
-		
-		//faire une dame
-		if ((x2== 0)|(listeDeCoups.get(0).getPieceAvantD() instanceof Pion)){	
-			tmp=+26;
+		if (listeDeCoups.get(0).getPieceAvantD().getCouleur()==Couleur.Blanc) {
+			tourBlanc=true;
+		}else {
+			tourBlanc=false;
 		}
-		//perdre un pion
-		
-		//position imprenable
-		if (((x2== 0)|(listeDeCoups.get(0).getPieceAvantD() instanceof Reine))&&(y2==0)&&(y2==valeur.getTaille())){
-			tmp=+10;
-		 }
-		
-		//est en danger
-		if (listeDeCoups.get(0).getPieceApresD().peutEtreMange(tourBlanc, valeur.getTaille(), peutMangerEnArriere,obligerLesSauts)){  //ça me propose être manger c'est normal ? ça fait bien les choses ?
-			tmp=+15;
-			}else{
-				//if ((valeur.getCase(x2-1,y1-1).getPiece() == null)|( valeur.getCase(x2-1,y1-1).getPiece()==null)){
-				//tmp=+3;
-				//}
+// faire une dame en distinguant si pièce noire ou blanc
+
+		if (tourBlanc){
+			if ((y2== 0)&&(listeDeCoups.get(0).getPieceAvantD() instanceof Pion)){	
+				tmp=+25;
+
 			}
-		
-		//position neutre qui gagne quand même du terrain donc positif
-		
-		
-		
-		
-		//if (listeDeCoups.get(0).getPieceAvantD().sautPossible(tourBlanc, peutMangerEnArriere, true)&&(listeDeCoups.get(0).getPieceApresD().getC())) {
-		
-		//pour manger
-	//	if (listeDeCoups.get(0).getPieceAvantD().sautPossible(tourBlanc, peutMangerEnArriere, true)) {
+		} else {
+			if ((y2== valeur.getTaille())&&(listeDeCoups.get(0).getPieceAvantD() instanceof Pion)){	
+				tmp=+25;
+
+			}
+		}
+
+
+//position imprenable d'une dame 
+		if (listeDeCoups.get(0).getPieceAvantD() instanceof Reine){
+			if ((y2== 0)||(y2== valeur.getTaille())||(x2== 0)||(x2== valeur.getTaille()))
+
+				tmp=+4;
+//position imprenable d'un pion
+		}else{ 
 			
+			if (tourBlanc){
+				if ((x2== 0)||(x2== valeur.getTaille())||(y2== valeur.getTaille())){	
+
+				tmp=+4;
+			}
+			} else {
+				if ((x2== 0)||(x2== valeur.getTaille())||(y2== 0)){	
+				tmp=+4;
+				}
+			}			
+		}
+//position de se faire manger
+
+			if (listeDeCoups.get(0).getPieceApresD().peutEtreMange(tourBlanc, valeur.getTaille(), peutMangerEnArriere,obligerLesSauts)){  //ça me propose être manger c'est normal ? ça fait bien les choses ?
+				tmp=-25;
+			}
+
+		
+	boolean IAordi=false;
+//position de manger 
+			if (listeDeCoups.get(0).getPieceApresD().sautPossible(tourBlanc,peutMangerEnArriere, IAordi) ){  //ça me propose être manger c'est normal ? ça fait bien les choses ?
+				tmp=+3000;
+			}
+
+		
+		
+		
+		
+					
 			if (abs(x1-x2)>=2) {
 				if (obligerLesSauts) {
 					tmp=+(listeDeCoups.size())*50000;
@@ -130,13 +176,8 @@ public class NoeudDame extends Noeud{
 					tmp=+(listeDeCoups.size())*5;
 				}
 			}
-			
-		
-		//faire aussi en cas de sauts multiples
-		//System.out.println(tmp);
 	return(tmp);
-	}
-
+}
 	
 
 	private int abs(int a) {
