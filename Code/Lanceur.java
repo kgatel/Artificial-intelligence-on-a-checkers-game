@@ -18,7 +18,8 @@ public class Lanceur extends JFrame{
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		int typeDePartie=0;
-		int difficulte=-4;
+		int difficulteOrdi1=2;
+		int difficulteOrdi2=4;
 		Joueur j1 = null;
 		Joueur j2 = null;
 		int taille=0;
@@ -49,19 +50,31 @@ public class Lanceur extends JFrame{
 				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
 			}
 			
+			if (typeDePartie==2) {
+				difficulteOrdi1=m.choixNiveauOrdi();
+				difficulteOrdi2=difficulteOrdi1;
+			}
+			
+			if (typeDePartie==3) {
+				System.out.println("Ordi1");
+				difficulteOrdi1=m.choixNiveauOrdi();
+				System.out.println("Ordi2");
+				difficulteOrdi2=m.choixNiveauOrdi();
+			}
+			
 			taille=m.definirTaille();
 			peutMangerEnArriere=m.peutMangerEnArriere();
 			obligerLesSauts=m.obligerLesSauts();
 			
 		}else {
-			typeDePartie=2;
+			typeDePartie=3;
 			
 			if (typeDePartie==1) {	//J1 vs J2
-				j1 = new Humain(Couleur.Blanc,"Pascal");
-				j2 = new Humain(Couleur.Noir,"Obispo");
+				j1 = new Humain(Couleur.Blanc,"Joueur1");
+				j2 = new Humain(Couleur.Noir,"Joueur2");
 			}
 			if (typeDePartie==2) {	//J1 vs ordi
-				j1 = new Humain(Couleur.Blanc,"Pascal");
+				j1 = new Humain(Couleur.Blanc,"Joueur1");
 				j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
 			}
 			if (typeDePartie==3) {	//ordi vs ordi
@@ -69,10 +82,9 @@ public class Lanceur extends JFrame{
 				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
 			}	
 			
-			difficulte=1;
 			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
 			peutMangerEnArriere=false;
-			obligerLesSauts=false;
+			obligerLesSauts=true;
 			
 		}
 //fin menu
@@ -109,7 +121,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j1).tourOrdi(difficulte,tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						((Ordi)j1).tourOrdi(difficulteOrdi1,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -140,7 +152,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j2 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j2).tourOrdi(difficulte,tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						((Ordi)j2).tourOrdi(difficulteOrdi2,tourBlanc,peutMangerEnArriere,obligerLesSauts);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);

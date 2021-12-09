@@ -81,7 +81,7 @@ public class Joueur {
 				
 				if (damier.getCase(x,y).getPiece()!=null) {
 					//damier.afficherDeplacement(x,y);
-					damier.getCase(x,y).getPiece().afficherDeplacement(tourBlanc,peutMangerEnArriere);
+					damier.getCase(x,y).getPiece().afficherDeplacement(tourBlanc,peutMangerEnArriere,obligerLesSauts,false);
 				}
 				
 				
@@ -114,7 +114,6 @@ public class Joueur {
 					
 					boolean pion=(damier.getPiece(ii,jj) instanceof Pion);
 					
-					//damier.deplacer(ii,jj,x,y);   //selection de la case où la pièce veut bouger
 					this.pieces.deplacer(ii, jj, x, y, tourBlanc);
 					
 					Coordonnees c = this.getPieces().pieceMangeeLorsDunSaut(x,y,ii,jj,tourBlanc);	//savoir s'il y a eu une pièce mangée ou non

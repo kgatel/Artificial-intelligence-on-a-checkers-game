@@ -210,7 +210,11 @@ public class TableauPiece implements Cloneable{
 	        	   if (this.getPiece(i)==null) {
 	        		   pieceTmp[i]=null;
 	        	   }else {
-	        		   pieceTmp[i]=new Piece(this.couleur,this.getPiece(i).getC(),this.damier);
+	        		   if (this.getPiece(i) instanceof Pion) {
+	        			   pieceTmp[i]=new Pion(this.couleur,this.getPiece(i).getC(),this.damier);
+	        		   }else{
+	        			   pieceTmp[i]=new Reine(this.couleur,this.getPiece(i).getC(),this.damier);
+	        		   }
 	        	   }
 	        	   
 	           }
