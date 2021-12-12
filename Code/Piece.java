@@ -60,7 +60,7 @@ public class Piece implements Cloneable{
 	//Méthodes
 	
 	//rajouter l'option peutMnagerEnArriere
-	public boolean peutEtreMange(boolean tourBlanc,int taille,boolean peutMangerEnArriere, boolean obligerLesSauts) {
+	public boolean peutEtreMange(boolean tourBlanc,int taille,boolean peutMangerEnArriere) {
 		boolean b = false;
 		boolean pionRencontre=false;
 		int k=1;
@@ -73,7 +73,7 @@ public class Piece implements Cloneable{
 			}
 			k--;
 			if (damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece()!=null){	//mangé par un pion
-				if (  (((damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!obligerLesSauts)) || ((damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+				if (  (((damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(peutMangerEnArriere)) || ((damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
 					if (damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
@@ -97,7 +97,7 @@ public class Piece implements Cloneable{
 			}
 			k--;
 			if (damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece()!=null){	//mangé par un pion
-				if (  (((damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(!obligerLesSauts)) || ((damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
+				if (  (((damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc))&&(peutMangerEnArriere)) || ((damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc)) ) {
 					if (damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece()==null) {	//espace libre
 						b=true;
 					}
@@ -121,7 +121,7 @@ public class Piece implements Cloneable{
 			}
 			k--;
 			if (damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece()!=null){	//mangé par un pion
-				if (  ((damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!obligerLesSauts)) ) {
+				if (  ((damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[this.c.X()-1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(peutMangerEnArriere)) ) {
 					if (damier.getCases()[this.c.X()+1][this.c.Y()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
@@ -145,7 +145,7 @@ public class Piece implements Cloneable{
 			}
 			k--;
 			if (damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece()!=null){	//mangé par un pion
-				if (  ((damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(!obligerLesSauts)) ) {
+				if (  ((damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Blanc)&&(!tourBlanc)) || (((damier.getCases()[this.c.X()+1][this.c.Y()+1].getPiece().getCouleur()==Couleur.Noir)&&(tourBlanc))&&(peutMangerEnArriere)) ) {
 					if (damier.getCases()[this.c.X()-1][this.c.Y()-1].getPiece()==null) {	//espace libre
 						b=true;
 					}
@@ -340,7 +340,7 @@ public class Piece implements Cloneable{
 			if (this.sautPossible(tourBlanc, peutMangerEnArriere, true)) {
 				obligationDeSauter=true;
 			}
-		}			
+		}
 			
 			
 		if (damier.getCases()[i][j].getPiece()!=null) {  

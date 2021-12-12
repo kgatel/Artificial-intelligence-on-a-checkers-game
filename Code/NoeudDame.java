@@ -2,28 +2,49 @@ import java.util.ArrayList;
 
 public class NoeudDame extends Noeud{
 
+	
 	private Damier valeur;
 	private ArrayList<NoeudDame> successeurs;
 	private ArrayList<Coup> listeDeCoups;
 	private int profondeur;
+	private boolean peutMangerEnArriere,obligerLesSauts;
 	
 
 //Constructeur
-	public NoeudDame(Damier damier,boolean obligerLesSauts) {
+	public NoeudDame(Damier damier,boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		this.valeur=damier;
 		this.listeDeCoups=null;
 		this.profondeur=-1;
 		this.successeurs=new ArrayList<NoeudDame>();
+		this.peutMangerEnArriere=peutMangerEnArriere;
+		this.obligerLesSauts=obligerLesSauts;
 	}
 	
-	public NoeudDame(Damier damier, ArrayList<Coup> listeDeCoups,boolean obligerLesSauts) {
+	public NoeudDame(Damier damier, ArrayList<Coup> listeDeCoups,boolean peutMangerEnArriere,boolean obligerLesSauts) {
 		this.valeur=damier;
 		this.profondeur=-1;
 		this.listeDeCoups=listeDeCoups;
 		this.successeurs=new ArrayList<NoeudDame>();
+		this.peutMangerEnArriere=peutMangerEnArriere;
+		this.obligerLesSauts=obligerLesSauts;
 	}
 
 //Accesseurs
+	public boolean getPeutMangerEnArriere() {
+		return peutMangerEnArriere;
+	}
+
+	public void setPeutMangerEnArriere(boolean peutMangerEnArriere) {
+		this.peutMangerEnArriere = peutMangerEnArriere;
+	}
+
+	public boolean getObligerLesSauts() {
+		return obligerLesSauts;
+	}
+
+	public void setObligerLesSauts(boolean obligerLesSauts) {
+		this.obligerLesSauts = obligerLesSauts;
+	}	
 	
 	public ArrayList<Coup> getListeDeCoups() {
 		return listeDeCoups;
@@ -109,7 +130,6 @@ public class NoeudDame extends Noeud{
 						//System.out.println("Position imprenable : "+pieceJoueur.getC());
 					}
 					
-					
 				}
 				
 				//points adversaires
@@ -133,10 +153,7 @@ public class NoeudDame extends Noeud{
 					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getValeur().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getValeur().getTaille()-1)) {
 						res-=2;
 					}
-					
-					
-					
-					
+										
 				}
 			}
 		}else {
@@ -163,10 +180,7 @@ public class NoeudDame extends Noeud{
 					if ((pieceJoueur.getC().X()==0)||(pieceJoueur.getC().X()==this.getValeur().getTaille()-1)||(pieceJoueur.getC().Y()==0)||(pieceJoueur.getC().Y()==this.getValeur().getTaille()-1)) {
 						res+=2;
 						//System.out.println("Position imprenable : "+pieceJoueur.getC());
-					}
-					
-					
-					
+					}					
 					
 				}
 				
@@ -191,9 +205,6 @@ public class NoeudDame extends Noeud{
 					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getValeur().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getValeur().getTaille()-1)) {
 						res-=2;
 					}
-					
-					
-					
 					
 				}
 			}

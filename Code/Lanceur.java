@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import javax.swing.JFrame;
 
 public class Lanceur extends JFrame{
@@ -17,37 +19,42 @@ public class Lanceur extends JFrame{
 	
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
-		int typeDePartie=0;
-		int difficulteOrdi1=2;
-		int difficulteOrdi2=4;
-		Joueur j1 = null;
-		Joueur j2 = null;
-		int taille=0;
+		//paramètres variables si pas de menu
+		int typeDePartie=2;
+		int difficulteOrdi1=1;
+		int difficulteOrdi2=2;
+		int taille=8;
 		boolean peutMangerEnArriere=false;
-		boolean obligerLesSauts=false;
+		boolean obligerLesSauts=true;
+		
+		
 		TableauPiece PiecesBlanches = null;
 		TableauPiece PiecesNoires = null;
 		Damier damier = null;
+		Joueur j1 = null;
+		Joueur j2 = null;
 		
 //Menu
-		boolean menu=false;		//savoir si on veut un menu ou non
+		boolean menu=true;		//savoir si on veut un menu ou non
 		
 		if (menu) {
-			Menu m = new Menu();
+			Scanner clavier = new Scanner(System.in);
+			
+			Menu m = new Menu(clavier);
 			
 			typeDePartie=m.typeDePartie();
 
 			if (typeDePartie==1) {	//J1 vs J2
-				j1 = new Humain(Couleur.Blanc,m.pseudoJoueur(1));
-				j2 = new Humain(Couleur.Noir,m.pseudoJoueur(2));
+				j1 = new Humain(Couleur.Blanc,m.pseudoJoueur(1),peutMangerEnArriere,obligerLesSauts);
+				j2 = new Humain(Couleur.Noir,m.pseudoJoueur(2),peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==2) {	//J1 vs ordi
-				j1 = new Joueur(Couleur.Blanc,m.pseudoJoueur(1));
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
+				j1 = new Joueur(Couleur.Blanc,m.pseudoJoueur(1),peutMangerEnArriere,obligerLesSauts);
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==3) {	//ordi vs ordi
-				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1");
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
+				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
 			}
 			
 			if (typeDePartie==2) {
@@ -66,25 +73,22 @@ public class Lanceur extends JFrame{
 			peutMangerEnArriere=m.peutMangerEnArriere();
 			obligerLesSauts=m.obligerLesSauts();
 			
+			clavier.close();
+			
 		}else {
-			typeDePartie=3;
 			
 			if (typeDePartie==1) {	//J1 vs J2
-				j1 = new Humain(Couleur.Blanc,"Joueur1");
-				j2 = new Humain(Couleur.Noir,"Joueur2");
+				j1 = new Humain(Couleur.Blanc,"Joueur1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new Humain(Couleur.Noir,"Joueur2",peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==2) {	//J1 vs ordi
-				j1 = new Humain(Couleur.Blanc,"Joueur1");
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur");
+				j1 = new Humain(Couleur.Blanc,"Joueur1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==3) {	//ordi vs ordi
-				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1");
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2");
+				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
 			}	
-			
-			taille=8;		 //taille du coté du plateau 6*6 ou 8*8 ou 10*10 ou 12*12
-			peutMangerEnArriere=false;
-			obligerLesSauts=true;
 			
 		}
 //fin menu
@@ -121,7 +125,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j1 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j1).tourOrdi(difficulteOrdi1,tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						((Ordi)j1).tourOrdi(difficulteOrdi1,tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -152,7 +156,7 @@ public class Lanceur extends JFrame{
 				while (!(damier.isTourFini())) {
 					if (j2 instanceof Ordi) {
 						attendre(250);
-						((Ordi)j2).tourOrdi(difficulteOrdi2,tourBlanc,peutMangerEnArriere,obligerLesSauts);
+						((Ordi)j2).tourOrdi(difficulteOrdi2,tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);

@@ -2,13 +2,15 @@ import java.util.Scanner;
 
 public class Menu {
 	
-	public Menu() {
+	private Scanner clavier;
+	
+	public Menu(Scanner clavier) {
+		this.clavier=clavier;
 	}
 
 	public int typeDePartie() {
 		int res=0;
 		String c="";
-		Scanner clavier = new Scanner(System.in);
 		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) ){
 			System.out.println("Choisissez votre type de partie : (a/b/c)");
 			System.out.println("a- J1 vs J2");
@@ -31,25 +33,23 @@ public class Menu {
 	
 	public int choixNiveauOrdi() {
 		String c="";
-		Scanner clavier = new Scanner(System.in);
-		while ( (!c.equals("0")) && (!c.equals("2")) && (!c.equals("4")) && (!c.equals("6")) && (!c.equals("8")) && (!c.equals("10"))){
-			System.out.println("Choisissez le niveau de l'ordi : (/10)");
-			System.out.println("0- Ordi simple");
-			System.out.println("2- facile");
-			System.out.println("4- intermédiaire");
-			System.out.println("6- difficile");
-			System.out.println("8- très difficile");
-			System.out.println("10- impossible");
+		while ( /*(!c.equals("0")) && */(!c.equals("2")) && (!c.equals("4")) && (!c.equals("6")) && (!c.equals("8")) && (!c.equals("10"))){
+			System.out.println("Choisissez le niveau de l'ordi : (/5)");
+			//System.out.println("0- Ordi simple");
+			System.out.println("1- facile");
+			System.out.println("2- intermédiaire");
+			System.out.println("3- difficile");
+			System.out.println("4- très difficile");
+			System.out.println("5- impossible");
 			c = clavier.nextLine();
 			System.out.println();
 		}
-		return Integer.parseInt(c)/2;
+		return Integer.parseInt(c);
 	}
 	
 	public int definirTaille() {
 		int res=0;
 		String c="";
-		Scanner clavier = new Scanner(System.in);
 		System.out.println();
 		while ( (!c.equals("a")) && (!c.equals("b")) && (!c.equals("c")) && (!c.equals("d")) ){
 			System.out.println("Quel taille de plateau voulez-vous jouer ? (a/b/c/d)");
@@ -78,7 +78,6 @@ public class Menu {
 	public boolean obligerLesSauts() {
 		boolean b=false;
 		String c="";
-		Scanner clavier = new Scanner(System.in);
 		while ( (!c.equals("o")) && (!c.equals("n")) ){
 			System.out.println("Voulez-vous rendre les sauts obligatoires ? (o/n)");
 			c = clavier.nextLine();
@@ -93,7 +92,6 @@ public class Menu {
 	public boolean peutMangerEnArriere() {
 		boolean b=false;
 		String c="";
-		Scanner clavier = new Scanner(System.in);
 		while ( (!c.equals("o")) && (!c.equals("n")) ){
 			System.out.println("Voulez-vous autoriser les sauts en arrière ? (o/n)");
 			c = clavier.nextLine();
@@ -107,7 +105,6 @@ public class Menu {
 	
 	public String pseudoJoueur(int numero) {
 		String c="";
-		Scanner clavier = new Scanner(System.in);
 		while (c.equals("")){
 			System.out.print("Pseudo joueur "+numero+" (Blanc) : ");
 			c = clavier.nextLine();

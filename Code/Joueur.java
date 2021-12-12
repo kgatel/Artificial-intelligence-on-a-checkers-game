@@ -1,19 +1,40 @@
 
 public class Joueur {
 
+
 	private String pseudo;
 	private Couleur couleur;
 	private Damier damier;  //tableau de cases
 	private TableauPiece pieces;
+	private boolean peutMangerEnArriere,obligerLesSauts;
 	
-	public Joueur(Couleur couleur, String pseudo) {
+	public Joueur(Couleur couleur, String pseudo, boolean peutMangerEnArriere, boolean obligerLesSauts) {
 		this.couleur=couleur;
 		this.pseudo=pseudo;
+		this.peutMangerEnArriere=peutMangerEnArriere;
+		this.obligerLesSauts=obligerLesSauts;
 		pieces = null;
 		damier=null;
 	}
 	
 	//getters and setters
+	
+	public boolean getPeutMangerEnArriere() {
+		return peutMangerEnArriere;
+	}
+
+	public void setPeutMangerEnArriere(boolean peutMangerEnArriere) {
+		this.peutMangerEnArriere = peutMangerEnArriere;
+	}
+
+	public boolean getObligerLesSauts() {
+		return obligerLesSauts;
+	}
+
+	public void setObligerLesSauts(boolean obligerLesSauts) {
+		this.obligerLesSauts = obligerLesSauts;
+	}
+	
 	public Damier getDamier() {
 		return damier;
 	}
@@ -145,7 +166,7 @@ public class Joueur {
 										if ( ((damier.getPiece(i,j).getCouleur()==Couleur.Blanc)&&(tourBlanc)) || ((damier.getPiece(i,j).getCouleur()==Couleur.Noir)&&(!(tourBlanc))) ) {
 											//if (damier.peutEtreMange(i,j)) {
 											Coordonnees coor = new Coordonnees(i,j);
-											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc,damier.getTaille(),peutMangerEnArriere,obligerLesSauts)) {
+											if (this.pieces.getPiece(this.pieces.trouverIndice(coor)).peutEtreMange(tourBlanc,damier.getTaille(),peutMangerEnArriere)) {
 												ilYaUnPionQuiPeutSauter=true;
 											}
 										}
