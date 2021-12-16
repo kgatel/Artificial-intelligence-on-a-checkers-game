@@ -33,7 +33,7 @@ public class Menu {
 	
 	public int choixNiveauOrdi() {
 		String c="";
-		while ( /*(!c.equals("0")) && */(!c.equals("2")) && (!c.equals("4")) && (!c.equals("6")) && (!c.equals("8")) && (!c.equals("10"))){
+		while ( /*(!c.equals("0")) && */(!c.equals("1")) && (!c.equals("2")) && (!c.equals("3")) && (!c.equals("4")) && (!c.equals("5"))){
 			System.out.println("Choisissez le niveau de l'ordi : (/5)");
 			//System.out.println("0- Ordi simple");
 			System.out.println("1- facile");

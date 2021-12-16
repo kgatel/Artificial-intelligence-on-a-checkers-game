@@ -23,7 +23,7 @@ public class Lanceur extends JFrame{
 		int typeDePartie=2;
 		int difficulteOrdi1=1;
 		int difficulteOrdi2=2;
-		int taille=8;
+		int taille=20;
 		boolean peutMangerEnArriere=false;
 		boolean obligerLesSauts=true;
 		
