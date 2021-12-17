@@ -23,7 +23,7 @@ public class Lanceur extends JFrame{
 		int typeDePartie=2;
 		int difficulteOrdi1=1;
 		int difficulteOrdi2=2;
-		int taille=20;
+		int taille=10;
 		boolean peutMangerEnArriere=false;
 		boolean obligerLesSauts=true;
 		
@@ -35,7 +35,7 @@ public class Lanceur extends JFrame{
 		Joueur j2 = null;
 		
 //Menu
-		boolean menu=true;		//savoir si on veut un menu ou non
+		boolean menu=false;		//savoir si on veut un menu ou non
 		
 		if (menu) {
 			Scanner clavier = new Scanner(System.in);
