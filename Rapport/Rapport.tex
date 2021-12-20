@@ -170,46 +170,110 @@ Les dames peuvent manger en arrière et se déplacer dans les quatres
 diagonales sur l'espace de plusieurs cases. 
 
 Nous avons réalisé notre code en java, langage que nous maitrisions
-d'avantage. Notre but va être de nous centrer sur la partie Algorithme
-Minimax et d'y incorporer si vous pouvons une amélioration de type
-alphaBeta.
+d'avantage. Nous allons d'abord donc brièvement présenter les classes qui concerne le jeu de dame principalement :
+
+\subsection{Case}
+
+La classe Case représente tout simplement une case du plateau du jeu de Dame. Elle possède donc des coordonnées, une couleur, une pièce qui peut être vide et plusieurs booléens qui ont un rôle dans l'implémentation et la partie graphique du jeu.
+  
+\subsection{Coordonnées}
+
+La classe Coordonnées possède deux entiers x,y qui représentent juste des coordonnées sur le plateau. Nous avons crée cette classe pour ne pas avoir à transporter deux variables à chaque fois.
+
+\subsection{Couleur}
+
+Cette classe sert juste à différencier la couleur d'une pièce ou d'une case
+
+\subsection{Damier}
+
+La classe Damier est la classe principale du jeu de Dame. Elle représente le plateau du jeu mais pas seulement. Il contient également le tableau des pièces du jeu, le tableau des cases du jeu, la taille du plateau ainsi que plusieurs booléen qui jouent un rôle dans les règles du jeu et son déroulement. Elle possède également la procédure d'affichage principale du jeu.
+
+\subsection{Joueur}
+
+La classe Joueur représente un joueur du jeu évidemment. Elle se décline en deux classes qui héritent de joueur ordi et humain. Elles ne servent qu'à différencier si le joueur est un ordinateur ou un utilisateur sur sa machine. On retrouve les procédure AJoue qui implémente un coup dans le jeu, ainsi que APerdu qui retourne si le joueur a perdu ou gagné la partie.
+
+\subsection{Lanceur}
+
+Cette classe constitue le Main de notre programme, il est possible d'y modifier certains paramètre de la partie manuellement, sinon nous utilisons une autre classe que nous allons voir pour laisser le joueur décider des règles.
+
+\subsection{Menu}
+
+La classe menu permet de laisser l'utilisateur choisir ses règles pour la partie. Elle consiste simplement en un menu à choix multiples que l'on récupère et que l'on transmet au main pour lancer la partie.
+
+\subsection{Piece}
+
+La classe pièce correspond à une pièce du jeu elle se décompose en deux classes qui héritent de celle-ci : Pion et Reine qui sont les deux différents types de pièces qu'on retrouve dans le jeu de dame. Dans le fonctionnement de notre jeu c'est au niveau de la pièce que l'on vérifie si elle peut être mangée, si elle peut manger une autre pièce ainsi qu'afficher les déplacements possibles de la pièce.
+
+\subsection{Souris}
+
+La classe souris est sert à récupérer les actions de la souris pour permettre au joueur d'utiliser une souris pour jouer au lieu du clavier. Elle permet de récupérer les coordonnées de la case sur laquelle le joueur clique. 
+
+\subsection{TableauPiece}
+
+La classe TableauPiece gère la liste des pièces du jeu d'un camp comme de l'autre.
+
 
 \section{Implémentation de la partie Algorithme Min Max et ses améliorations}
 
-Le coeur de ce projet ce trouve dans cette partie. Nous avons d'abord
-fait un travail de recherches pour maîtriser ces concepts pour avancer
-ensuite plus rapidement et sereinement. Nous avons découpé notre travail
-comme présenté dans la partie 5 avec la modélisation UML.
+Nous allons maintenant nous intéresser d'avantage à la partie IA du projet. Nous allons détailler les classes du programme qui joue un rôle dans l'IA basée sur un algorithme min-max ainsi que certaines procédures importantes.
 
-La fonction euristique est la pierre angulaire de cette partie, nous
-avons donc réfléchis et nous sommes renseignés sur les différentes
-positions (positions imprenables sur les côtés du plateau car les
-pions ne peuvent y être mangé ...) pour établir un ordre de priorité
-entre toutes et une valeur choisie sur une échelle de -5 pour la moins
-intéressante (position pour une dame de se faire manger) et 14 pour
-la plus intéressante (faire une dame). Cette échelle est encore sucesptible
-d'évoluer selon l'euristique que nous auront choisi puis si nous en
-testons plusieurs. Un seul déplacement peut en combiner plusieurs
-car un pion peut se mettre en position de manger et d'être manger
-aussi.
+\subsection{Arbre}
 
-L'action de manger étant obligatoire nous ne passont pas par la fonction
-euristique lorsque cette action se présente. C'est une des optimisations
-que nous comptons mettre en place.
+\begin{figure}[H]
+	\center
+	\includegraphics[width=0.8\textwidth]{./Images/arbre}
+	\caption{Exemple d'un arbre quelconque}
+\end{figure}\vspace{0.2cm}
 
-Nous avons aussi une fonction listecoups qui établit pour une composition
-donnée, une liste dynamique des positions possibles pour chaque pions.
-Cette liste est ensuite utilisée pour construire l'arbre vide sous
-forme de liste chainée puis de le remplir avec les valeurs des noeuds
-grâce à la fonction euristique.
+La classe Arbre représente l'arbre sur lequel se base notre algorithme min-max. D'un point de vue informatique notre classe arbre est en fait la racine de l'arbre et on accède au reste de l'arbre grâce à la liste de successeurs qu'elle possède. C'est à dire que la classe arbre est le nœud tout en haut, nous allons maintenant définir ce qu'est un nœud dans notre cas de figure.
 
-Enfin, nous avons la fonction parcoursminimax qui parcourt l'arbre
-avec l'algorithme minimax pour ressortir la branche la plus intéressante
-au niveau du gain.
+\subsection{NoeudDame}
 
-En bonus nous essayerons de rajouter la fonction élagage qui réalisera
-l'élagage détaillé dans les parties 3 et 4 juste avant la fonction
-parcoursminimax.
+La classe NoeudDame représente un nœud pour le jeu de dame dans le cadre de l'algorithme min-max. Elle implémente la classe abstraite Nœud. Nous l'avons donc défini comme un damier du jeu de dame. Un NoeudDame possède également une liste de NoeudDame qui lui succède et une valeur de profondeur permettant de savoir à quel profondeur de l'arbre il se situe. Cette classe possède également une des procédures les plus importante pour notre IA. Nous explorer l'Heuristique plus en détail car elle est essentielle pour le fonctionnement de l'IA.
+
+\subsection{Coup}
+
+La classe Coup représente un coup pour une pièce du jeu. Elle possède deux pièces celle au départ du coup et celle à la fin. Évidemment ce qui va changer entre deux sont les coordonnées de la pièce.
+
+\subsection{Resultat\_minMax}
+
+Cette classe a été crée pour exploiter le résultat retourné par notre méthode min-max. Elle n'a pas de signification particulière elle est juste une manière pratique de transporter les données dans ce cas. Pour résumer c'est une liste de coups à effectuer que nous renvoie notre algorithme min-max.
+
+
+%Le coeur de ce projet ce trouve dans cette partie. Nous avons d'abord
+%fait un travail de recherches pour maîtriser ces concepts pour avancer
+%ensuite plus rapidement et sereinement. Nous avons découpé notre travail
+%comme présenté dans la partie 5 avec la modélisation UML.
+%
+%La fonction euristique est la pierre angulaire de cette partie, nous
+%avons donc réfléchis et nous sommes renseignés sur les différentes
+%positions (positions imprenables sur les côtés du plateau car les
+%pions ne peuvent y être mangé ...) pour établir un ordre de priorité
+%entre toutes et une valeur choisie sur une échelle de -5 pour la moins
+%intéressante (position pour une dame de se faire manger) et 14 pour
+%la plus intéressante (faire une dame). Cette échelle est encore sucesptible
+%d'évoluer selon l'euristique que nous auront choisi puis si nous en
+%testons plusieurs. Un seul déplacement peut en combiner plusieurs
+%car un pion peut se mettre en position de manger et d'être manger
+%aussi.
+%
+%L'action de manger étant obligatoire nous ne passont pas par la fonction
+%euristique lorsque cette action se présente. C'est une des optimisations
+%que nous comptons mettre en place.
+%
+%Nous avons aussi une fonction listecoups qui établit pour une composition
+%donnée, une liste dynamique des positions possibles pour chaque pions.
+%Cette liste est ensuite utilisée pour construire l'arbre vide sous
+%forme de liste chainée puis de le remplir avec les valeurs des noeuds
+%grâce à la fonction euristique.
+%
+%Enfin, nous avons la fonction parcoursminimax qui parcourt l'arbre
+%avec l'algorithme minimax pour ressortir la branche la plus intéressante
+%au niveau du gain.
+%
+%En bonus nous essayerons de rajouter la fonction élagage qui réalisera
+%l'élagage détaillé dans les parties 3 et 4 juste avant la fonction
+%parcoursminimax
 
 
 \section{Application de la méthode à des exemples}

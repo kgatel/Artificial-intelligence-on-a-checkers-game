@@ -35,7 +35,7 @@ public class Lanceur extends JFrame{
 		Joueur j2 = null;
 		
 //Menu
-		boolean menu=false;		//savoir si on veut un menu ou non
+		boolean menu=true;		//savoir si on veut un menu ou non
 		
 		if (menu) {
 			Scanner clavier = new Scanner(System.in);
