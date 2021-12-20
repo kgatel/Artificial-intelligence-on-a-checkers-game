@@ -21,6 +21,8 @@
 \usepackage[justification=centering]{caption}
 \usepackage{float}
 \usepackage{tabto}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usepackage{listings}
 \usepackage{cleveref}
@@ -238,6 +240,46 @@ La classe Coup représente un coup pour une pièce du jeu. Elle possède deux pi
 \subsection{Resultat\_minMax}
 
 Cette classe a été crée pour exploiter le résultat retourné par notre méthode min-max. Elle n'a pas de signification particulière elle est juste une manière pratique de transporter les données dans ce cas. Pour résumer c'est une liste de coups à effectuer que nous renvoie notre algorithme min-max.
+
+\subsection{Ordi}
+
+La classe ordinateur implémente la classe joueur et représente un ordinateur dans le jeu. C'est dans cette classe que l'on retrouve l'algorithme min\_max que nous allons détailler ci-dessous. Tout d'abord nous allons écrire en pseudo-code la procédure min-max puis nous allons expliciter son fonctionnement.
+
+\begin{algorithm}
+	\caption{minMax(E : NoeudDame noeud; entier profondeurArbre)}
+	\begin{algorithmic}
+	\If{noeud est une feuille}
+		\State retourner l'heuristique du nœud
+	\EndIf
+	\If{profondeur du fils est paire}
+		\State valeur $\leftarrow$ -$\infty$
+		\For{chaque fils de noeud}
+			\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+			\If{temporaire>valeur}
+				\State valeur $\leftarrow$ temporaire
+			\EndIf
+		\EndFor
+	\Else
+		\State valeur $\leftarrow$ $\infty$
+		\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+		\If{temporaire<valeur}
+			\State valeur $\leftarrow$ temporaire
+		\EndIf
+	\EndIf
+	\end{algorithmic}
+\end{algorithm}
+
+\pagebreak
+
+\underline{Explications minMax:}\\
+
+L'algorithme minMax à partir d'un arbre dont les nœuds sont des damiers du jeu de dame doit ressortir le meilleur coup à jouer pour l'ordinateur.\\
+On part de la racine qui représente le damier actuelle, chacun des nœuds fils d'un nœud représente une situation possible avec un coup d'écart avec le nœud père. La profondeur de l'arbre qu'on explore va avoir un lien direct avec la difficulté de l'ordinateur. Plus l'arbre est profond plus l'ordinateur fera son choix en fonction des conséquences à plus long termes. Autrement dit la profondeur de l'arbre correspond au nombre de coup d'avance avec lequel joue l'ordinateur. \\
+L'algorithme consiste à évaluer les feuilles de l'arbre grâce à la fonction heuristique en leur donnant une valeur représentative de l'intérêt de la situation pour le joueur. Ensuite en fonction de si le niveau auquel on se situe  est paire ou impaire on remonte la valeur maximal ou minimal des fils au nœud père. à la fin on obtient le coup qui maximise l'intérêt pour l'ordinateur tout en minimisant l'intêret pour l'adversaire. Plus la profondeur de l'arbre va être grande plus on va pouvoir cela à long terme.\\
+L'algortihme semble parfait et imbattable si on pousse la profondeur au maximum, cependant le coût de calcul et la consommation de mémoire est exponentielle et on arrive rapidement aux limites de l'ordinateur même pour le jeu de dame. Il existe donc certaines méthodes pour réduire le coût de calcul comme l'élagage alpha-béta que nous n'avons pas eu le temps de mettre en place.
+L'autre faille importante est que la fonction heuristique elle ne peut être parfaite et résulte entièrement de l'interprétation humaine, mais on s'y est déjà intéressé précédemment.
+
+
 
 
 %Le coeur de ce projet ce trouve dans cette partie. Nous avons d'abord
