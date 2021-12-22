@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class NoeudDame extends Noeud{
 
-	
-	private Damier valeur;
+
+	private Damier damier;
 	private ArrayList<NoeudDame> successeurs;
 	private ArrayList<Coup> listeDeCoups;
 	private int profondeur;
@@ -12,7 +12,7 @@ public class NoeudDame extends Noeud{
 
 //Constructeur
 	public NoeudDame(Damier damier,boolean peutMangerEnArriere,boolean obligerLesSauts) {
-		this.valeur=damier;
+		this.damier=damier;
 		this.listeDeCoups=null;
 		this.profondeur=-1;
 		this.successeurs=new ArrayList<NoeudDame>();
@@ -21,7 +21,7 @@ public class NoeudDame extends Noeud{
 	}
 	
 	public NoeudDame(Damier damier, ArrayList<Coup> listeDeCoups,boolean peutMangerEnArriere,boolean obligerLesSauts) {
-		this.valeur=damier;
+		this.damier=damier;
 		this.profondeur=-1;
 		this.listeDeCoups=listeDeCoups;
 		this.successeurs=new ArrayList<NoeudDame>();
@@ -71,12 +71,12 @@ public class NoeudDame extends Noeud{
 		successeurs.set(i, noeudDame);
 	}
 
-	public Damier getValeur() {
-		return valeur;
+	public Damier getDamier() {
+		return damier;
 	}
 
-	public void setValeur(Damier valeur) {
-		this.valeur = valeur;
+	public void setDamier(Damier damier) {
+		this.damier = damier;
 	}
 	
 	public int getProfondeur() {
@@ -104,13 +104,17 @@ public class NoeudDame extends Noeud{
 		if (couleurOrdi==Couleur.Blanc) {
 			ordiBlanc=true;
 		}
+		Joueur j = new Joueur(couleurOrdi, "", this.peutMangerEnArriere, this.obligerLesSauts);	//de manière à utiliser la méthode APerdu du joueur
+		j.setDamier(damier);
+		Joueur jAdverse = new Joueur(couleurOrdi.inverser(couleurOrdi), "", this.peutMangerEnArriere, this.obligerLesSauts);	//de manière à utiliser la méthode APerdu du joueur
+		jAdverse.setDamier(damier);
 		
 		if (ordiBlanc) {
-			for (int i=0;i<this.valeur.getPiecesBlanches().getTailleTabPiece();i++) {
+			for (int i=0;i<this.damier.getPiecesBlanches().getTailleTabPiece();i++) {
 				//Points du joueur
-				if (this.valeur.getPiecesBlanches().getPiece(i)!=null) {
+				if (this.damier.getPiecesBlanches().getPiece(i)!=null) {
 									
-					Piece pieceJoueur =  this.valeur.getPiecesBlanches().getPiece(i);
+					Piece pieceJoueur =  this.damier.getPiecesBlanches().getPiece(i);
 					
 					//reine
 					if (pieceJoueur instanceof Reine) {
@@ -125,7 +129,7 @@ public class NoeudDame extends Noeud{
 					}
 					
 					//position imprenable
-					if ((pieceJoueur.getC().X()==0)||(pieceJoueur.getC().X()==this.getValeur().getTaille()-1)) {
+					if ((pieceJoueur.getC().X()==0)||(pieceJoueur.getC().X()==this.getDamier().getTaille()-1)) {
 						res+=2;
 						//System.out.println("Position imprenable : "+pieceJoueur.getC());
 					}
@@ -133,9 +137,9 @@ public class NoeudDame extends Noeud{
 				}
 				
 				//points adversaires
-				if (this.valeur.getPiecesNoires().getPiece(i)!=null) {
+				if (this.damier.getPiecesNoires().getPiece(i)!=null) {
 					
-					Piece pieceAdversaire =  this.valeur.getPiecesNoires().getPiece(i);
+					Piece pieceAdversaire =  this.damier.getPiecesNoires().getPiece(i);
 					
 					//reine
 					if (pieceAdversaire instanceof Reine) {
@@ -150,19 +154,19 @@ public class NoeudDame extends Noeud{
 					}
 					
 					//position imprenable
-					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getValeur().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getValeur().getTaille()-1)) {
+					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getDamier().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getDamier().getTaille()-1)) {
 						res-=2;
 					}
 										
 				}
 			}
 		}else {
-			for (int i=0;i<this.valeur.getPiecesNoires().getTailleTabPiece();i++) {
+			for (int i=0;i<this.damier.getPiecesNoires().getTailleTabPiece();i++) {
 				
 				//Points du joueur
-				if (this.valeur.getPiecesNoires().getPiece(i)!=null) {
+				if (this.damier.getPiecesNoires().getPiece(i)!=null) {
 									
-					Piece pieceJoueur =  this.valeur.getPiecesNoires().getPiece(i);
+					Piece pieceJoueur =  this.damier.getPiecesNoires().getPiece(i);
 					
 					//reine
 					if (pieceJoueur instanceof Reine) {
@@ -177,7 +181,7 @@ public class NoeudDame extends Noeud{
 					}
 					
 					//position imprenable
-					if ((pieceJoueur.getC().X()==0)||(pieceJoueur.getC().X()==this.getValeur().getTaille()-1)||(pieceJoueur.getC().Y()==0)||(pieceJoueur.getC().Y()==this.getValeur().getTaille()-1)) {
+					if ((pieceJoueur.getC().X()==0)||(pieceJoueur.getC().X()==this.getDamier().getTaille()-1)||(pieceJoueur.getC().Y()==0)||(pieceJoueur.getC().Y()==this.getDamier().getTaille()-1)) {
 						res+=2;
 						//System.out.println("Position imprenable : "+pieceJoueur.getC());
 					}					
@@ -185,9 +189,9 @@ public class NoeudDame extends Noeud{
 				}
 				
 				//points adversaires
-				if (this.valeur.getPiecesBlanches().getPiece(i)!=null) {
+				if (this.damier.getPiecesBlanches().getPiece(i)!=null) {
 					
-					Piece pieceAdversaire =  this.valeur.getPiecesBlanches().getPiece(i);
+					Piece pieceAdversaire =  this.damier.getPiecesBlanches().getPiece(i);
 					
 					//reine
 					if (pieceAdversaire instanceof Reine) {
@@ -202,12 +206,18 @@ public class NoeudDame extends Noeud{
 					}
 					
 					//position imprenable
-					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getValeur().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getValeur().getTaille()-1)) {
+					if ((pieceAdversaire.getC().X()==0)||(pieceAdversaire.getC().X()==this.getDamier().getTaille()-1)||(pieceAdversaire.getC().Y()==0)||(pieceAdversaire.getC().Y()==this.getDamier().getTaille()-1)) {
 						res-=2;
 					}
 					
 				}
 			}
+		}
+		if (jAdverse.APerdu(peutMangerEnArriere)) {
+			res+=10000;
+		}
+		if (j.APerdu(peutMangerEnArriere)) {
+			res-=10000;
 		}
 		return res;
 	}

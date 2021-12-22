@@ -38,7 +38,7 @@ public class Arbre {
 	//Méthodes
 	private void genererArbreParNoeud(int profondeurArbre,NoeudDame noeud) throws CloneNotSupportedException {
 		//On travaille avec un copie du tableau de pièce pour ne pas changer les valeurs du vrai tableau
-			Damier damierCopie = (Damier)noeud.getValeur().clone();
+			Damier damierCopie = (Damier)noeud.getDamier().clone();
 			
 			Couleur couleurPiece=Couleur.Blanc;	//couleur random juste pour initialiser la variable
 			if (noeud.getProfondeur()%2==0) {
@@ -116,7 +116,7 @@ public class Arbre {
 				
 				
 				int indice=0;
-				while ((listeDeCoupPossible[indice]!=null)||(indice>=(racine.getValeur().getTaille()-1)*2)) {
+				while ((listeDeCoupPossible[indice]!=null)||(indice>=(racine.getDamier().getTaille()-1)*2)) {
 					
 					Damier damierIndice = null;
 					TableauPiece piecesIndices = null;
@@ -197,8 +197,8 @@ public class Arbre {
 		}
 		
 		public Coordonnees[] ListeDesCoupsPossibles(Piece piece, boolean peutMangerEnArriere, boolean obligerLesSauts,boolean sautMultiple) throws CloneNotSupportedException {
-			Coordonnees[] res = new Coordonnees[(racine.getValeur().getTaille()-1)*2];
-			for (int k=0;k<(racine.getValeur().getTaille()-1)*2;k++) {
+			Coordonnees[] res = new Coordonnees[(racine.getDamier().getTaille()-1)*2];
+			for (int k=0;k<(racine.getDamier().getTaille()-1)*2;k++) {
 				res[k]=null;
 			}
 			//Creation d'un damier et d'une pièce copies de test
