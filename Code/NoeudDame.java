@@ -156,6 +156,7 @@ public class NoeudDame extends Noeud{
 										
 				}
 			}
+			
 		}else {
 			for (int i=0;i<this.valeur.getPiecesNoires().getTailleTabPiece();i++) {
 				
