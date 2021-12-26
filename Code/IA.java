@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
-public class Ordi extends Joueur {
+public class IA extends Joueur {
 	
-	public Ordi(Couleur couleur, String pseudo, boolean peutMangerEnArriere, boolean obligerLesSauts) {
+	public IA(Couleur couleur, String pseudo, boolean peutMangerEnArriere, boolean obligerLesSauts) {
 		super(couleur,pseudo,peutMangerEnArriere,obligerLesSauts);
 	}
 	
-	public void tourOrdi(int difficulte,boolean tourBlanc) throws CloneNotSupportedException {
+	public void tourOrdiIA(int difficulte,boolean tourBlanc) throws CloneNotSupportedException {
 		
 		int profondeurArbre = difficulte;
 		
@@ -38,10 +38,10 @@ public class Ordi extends Joueur {
 					ListeNoeudaAfficher=ListeNoeudaAfficher.get(i).getSuccesseurs();
 				}
 				for (int indice=0;indice<ListeNoeudaAfficher.size();indice++) {	
-					JFrame f = new JFrame(ListeNoeudaAfficher.get(indice).getValeur().getName()+" : "+ListeNoeudaAfficher.get(indice).Heuristique(this.getCouleur()));
+					JFrame f = new JFrame(ListeNoeudaAfficher.get(indice).getDamier().getName()+" : "+ListeNoeudaAfficher.get(indice).Heuristique(this.getCouleur()));
 					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					f.setSize(this.getDamier().getTAILLE(),this.getDamier().getTAILLE()+37);  //le +37 est nécessaire à l'affichage de la dernière ligne
-					f.add(ListeNoeudaAfficher.get(indice).getValeur());
+					f.add(ListeNoeudaAfficher.get(indice).getDamier());
 					f.setVisible(true);
 				}
 			}
@@ -69,14 +69,11 @@ public class Ordi extends Joueur {
 			Arbre arbre = new Arbre(profondeurArbre,this.getCouleur(),this.getDamier(),this.getPeutMangerEnArriere(),this.getObligerLesSauts());
 			ArrayList<Coup> meilleurCoup = algoMinMax(arbre,tourBlanc,this.getPeutMangerEnArriere(),this.getObligerLesSauts()) ;
 			int indice=0;
-			//System.out.print(meilleurCoup.get(indice).getPieceAvantD().getC());
 			this.Ajoue(meilleurCoup.get(0).getPieceAvantD().getC().X(), meilleurCoup.get(0).getPieceAvantD().getC().Y(), tourBlanc, this.getPeutMangerEnArriere(), this.getObligerLesSauts());
 			while (indice<meilleurCoup.size()) {
 				this.Ajoue(meilleurCoup.get(indice).getPieceApresD().getC().X(), meilleurCoup.get(indice).getPieceApresD().getC().Y(), tourBlanc, this.getPeutMangerEnArriere(), this.getObligerLesSauts());
-				//System.out.print(meilleurCoup.get(indice).getPieceApresD().getC());
 				indice++;
 			}
-			System.out.println();
 		}
 	}
 
@@ -153,61 +150,9 @@ public class Ordi extends Joueur {
 				}
 			}
 		}
-		//System.out.println(res.getListeDeCoup()==null);
 		return res;
 	}
 	
-	
-	
-	/*private Resultat_minMax minMax2(NoeudDame noeud,int profondeurArbre,boolean peutMangerEnArriere,boolean obligerLesSauts) {
-		Resultat_minMax res = new Resultat_minMax() ;
-		
-		if (feuille(noeud,profondeurArbre)) {
-			res.setValeur(noeud.Heuristique(this.getCouleur()));
-		}
-		else {
-			if (noeud.getProfondeur()%2==0) { //Quand on est à une profondeur paire on cherche à avoir le max des fils
-				res = maxsucceseurs(noeud,profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-			}
-			else { // Quand on est à une profondeur impaire on cherche à obtenir le min des fils
-				res = minsuccesseurs(noeud,profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-			}
-		}
-		return res;
-	}
-	
-	
-	private Resultat_minMax maxsucceseurs(NoeudDame noeud,int profondeurArbre,boolean peutMangerEnArriere,boolean obligerLesSauts) {
-		int i;
-		Resultat_minMax res,tmp;
-		//System.out.println(noeud.getProfondeur());
-		res=minMax2(noeud.getSuccesseurs(0),profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-		res.setListeDeCoup(noeud.getSuccesseurs(0).getListeDeCoups());
-		for (i=0;i<noeud.getSuccesseurs().size();i++) {
-			tmp=minMax2(noeud.getSuccesseurs(i),profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-			if (tmp.getValeur()>res.getValeur()) {
-				res.setValeur(tmp.getValeur());
-				res.setListeDeCoup(noeud.getSuccesseurs(i).getListeDeCoups());
-			}
-		}
-		return res;
-	}
-	
-	private Resultat_minMax minsuccesseurs(NoeudDame noeud,int profondeurArbre,boolean peutMangerEnArriere,boolean obligerLesSauts) {
-		int i;
-		Resultat_minMax res,tmp;
-		res=minMax2(noeud.getSuccesseurs(0),profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-		res.setListeDeCoup(noeud.getSuccesseurs(0).getListeDeCoups());
-		for (i=1;i<noeud.getSuccesseurs().size();i++) {
-			tmp=minMax2(noeud.getSuccesseurs(i),profondeurArbre,peutMangerEnArriere,obligerLesSauts);
-			if (tmp.getValeur()<res.getValeur()) {
-				res.setValeur(tmp.getValeur());
-				res.setListeDeCoup(noeud.getSuccesseurs(i).getListeDeCoups());
-			}
-		}
-		return res;
-	}
-	*/
 	private boolean feuille(NoeudDame noeud,int profondeurarbre) {
 		if (noeud.getProfondeur()==profondeurarbre) {
 			return true;

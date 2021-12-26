@@ -70,7 +70,7 @@ public class Joueur {
 	
 	//Méthodes
 	public void Ajoue(int x, int y, boolean tourBlanc, boolean peutMangerEnArriere ,boolean obligerLesSauts) {
-		boolean ordi = (this instanceof Ordi);
+		boolean ordi = (this instanceof IA);
 		int ii=0,jj=0;
 		if (damier.getSautMultiple()&&(!damier.getCase(x,y).getSaut())) {
 			//ne rien faire tant que le pion ne mange pas l'autre pion

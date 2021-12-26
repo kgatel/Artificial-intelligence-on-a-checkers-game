@@ -20,11 +20,11 @@ public class Lanceur extends JFrame{
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		//paramètres variables si pas de menu
-		int typeDePartie=2;
+		int typeDePartie=3;
 		int difficulteOrdi1=1;
 		int difficulteOrdi2=2;
 		int taille=10;
-		boolean peutMangerEnArriere=false;
+		boolean peutMangerEnArriere=true;
 		boolean obligerLesSauts=true;
 		
 		
@@ -50,11 +50,11 @@ public class Lanceur extends JFrame{
 			}
 			if (typeDePartie==2) {	//J1 vs ordi
 				j1 = new Joueur(Couleur.Blanc,m.pseudoJoueur(1),peutMangerEnArriere,obligerLesSauts);
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
+				j2 = new IA(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==3) {	//ordi vs ordi
-				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
+				j1 = new IA(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new IA(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
 			}
 			
 			if (typeDePartie==2) {
@@ -83,11 +83,11 @@ public class Lanceur extends JFrame{
 			}
 			if (typeDePartie==2) {	//J1 vs ordi
 				j1 = new Humain(Couleur.Blanc,"Joueur1",peutMangerEnArriere,obligerLesSauts);
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
+				j2 = new IA(Couleur.Noir,"L'Ordinateur",peutMangerEnArriere,obligerLesSauts);
 			}
 			if (typeDePartie==3) {	//ordi vs ordi
-				j1 = new Ordi(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
-				j2 = new Ordi(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
+				j1 = new IA(Couleur.Blanc,"L'Ordinateur 1",peutMangerEnArriere,obligerLesSauts);
+				j2 = new IA(Couleur.Noir,"L'Ordinateur 2",peutMangerEnArriere,obligerLesSauts);
 			}	
 			
 		}
@@ -123,9 +123,9 @@ public class Lanceur extends JFrame{
 		while (!partieTerminee) {
 			if (tourBlanc){
 				while (!(damier.isTourFini())) {
-					if (j1 instanceof Ordi) {
+					if (j1 instanceof IA) {
 						attendre(250);
-						((Ordi)j1).tourOrdi(difficulteOrdi1,tourBlanc);
+						((IA)j1).tourOrdiIA(difficulteOrdi1,tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
@@ -154,9 +154,9 @@ public class Lanceur extends JFrame{
 			}else {
 				
 				while (!(damier.isTourFini())) {
-					if (j2 instanceof Ordi) {
+					if (j2 instanceof IA) {
 						attendre(250);
-						((Ordi)j2).tourOrdi(difficulteOrdi2,tourBlanc);
+						((IA)j2).tourOrdiIA(difficulteOrdi2,tourBlanc);
 					}
 					else {
 						f.addMouseListener(ecouteurDeSouris);
