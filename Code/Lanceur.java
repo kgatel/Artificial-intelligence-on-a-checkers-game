@@ -20,7 +20,7 @@ public class Lanceur extends JFrame{
 	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		//paramètres variables si pas de menu
-		int typeDePartie=3;
+		int typeDePartie=2;
 		int difficulteOrdi1=1;
 		int difficulteOrdi2=2;
 		int taille=10;
@@ -43,7 +43,9 @@ public class Lanceur extends JFrame{
 			Menu m = new Menu(clavier);
 			
 			typeDePartie=m.typeDePartie();
-
+			
+			
+			
 			if (typeDePartie==1) {	//J1 vs J2
 				j1 = new Humain(Couleur.Blanc,m.pseudoJoueur(1),peutMangerEnArriere,obligerLesSauts);
 				j2 = new Humain(Couleur.Noir,m.pseudoJoueur(2),peutMangerEnArriere,obligerLesSauts);
@@ -73,7 +75,11 @@ public class Lanceur extends JFrame{
 			peutMangerEnArriere=m.peutMangerEnArriere();
 			obligerLesSauts=m.obligerLesSauts();
 			
-			clavier.close();
+			j1.setPeutMangerEnArriere(peutMangerEnArriere);
+			j1.setObligerLesSauts(obligerLesSauts);
+			j2.setPeutMangerEnArriere(peutMangerEnArriere);
+			j2.setObligerLesSauts(obligerLesSauts);
+			
 			
 		}else {
 			
