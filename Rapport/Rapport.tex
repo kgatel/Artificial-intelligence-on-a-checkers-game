@@ -23,12 +23,15 @@
 \usepackage{tabto}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{ulem}
 
 \usepackage{listings}
 \usepackage{cleveref}
 
 \renewcommand{\lstlistingname}{Code}
 %\renewcommand{\figurename}{Fig.}
+\renewcommand\listalgorithmname{Liste des algorithmes}
+
 
 \lstdefinestyle{chstyle}{%
 backgroundcolor=\color{gray!12},
@@ -90,33 +93,33 @@ numbers=left}
 	\vspace*{\stretch{1}}
 
 	\vfill
-	{\large 07 Décembre 2021}
+	{\large 04 Janvier 2022}
 \end{center}
 \end{titlepage}
 
 \tableofcontents
 
-%\listoffigures
-
 \renewcommand{\chaptername}{}
 
 \chapter*{Introduction}
 
-But du projet : \\
+Le projet semestriel que nous avons choisi est de créer une intelligence artificielle (IA) grâce à l'algorithme Min-Max. \\
 
-Afin de mettre en ½uvre les compétences acquises dans le codage en
-langage objet, nous avons choisi le projet consistant à implémenter
-l'algorithme Min-Max dans le cas d'un jeu de dames.
+Le but du projet est de mettre en œuvre les compétences acquises en programmation orientée objet et de nous ouvrir à un domaine tout nouveau pour nous en informatique : l'intelligence artificielle.\\
 
-Nous avons donc réaliser des recherches pour comprendre ces concepts
-et pouvoir les implémenter. Cela nous a aussi permis de travailler
-en équipe avec des personnes différentes de nos précédents projets.
+Pour ce faire, nous avons décidé d'appliquer l'algorithme à un jeu de Dames et d'implémenter le tout en Java.\\
 
-\chapter{L'algorithme}
+Dans un premier temps nous allons expliquer en quoi consiste l'algorithme Min-Max, son principe ainsi que son fonctionnement.\\
 
-\section{Explication de l'algorithme du Minimax }
+Ensuite, nous allons expliquer la partie implémentation, celle du jeu de Dames puis celle de l'algorithme Min-Max.\\
 
-L'algorithme minimax ou minmax est un algorithme s'appliquant dans
+Enfin, nous verrons les différents diagrammes UML qui nous ont permis de réaliser ce projet de groupe.\\
+
+\chapter{Min-Max}
+
+\section{Principe de l'algo}
+
+L'algorithme minMax ou miniMax est un algorithme s'appliquant dans
 le cas d'un jeu (donc dans le cadre de la théorie des jeu) à deux
 joueurs lorsqu'il s'agit d'un jeu à somme nulle. Son objectif est
 de minimiser la perte maximum. Un jeu est à somme nulle si la somme
@@ -124,7 +127,7 @@ des gains et des pertes de tous les joueurs est égale à 0, c'est à
 dire la perte de l'un est le gain de l'autre. Ce type de jeu répond
 à plusieurs caractéristiques, démontrées notamment par le théorème
 du minimax de Von Neumann, dès 1926 (présence de configurations d'équilibre,
-existance de l'algorithme...).
+existence de l'algorithme...).\\
 
 Le principe est globalement assez simple. L'ordinateur passe en revue
 tous les possibilités pour chaque pièce sur un nombre limité de coup,
@@ -132,92 +135,106 @@ créant ainsi un arbre des possibilités (dont nous parlerons d'avantage
 dans la 4ème partie dans nos exemples). Ensuite chaque noeud se voit
 affecter une valeur en fonction des bénéfices du joueur et de l'adversaire.
 Le choix retenu sera la branche partant d'une feuille de cette arbre
-jusqu'à la racine, indiquant ainsi le coup qui doit être réalisé. 
+jusqu'à la racine, indiquant ainsi le coup qui doit être réalisé. \\
 
-Un problème de mémoire se pose alors car chaque pièce peut se déplacer
-à gauche ou à droite (sauf si une pièce la bloque ou si le plateau
-de jeu ne continue pas) et cela sur un seul coup. Si on réalise plusieurs
-coups (ce qui est nécessaire), l'arbre devient rapidement très vaste.
-En pratique, on explore souvent, lorsque l'algorithme est optimisé
+Un problème de mémoire se pose alors car chaque pièce a une liste de coup possible (elle peut se déplacer qu'en diagonale et doit également sauter en diagonale). Si on réalise ce principe sur chaque pièce du joueur (ce qui est nécessaire), l'arbre devient rapidement très vaste. En pratique on explore, lorsque l'algorithme est optimisé,
 une partie seulement de cet arbre à l'aide de méthodes dites d'élagage.
 
-\section{Explication de la méthode alpha-béta et de l'élagage}
+\section{Méthode alpha-béta et élagage}
 
-L'élagage alpha-bêta ( ou ...) est une méthode grâce à laquelle on
+L'élagage alpha-bêta est une méthode grâce à laquelle on
 va pouvoir réduire la taille de l'arbre en enlevant certaines branches
-à l'aide de conditions choisies. Ainsi, on réduit le nombre de noeuds
+à l'aide de conditions choisies. Ainsi, on réduit le nombre de nœuds
 évalués et donc le temps de calcul de la branche ``à choisir''.
-Il s'agit d'une optimisation du minimax sans perdre des informations. 
+Il s'agit d'une optimisation du minimax sans perdre des informations. \\
 
 Cet élagage repose sur le fait qu'il n'est pas nécessaire d'examiner
 les sous arbres dont la configuration et le résultat ne permettra
-pas une amélioration du gain. On évalue pas les noeuds (et leur sous-arbre)
-dont la qualité (le gain, l'intérêt) sera inférieur à un noeud déjà
+pas une amélioration du gain. On évalue pas les nœuds (et leur sous-arbre)
+dont la qualité (le gain, l'intérêt) sera inférieur à un nœud déjà
 évalué. Pour cela on va d'ailleurs travailler sur l'arbre dans un
 sens fixé, ici de gauche à droite. 
 
 
-\chapter{Le jeu de Dame}
+\chapter{Jeu de Dames}
 
-\section{Implémentation du jeu de Dames}
+\section{Règle du jeu}
 
-Nous avons tout d'abord fixé les règles que nous allions respecter,
-les variantes sur un jeu aussi populaire que les dames étant nombreuses.
+Afin d'offrir une meilleure expérience, nous laissons libre le choix des paramètres de jeu à l'utilisateur. Ainsi, chaque début de partie l'utilisateur peut choisir s'il veut joueur contre un autre joueur, s'il veut jouer contre une IA ou bien s'il veut regarder jouer deux IA l'une contre l'autre en choisissant leur niveau de jeu. Il peut définir la taille du damier joué, il peut choisir si le saut en arrière est autorisé pour les pions, et également si une pièce doit obligatoirement sauter ou non lorsque cela est possible. Les règles sont ensuite les mêmes pour tout le monde :\\
 
-Les pions ne peuvent pas se déplacer en arrière ni manger en arrière. 
+Chaque pièce doit se déplacer diagonalement. Un pion se déplace obligatoirement vers l’avant, en diagonale, d’une case sur une case libre de la rangée suivante. Lorsqu'il atteint la dernière rangée, le pion devient Dames. Une Dames doit attendre que l’adversaire ait joué au moins une fois avant d’entrer en action. Une Dames se déplace en arrière ou en avant sur les cases libres successives de la diagonale qu’elle occupe. Elle peut donc se poser, au-delà de cases libres, sur une case libre éloignée.\\
 
-Il est obligatoire pour un pion de manger lorsqu'il peut.
+Lorsqu’un pion se trouve en présence, diagonalement, d’une pièce adverse derrière laquelle se trouve une case libre, il peut sauter par-dessus cette pièce et occuper la case libre. Cette pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion. Lorsqu’une Dames se trouve en présence sur la même diagonale, directement ou à distance, d’une pièce adverse derrière laquelle se trouvent une ou plusieurs cases libres, elle peut passer par-dessus cette pièce et occuper, au choix, une des cases libres. Cette pièce est alors enlevée du damier. Cette opération complète est la prise par une Dames.\\
 
-Les dames peuvent manger en arrière et se déplacer dans les quatres
-diagonales sur l'espace de plusieurs cases. 
+Lorsqu’au cours d’une prise par un pion, celui-ci se trouve à nouveau en présence, diagonalement, d’une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette seconde pièce, voire d’une troisième et ainsi de suite, et occuper la case libre se trouvant derrière la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l’ordre de la prise. Cette opération complète est une rafle par un pion. Lorsqu’au cours d’une prise par une Dames, celle-ci se trouve à nouveau en présence, sur une même diagonale, d’une pièce adverse derrière laquelle se trouve une ou plusieurs cases libres, elle doit obligatoirement sauter par-dessus cette seconde pièce, voire d’une troisième et ainsi de suite, et occuper au choix une case libre se trouvant derrière et sur la même diagonale que la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l’ordre de la prise. Cette opération complète est une rafle par une Dames. Au cours d’une rafle, il est interdit de passer au-dessus de ses propres pièces. Au cours d’une rafle, il est permis de passer plusieurs fois sur une même case libre mais il est interdit de passer plus d’une fois au-dessus d’une même pièce adverse.\\
 
-Nous avons réalisé notre code en java, langage que nous maitrisions
-d'avantage. Nous allons d'abord donc brièvement présenter les classes qui concerne le jeu de dame principalement :
+Le jeu se termine lorsqu'un des joueurs ne possèdent plus de pièce ou ne peut plus en bouger aucune. L'adversaire remporte alors la partie.
+
+\section{Implémentation du jeu}
+
+Nous avons donc réalisé notre code en java, langage que nous maîtrisons d'avantage. Nous allons d'abord présenter les classes qui concernent principalement le jeu de Dames :
 
 \subsection{Case}
 
-La classe Case représente tout simplement une case du plateau du jeu de Dame. Elle possède donc des coordonnées, une couleur, une pièce qui peut être vide et plusieurs booléens qui ont un rôle dans l'implémentation et la partie graphique du jeu.
+La classe \textit{Case} représente tout simplement une case du plateau du jeu de Dames. Elle possède donc des coordonnées, une couleur, une pièce qui peut être vide et plusieurs booléens qui ont un rôle dans l'implémentation et la partie graphique du jeu.
   
 \subsection{Coordonnées}
 
-La classe Coordonnées possède deux entiers x,y qui représentent juste des coordonnées sur le plateau. Nous avons crée cette classe pour ne pas avoir à transporter deux variables à chaque fois.
+La classe \textit{Coordonnées} possède deux entiers x,y qui représentent juste des coordonnées sur le plateau. Nous avons créé cette classe pour ne pas avoir à transporter deux variables à chaque fois.
 
 \subsection{Couleur}
 
-Cette classe sert juste à différencier la couleur d'une pièce ou d'une case
+Cette classe sert à différencier la couleur d'une pièce, d'un tableau de pièce, d'un joueur ou d'une case.
 
 \subsection{Damier}
 
-La classe Damier est la classe principale du jeu de Dame. Elle représente le plateau du jeu mais pas seulement. Il contient également le tableau des pièces du jeu, le tableau des cases du jeu, la taille du plateau ainsi que plusieurs booléen qui jouent un rôle dans les règles du jeu et son déroulement. Elle possède également la procédure d'affichage principale du jeu.
+La classe \textit{Damier} est la classe graphique du jeu de Dames. Elle représente le plateau du jeu. Il contient les tableaux de pièces du jeu, le tableau de cases du jeu, la taille du plateau ainsi que plusieurs booléen jouant un rôle dans les règles du jeu et son déroulement.
 
 \subsection{Joueur}
 
-La classe Joueur représente un joueur du jeu évidemment. Elle se décline en deux classes qui héritent de joueur ordi et humain. Elles ne servent qu'à différencier si le joueur est un ordinateur ou un utilisateur sur sa machine. On retrouve les procédure AJoue qui implémente un coup dans le jeu, ainsi que APerdu qui retourne si le joueur a perdu ou gagné la partie.
+La classe \textit{Joueur} représente un des deux joueurs du jeu. Elle se décline en deux classes qui héritent de joueur : \textit{IA} et \textit{Humain}. La classe \textit{Humain} n'a pas de différence avec la classe IA si ce n'est qu'il peut choisir son pseudo. En revanche la classe \textit{IA} contient d'avantages de méthodes, notamment la méthode \textit{Min-Max} et \textit{tourOrdi} qui seront expliquées ultérieurement. On retrouve également la procédure \textit{AJoue} qui simule le coup d'un joueur dans le jeu, ainsi que \textit{APerdu} qui retourne vrai ou faux selon si le joueur a perdu ou gagné la partie.
 
 \subsection{Lanceur}
 
-Cette classe constitue le Main de notre programme, il est possible d'y modifier certains paramètre de la partie manuellement, sinon nous utilisons une autre classe que nous allons voir pour laisser le joueur décider des règles.
+Cette classe constitue le \textit{Main} de notre programme, il est possible d'y modifier certains paramètre de la partie manuellement (selon si le menu est activé ou non), sinon nous utilisons une autre classe que nous allons voir pour laisser le joueur décider des règles du jeu.
 
 \subsection{Menu}
 
-La classe menu permet de laisser l'utilisateur choisir ses règles pour la partie. Elle consiste simplement en un menu à choix multiples que l'on récupère et que l'on transmet au main pour lancer la partie.
+La classe \textit{Menu} permet de laisser l'utilisateur choisir ses règles pour la partie. Elle consiste simplement en un menu à choix multiples que l'on récupère et que l'on transmet au \textit{main} pour lancer la partie.
 
 \subsection{Piece}
 
-La classe pièce correspond à une pièce du jeu elle se décompose en deux classes qui héritent de celle-ci : Pion et Reine qui sont les deux différents types de pièces qu'on retrouve dans le jeu de dame. Dans le fonctionnement de notre jeu c'est au niveau de la pièce que l'on vérifie si elle peut être mangée, si elle peut manger une autre pièce ainsi qu'afficher les déplacements possibles de la pièce.
-
-\subsection{Souris}
-
-La classe souris est sert à récupérer les actions de la souris pour permettre au joueur d'utiliser une souris pour jouer au lieu du clavier. Elle permet de récupérer les coordonnées de la case sur laquelle le joueur clique. 
+La classe \textit{Piece} correspond à une pièce du jeu. Elle se décompose en deux classes qui héritent de celle-ci : Pion et Reine, qui sont les deux types différents de pièces qu'on retrouve dans le jeu de Dames. Dans le fonctionnement de notre jeu, c'est au niveau de la pièce que l'on vérifie si elle peut être mangée ou non, si elle peut manger une autre pièce ou non ainsi qu'afficher les déplacements possibles de la pièce sur le damier qu'elle contient directement.
 
 \subsection{TableauPiece}
 
-La classe TableauPiece gère la liste des pièces du jeu d'un camp comme de l'autre.
+La classe \textit{TableauPiece} gère la liste des pièces d'un joueur, d'un camp comme de l'autre.
+
+\subsection{Souris}
+
+La classe \textit{Souris} sert à récupérer les actions de la souris pour permettre au joueur d'utiliser une souris pour jouer au lieu du clavier. Elle permet essentiellement de récupérer les coordonnées de la case sur laquelle le joueur clique. 
 
 
-\section{Implémentation de la partie Algorithme Min Max et ses améliorations}
+\section{Implémentation de la partie IA}
 
-Nous allons maintenant nous intéresser d'avantage à la partie IA du projet. Nous allons détailler les classes du programme qui joue un rôle dans l'IA basée sur un algorithme min-max ainsi que certaines procédures importantes.
+Nous allons maintenant nous intéresser d'avantage à la partie IA du projet. Nous allons détailler les classes du programme qui jouent un rôle dans l'IA basée sur l'algorithme Min-Max ainsi que certaines procédures importantes. L'algorithme est appliqué à un arbre de nœuds, expliquons alors ce qu'est un nœud dans notre cas de figure, puis expliquons la création de l'arbre petit à petit :
+
+\subsection{NoeudDame}
+
+La classe \textit{NoeudDame} représente un "nœud" dans le cadre de l'algorithme Min-Max. Elle hérite de la classe abstraite \textit{Nœud} qui contient seulement la signature de la méthode \textit{Heuristique} que l'on détaillera dans la suite. \\
+
+Nous avons défini la "valeur" du nœud comme un \textit{Damier} du jeu de Dames. Ainsi, on pourra lui attribuer un certain "poids" grâce à la méthode \textit{Heuristique}.\\
+
+Un objet \textit{NoeudDame} possède une liste de \textit{NoeudDame} correspondant aux successeurs du nœud, on les appellera également ses fils. La classe possède un entier profondeur permettant de savoir à quelle profondeur le nœud se situe dans l'arbre, la profondeur zéro étant celle de la racine. \\
+
+Détaillons maintenant une des méthodes les plus importantes pour notre IA appartenant à cette classe : la méthode \textit{Heuristique}.\\
+
+\subsubsection{L'heuristique}
+
+% à toi de jouer chlochlo
+...\\
+
+
 
 \subsection{Arbre}
 
@@ -227,26 +244,38 @@ Nous allons maintenant nous intéresser d'avantage à la partie IA du projet. No
 	\caption{Exemple d'un arbre quelconque}
 \end{figure}\vspace{0.2cm}
 
-La classe Arbre représente l'arbre sur lequel se base notre algorithme min-max. D'un point de vue informatique notre classe arbre est en fait la racine de l'arbre et on accède au reste de l'arbre grâce à la liste de successeurs qu'elle possède. C'est à dire que la classe arbre est le nœud tout en haut, nous allons maintenant définir ce qu'est un nœud dans notre cas de figure.
+La classe \textit{Arbre} représente l'arbre sur lequel se base notre algorithme Min-Max. Dans l'exemple du dessus cet arbre est binaire, le notre ne l'est absolument pas puisque chaque branche représente un damier possible que le joueur peut créer en jouant une de ses pièces. Chaque rond représente un nœud et la valeur à l'intérieur correspond à la valeur du nœud. Cette valeur est le "poids" du damier appartenant au nœud, c'est le résultat de la méthode \textit{Heuristique}.\\
 
-\subsection{NoeudDame}
+La classe contient en attribut un nœud qui est en faite le nœud racine de l'arbre. Il est de profondeur 0. On accède au reste de l'arbre grâce à la liste de successeurs que le nœud racine possède. La classe comprend également \uline{la profondeur de l'arbre correspondant en pratique au nombre de coup à l'avance que l'IA peut anticiper}. Nous allons maintenant détailler la création de l'arbre grâce aux trois méthodes suivantes.\\
 
-La classe NoeudDame représente un nœud pour le jeu de dame dans le cadre de l'algorithme min-max. Elle implémente la classe abstraite Nœud. Nous l'avons donc défini comme un damier du jeu de dame. Un NoeudDame possède également une liste de NoeudDame qui lui succède et une valeur de profondeur permettant de savoir à quel profondeur de l'arbre il se situe. Cette classe possède également une des procédures les plus importante pour notre IA. Nous explorer l'Heuristique plus en détail car elle est essentielle pour le fonctionnement de l'IA.
+\subsubsection{ListeDesCoupsPossibles : Coordonnees[]}
+
+Cette méthode permet de retourner un tableau de \textit{Coordonnees}. Chaque coordonnée du tableau correspond à un déplacement possible de la pièce mis en paramètre de la méthode. Ainsi, la méthode retourne l'ensemble des "coups" possibles à partir d'une pièce.
+
+\subsubsection{GenererArbreParPiece : void}
+
+Cette méthode permet à partir d'un nœud\_0 de créer un fils nœud\_1 puis de l'ajouter à la liste des successeurs du nœud\_0. Elle va en réalité évaluer le déplacement de la pièce grâce à la méthode \textit{ListeDesCoupsPossibles}. Pour chaque valeur du tableau de coordonnées elle va générer un nœud de profondeur +1 avec le damier comprenant le déplacement de la pièce. Si la pièce vient de manger une pièce adverse et peut en manger au moins une autre, alors cette même méthode est appelé sur ce nœud qui vient d'être créé et ainsi de suite (récursivité). Une fois que la pièce ne peut plus manger, si le nœud est une feuille de l'arbre alors ce nœud est ajouté à la liste des successeurs du nœud entré en paramètre de la méthode \textit{GenererArbreParPiece}, sinon on appelle la méthode \textit{GenererArbreParNoeud} (détaillée juste après) sur ce nœud généré pour enfin l'ajouter au nœud entré en paramètre de la méthode \textit{GenererArbreParPiece}. 
+
+\subsubsection{GenererArbreParNoeud : void}
+
+Cette méthode est la méthode principale de la création de l'arbre. Elle est appelée sur chaque nœud dont nous voulons connaître leur fils. Elle est notamment appelée sur l'attribut \textit{racine} de la classe \textit{Arbre} qui est un \textit{NoeudDame}. La méthode va en réalité, selon la profondeur du nœud, appeler pour chaque pièce du tableau de pièce du damier la méthode \textit{GenererArbreParPiece}. Elle permet simplement de découper le problème "en petits morceaux" pièce par pièce. C'est uniquement la méthode \textit{GenererArbreParPiece} qui va ajouter des successeurs au nœud. Les deux méthodes s'appellent mutuellement jusqu'à ce que le nœud soit une feuille de l'arbre.
 
 \subsection{Coup}
 
-La classe Coup représente un coup pour une pièce du jeu. Elle possède deux pièces celle au départ du coup et celle à la fin. Évidemment ce qui va changer entre deux sont les coordonnées de la pièce.
+La classe \textit{Coup} représente un coup pour une pièce du jeu. Elle possède deux pièces : celle au départ (avant déplacement) du coup et celle à la fin (après le coup). Évidemment ce qui va changer entre les deux pièces sont les coordonnées de la pièce et le statut (un pion peut devenir une reine).
 
 \subsection{Resultat\_minMax}
 
-Cette classe a été crée pour exploiter le résultat retourné par notre méthode min-max. Elle n'a pas de signification particulière elle est juste une manière pratique de transporter les données dans ce cas. Pour résumer c'est une liste de coups à effectuer que nous renvoie notre algorithme min-max.
+Cette classe a été créée pour exploiter le résultat retourné par notre méthode min-max. Elle n'a pas de signification particulière elle est juste une manière pratique de transporter les données dans ce cas. Pour résumer, elle comprend la valeur d'un noeud et également la liste de coups associée à cette valeur. C'est une classe pratique pour notre implémentation.
 
-\subsection{Ordi}
+\subsection{IA}
 
-La classe ordinateur implémente la classe joueur et représente un ordinateur dans le jeu. C'est dans cette classe que l'on retrouve l'algorithme min\_max que nous allons détailler ci-dessous. Tout d'abord nous allons écrire en pseudo-code la procédure min-max puis nous allons expliciter son fonctionnement.
+La classe \textit{IA} hérite de la classe \textit{Joueur} et représente un ordi doté d'une intelligence artificielle. C'est dans cette classe que l'on retrouve l'algorithme Min-Max que nous allons détailler ci-dessous. Tout d'abord nous allons écrire en pseudo-code la méthode \textit{minMax}, puis nous allons expliciter son fonctionnement. Nous verrons ensuite la méthode \textit{tourOrdiIA}, son pseudo-code et son explication.
+
+\subsubsection{minMax : Resultat\_minMax}
 
 \begin{algorithm}
-	\caption{minMax(E : NoeudDame noeud; entier profondeurArbre)}
+	\caption{minMax(E : NoeudDame noeud; entier profondeurArbre) : Resultat\_minMax}
 	\begin{algorithmic}
 	\If{noeud est une feuille}
 		\State retourner l'heuristique du nœud
@@ -267,17 +296,18 @@ La classe ordinateur implémente la classe joueur et représente un ordinateur d
 		\EndIf
 	\EndIf
 	\end{algorithmic}
-\end{algorithm}
+\end{algorithm}\vspace{0.4cm}
 
-\pagebreak
 
-\underline{Explications minMax:}\\
+L'algorithme minMax à partir d'un arbre dont les nœuds sont des damiers du jeu de Dames doit ressortir le meilleur coup à jouer pour l'ordinateur.\\
 
-L'algorithme minMax à partir d'un arbre dont les nœuds sont des damiers du jeu de dame doit ressortir le meilleur coup à jouer pour l'ordinateur.\\
-On part de la racine qui représente le damier actuelle, chacun des nœuds fils d'un nœud représente une situation possible avec un coup d'écart avec le nœud père. La profondeur de l'arbre qu'on explore va avoir un lien direct avec la difficulté de l'ordinateur. Plus l'arbre est profond plus l'ordinateur fera son choix en fonction des conséquences à plus long termes. Autrement dit la profondeur de l'arbre correspond au nombre de coup d'avance avec lequel joue l'ordinateur. \\
-L'algorithme consiste à évaluer les feuilles de l'arbre grâce à la fonction heuristique en leur donnant une valeur représentative de l'intérêt de la situation pour le joueur. Ensuite en fonction de si le niveau auquel on se situe  est paire ou impaire on remonte la valeur maximal ou minimal des fils au nœud père. à la fin on obtient le coup qui maximise l'intérêt pour l'ordinateur tout en minimisant l'intêret pour l'adversaire. Plus la profondeur de l'arbre va être grande plus on va pouvoir cela à long terme.\\
-L'algortihme semble parfait et imbattable si on pousse la profondeur au maximum, cependant le coût de calcul et la consommation de mémoire est exponentielle et on arrive rapidement aux limites de l'ordinateur même pour le jeu de dame. Il existe donc certaines méthodes pour réduire le coût de calcul comme l'élagage alpha-béta que nous n'avons pas eu le temps de mettre en place.
-L'autre faille importante est que la fonction heuristique elle ne peut être parfaite et résulte entièrement de l'interprétation humaine, mais on s'y est déjà intéressé précédemment.
+On part de la racine qui représente le damier actuel, chacun des nœuds fils d'un nœud représente une situation possible avec un coup d'écart avec le nœud père. La profondeur de l'arbre qu'on explore va avoir un lien direct avec la difficulté de l'ordinateur. Plus l'arbre est profond plus l'ordinateur fera son choix en fonction des conséquences à plus long termes. Autrement dit la profondeur de l'arbre correspond au nombre de coup d'avance avec lequel joue l'ordinateur. \\
+
+L'algorithme consiste à évaluer les feuilles de l'arbre grâce à la méthode \textit{Heuristique} en leur donnant une valeur représentative de l'intérêt de la situation pour le joueur. Ensuite en fonction de si le niveau auquel on se situe est paire ou impaire on remonte la valeur maximal ou minimal des fils au nœud père. A la fin on obtient le coup qui maximise l'intérêt pour l'ordinateur tout en minimisant l’intérêt pour l'adversaire. Plus la profondeur de l'arbre va être grande plus on va pouvoir voir cela à long terme.\\
+
+L’algorithme semble parfait et imbattable si on pousse la profondeur au maximum, cependant le coût de calcul et la consommation de mémoire est exponentielle et on arrive rapidement aux limites de l'ordinateur même pour un jeu de Dames. Il existe donc certaines méthodes pour réduire le coût de calcul comme l'élagage alpha-bêta que nous n'avons pas eu le temps de mettre en place.\\
+
+L'autre faille importante est que la méthode \textit{Heuristique} ne peut être parfaite et résulte entièrement de l'interprétation humaine. Intéressons nous maintenant à la méthode \textit{tourOrdiIA}.\\
 
 
 
@@ -292,8 +322,8 @@ L'autre faille importante est que la fonction heuristique elle ne peut être par
 %positions (positions imprenables sur les côtés du plateau car les
 %pions ne peuvent y être mangé ...) pour établir un ordre de priorité
 %entre toutes et une valeur choisie sur une échelle de -5 pour la moins
-%intéressante (position pour une dame de se faire manger) et 14 pour
-%la plus intéressante (faire une dame). Cette échelle est encore sucesptible
+%intéressante (position pour une Dames de se faire manger) et 14 pour
+%la plus intéressante (faire une Dames). Cette échelle est encore sucesptible
 %d'évoluer selon l'euristique que nous auront choisi puis si nous en
 %testons plusieurs. Un seul déplacement peut en combiner plusieurs
 %car un pion peut se mettre en position de manger et d'être manger
@@ -317,6 +347,31 @@ L'autre faille importante est que la fonction heuristique elle ne peut être par
 %l'élagage détaillé dans les parties 3 et 4 juste avant la fonction
 %parcoursminimax
 
+\subsubsection{tourOrdiIA : void}
+
+La méthode \textit{tourOrdiIA} représente le déroulement du tour de l'IA, concrètement ce que fait l'IA lorsque c'est à elle de jouer. On mettra ci-dessous le pseudo-code de la méthode puis nous allons expliquer en quoi elle consiste :
+
+\begin{algorithm}
+	\caption{tourOrdiIA(E : int difficulte; boolean tourBlanc) : void}
+	\begin{algorithmic}
+	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y
+	\State
+	\State arbre $\leftarrow$ Arbre(difficulte,this.couleur,this.damier,this.peutMangerEnArriere,this.obligerLesSauts)
+	\State meilleurCoup $\leftarrow$ minMax(arbre,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts).getListeDeCoup()
+	\State indice $\leftarrow$ 0
+	\State x $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().X()
+	\State y $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().Y()
+	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere, this.obligerLesSauts)
+	\While{indice < taille du tableau meilleurCoup}
+	\State x $\leftarrow$ meilleurCoup.get(indice).getPieceApreD().getC().X()
+	\State y $\leftarrow$ meilleurCoup.get(indice).getPieceApresD().getC().Y()
+	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts);
+	\State indice $\leftarrow$ indice+1;
+	\EndWhile
+	\end{algorithmic}
+\end{algorithm}\vspace{0.4cm}
+
+Dans un premier temps l'arbre est généré avec une profondeur \textit{difficulte}. C'est ainsi qu'on règle la difficulté de l'IA, il s'agit en effet de la profondeur de l'arbre. Concrètement, \uline{la difficulté de l'IA se résume au nombre de coups d'avance qu'elle a sur le damier actuel}. Ensuite le \textit{meilleurCoup} est récupéré grâce à la méthode \textit{minMax} où l'on va appeler l'accesseur \textit{getListeDeCoup} pour ainsi récupérer le tableau dynamique du ou des meilleur.s coup.s à jouer. On va alors "simuler" un clique sur la pièce initiale en récupérant ses coordonnées puis cliquer sur la liste des coups à jouer en utilisant le tableau de coups \textit{meilleurCoup}. Ce dernier est de dimension 1 lorsqu'il y a un déplacement sans prise de pièce, il sera de dimension supérieure s'il est dans une situation de saut multiple.
 
 \section{Application de la méthode à des exemples}
 
@@ -331,7 +386,7 @@ deux pions sur plusieurs coups en ayant attribué des valeurs aux noeuds).
 \begin{figure}[H]
 	\center
 	\includegraphics[width=1\textwidth]{./Images/Diagramme_use_case}
-	\caption{Diagramme use case du jeu de dame}
+	\caption{Diagramme use case du jeu de Dames}
 \end{figure}\vspace{0.2cm}
 
 L'utilisateur peut ainsi choisir de jouer à 2, de jouer contre l'ordinateur
@@ -372,37 +427,36 @@ celle de l'algorithme Minimax.
 
 Un certain nombre de fonction seront détaillées dans les parties suivantes.
 
+
+\chapter{Problèmes rencontrés}
+
+Le premier problème rencontré est lors de l'ajout d'un joueur IA. Notre programme n'était pas du tout destiné à jouer automatiquement. Le programme devait attendre un "clique" souris pour continuer à s'exécuter. Ne pouvant pas simuler un "clique souris" il nous a fallu revoir tout le corps du \textit{Main} ainsi que de nombreuses méthodes.\\
+
+Le second est lors de la création de l'arbre. La manipulation d'objet étant en réalité une manipulation d'adresse, lorsque nous voulions travailler sur une copie du damier en affectant directement un damier à un autre, nous nous retrouvions à modifier le damier de base, alors que ce n'était pas le but. Grâce à l'utilisation d'une classe implémentée \textit{Cloneable}, cela nous a permis de "cloner" nos objets, de sorte à les copier et ne modifier que les copies de manière à laisser intact les originaux. Une fois cela compris la profondeur 1 a été plus ou moins facile à faire. En effet, lors des sauts multiples il a fallu faire appel à une récursivité de loin triviale. Les problèmes se compliquent pour générer un arbre de dimension $n$. En effet, la gestion de couleur des pièces change, et nous remarquons que nous devons appliquer une récursivité non pas seulement sur les pièces mais sur chaque nœud. Une réorganisation du code avec la création de méthodes fût nécessaire afin de permettre le bon déroulement de la méthode. Il a également fallu trouver un moyen d'afficher le damier des nœuds d'une certaine profondeur de manière à pouvoir observer et remarquer les éventuels oublis. La création de l'arbre reste de loin le problème le plus dur rencontré dans ce projet.\\
+
+Le troisième problème rencontré est lors de la méthode \textit{minMax}. L'originale consiste à seulement renvoyer la valeur de la feuille de l'arbre qui maximise les coups du joueur tout en minimisant ceux des adversaires, alors que ce qui nous intéresse vraiment c'est le meilleur coup à partir du damier actuel. Il a fallu adapter un peu l'algorithme original pour ainsi renvoyer la valeur des nœuds et la meilleure liste de coups.\\
+
+Enfin le dernier problème rencontrer est le choix de l'heuristique. Une infinité peut en être créée. Quelles situations privilégier ? Pourquoi une plus qu'une autre ? Un mini débat s'est installé naturellement, mais nous avons fini par en choisir une. Notre choix s'est porté sur celle qui nous semble la plus adapté au jeu de Dames selon nous.
+
 \chapter*{Conclusion:}
 
-Cette première partie nous a permis de nous renseigner sur la théorie
-des jeux, les spécificité du jeu de Dames (les différents types de
-positions des pions...). Nous avons aussi commencé à coder après avoir
-réalisé nos diagrammes en essayant de rendre notre code le plus portable
-possible, tout cela en travaillant en équipe à trois. Nous allons
-poursuivre le codage de notre programme, tout en réalisant certaines
-parties en pseudo-code d'abord car la fonction euristique est très
-importante mais aussi assez importante.\\
+Pour commencer ce projet a été très enrichissant pour nous tous d'un point de vue informatique et programmation. En effet il nous a permis d'implémenter et de se familiariser avec de nouvelles structures de données que nous avions étudiées en cours cette année. Notamment les structures du type arbre restaient assez floues dans notre esprit et ce projet nous a permis de nous familiariser avec cette notion qui nous sera forcément utile à l'avenir.\\
+De plus ce projet nous a permis de découvrir ou d'approfondir nos connaissances sur la théorie des jeux à somme nulle et comment on pouvait implémenter une intelligence artificielle sur ce type de jeu. Car ce qui fonctionne pour le jeu de dame avec l'algorithme min-max est facilement transposable à n'importe quelle jeu de ce type tel qu'un morpion ou de façon plus complexe le jeu d'échec.\\
 
-\textbf{Pour aller plus loin :} \\
+D'autre part nous étions assez familier avec le jeu de dame, premièrement car c'est un jeu auquel nous avions déjà tous joué et deuxièmement pour une partie du groupe nous avions auparavant travaillé sur un jeu de dame sans intelligence artificielle auquel nous pouvions joué manuellement. Cependant il s'est révélé comme toujours beaucoup plus complexe que nous le pensions d'y ajouter une intelligence artificielle et nous avons rencontré de nombreux problèmes mais nous en avons déjà parlé ci-dessus.\\
 
-Comme dit précédemment nous ne sommes qu'au milieu de notre projet
-et nous n'avons donc pas fini les fonctions de la partie implémentation
-du mininmax.
+Nous avons souhaité conserver l'interface graphique de notre jeu afin de donner une expérience plus sympathique et plus visuel à l'utilisateur. Nous l'avions déjà développé pour l'ancien jeu mais il a fallu effectuer certaines modification pour y ajouter l'intelligence artificielle.\\
 
-Nous aimerions réaliser la fonction élagage, ainsi que plusieurs euristiques
-que nous comparerions pour obtenir la meilleur (il s'agit de la difficulté
-à laquelle sont confrontées les personnes ayant travaillé sur cet
-algorithme etc: choisir la bonne euristique).
+Enfin la principale différence que nous avons rencontré par rapport à l'an dernier est de se retrouver avec un groupe plus conséquent passant de deux à trois personnes. Nous avions tous pris l'habitude de travailler par groupe de deux l'an dernier mais l'ajout d'une troisième personne nous a obligé à être encore plus organisé et à l'écoute des uns des autres car nous avions encore plus d'idées et de points de vue différents qu'il fallait concilier. C'est le point fort et le point faible du travail de groupe mais finalement nous avons rapidement réussi à bien nous organiser et à avancer ensemble.\\
 
-Si le temps qu'il nous reste nous le permet nous aimerions pouvoir
-afficher à la demande du joueur, l'arbre des possiblités de sa composition
-actuelle et la branche choisie. 
+Pour conclure nous avons réellement apprécié travailler sur ce projet tous ensemble, il fût très sympa de pouvoir ajouter la fonctionnalité de pouvoir jouer contre un ordinateur au jeu de dame et de découvrir le fonctionnement d'un algorithme d'intelligence artificielle et de mieux comprendre comment étaient crée les ordinateurs contre lesquels nous jouons sur différents jeux. Également nous avons eu le temps d'implémenter un mode de jeu ordinateur contre ordinateur qui est très sympa à regarder et qui nous a permit de comparer les différents niveaux de difficultés que nous proposions.\\
+Si le temps nous le permettait nous aurions encore quelques pistes d'améliorations telles que l'implémentation d'un algorithme d'élagage de type alpha-bêta pour améliorer la vitesse de calcul de notre min-max, on pourrait également développer différentes heuristiques et les comparer entre elle pour voir si il y'en a de meilleurs que d'autres.
 
-Nous voulons aussi réaliser un menu pour notre jeu avant le début
-de la partie où l'on peut choisir de jouer à deux, seul contre l'ordinateur
-ou bien d'afficher les règles.
+\listofalgorithms
+\listoffigures
 
+\chapter*{Sources}
 
-\chapter*{Annexe}
+Règle du jeu de Dames officielle : \url{http://www.ffjd.fr/Web/index.php?page=reglesdujeu#top}
 
 \end{document}
