@@ -264,34 +264,34 @@ Son fonctionnement sera détaillé dans la partie discussion sur les Heuristique
 
 \subsubsection{L'heuristique}
 
-%\begin{algorithm}
-%	\caption{Heuristique(E :Couleur couleurordi) : Entier}
-%	\begin{algorithmic}
-%		\State  Entier res $\leftarrow$ 0;
-%			\State booleen ordiBlanc $\leftarrow$ false;
-%		\If (couleurOrdi est Couleur.Blanc) 
-%		\State ordiBlanc $\leftarrow$ vrai;
-		%\EndIf
-	%	\If{noeud est une feuille}
-	%	\State retourner l'heuristique du nœud
-	%	\EndIf
-	%	\If{profondeur du fils est paire}
-	%	\State valeur $\leftarrow$ -$\infty$
-	%	\For{chaque fils de noeud}
-	%	\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
-	%	\If{temporaire>valeur}
-	%	\State valeur $\leftarrow$ temporaire
-	%	\EndIf
-	%	\EndFor
-%		\Else
-	%	\State valeur $\leftarrow$ $\infty$
-	%	\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
-	%	\If{temporaire<valeur}
-	%%	\State valeur $\leftarrow$ temporaire
-	%	\EndIf
-	%	\EndIf
-%	\end{algorithmic}
-%\end{algorithm}\vspace{0.4cm}
+\begin{algorithm}
+	\caption{Heuristique(E :Couleur couleurordi) : Entier}
+	\begin{algorithmic}
+		\State  Entier res $\leftarrow$ 0;
+			\State booleen ordiBlanc $\leftarrow$ false;
+		\If (couleurOrdi est Couleur.Blanc) 
+		\State ordiBlanc $\leftarrow$ vrai;
+		\EndIf
+		\If{noeud est une feuille}
+		\State retourner l'heuristique du nœud
+		\EndIf
+		\If{profondeur du fils est paire}
+		\State valeur $\leftarrow$ -$\infty$
+		\For{chaque fils de noeud}
+		\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+		\If{temporaire>valeur}
+		\State valeur $\leftarrow$ temporaire
+		\EndIf
+		\EndFor
+		\Else
+		\State valeur $\leftarrow$ $\infty$
+		\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+		\If{temporaire<valeur}
+		\State valeur $\leftarrow$ temporaire
+		\EndIf
+		\EndIf
+	\end{algorithmic}
+\end{algorithm}\vspace{0.4cm}
 
 
 
@@ -334,30 +334,30 @@ La classe \textit{IA} hérite de la classe \textit{Joueur} et représente un ord
 
 \subsubsection{minMax : Resultat\_minMax}
 
-%\begin{algorithm}
-%	\caption{minMax(E : NoeudDame noeud; entier profondeurArbre) : Resultat\_minMax}
-%	\begin{algorithmic}
-%	\If{noeud est une feuille}
-%		\State retourner l'heuristique du nœud
-%	\EndIf
-%	\If{profondeur du fils est paire}
-%		\State valeur $\leftarrow$ -$\infty$
-%%		\For{chaque fils de noeud}
-%			\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
-%			\If{temporaire>valeur}
-%				\State valeur $\leftarrow$ temporaire
-%			\EndIf
-%		\EndFor
-%	\Else
-%		\State valeur $\leftarrow$ $\infty$
-%		\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
-%		\If{temporaire<valeur}
-%			\State valeur $\leftarrow$ temporaire
-%		\EndIf
-%	\EndIf
-%	\end{algorithmic}
-%
-%\vspace{0.4cm}
+\begin{algorithm}
+	\caption{minMax(E : NoeudDame noeud; entier profondeurArbre) : Resultat\_minMax}
+	\begin{algorithmic}
+	\If{noeud est une feuille}
+		\State retourner l'heuristique du nœud
+	\EndIf
+	\If{profondeur du fils est paire}
+		\State valeur $\leftarrow$ -$\infty$
+		\For{chaque fils de noeud}
+			\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+			\If{temporaire>valeur}
+				\State valeur $\leftarrow$ temporaire
+			\EndIf
+		\EndFor
+	\Else
+		\State valeur $\leftarrow$ $\infty$
+		\State temporaire $\leftarrow$ minMax(fils,ProfondeurArbre,)
+		\If{temporaire<valeur}
+			\State valeur $\leftarrow$ temporaire
+		\EndIf
+	\EndIf
+	\end{algorithmic}
+\end{algorithm}
+\vspace{0.4cm}
 
 
 L'algorithme minMax à partir d'un arbre dont les nœuds sont des damiers du jeu de Dames doit ressortir le meilleur coup à jouer pour l'ordinateur.\\
@@ -370,67 +370,28 @@ L’algorithme semble parfait et imbattable si on pousse la profondeur au maximu
 
 L'autre faille importante est que la méthode \textit{Heuristique} ne peut être parfaite et résulte entièrement de l'interprétation humaine. Intéressons nous maintenant à la méthode \textit{tourOrdiIA}.\\
 
-
-
-
-%Le coeur de ce projet ce trouve dans cette partie. Nous avons d'abord
-%fait un travail de recherches pour maîtriser ces concepts pour avancer
-%ensuite plus rapidement et sereinement. Nous avons découpé notre travail
-%comme présenté dans la partie 5 avec la modélisation UML.
-%
-%La fonction euristique est la pierre angulaire de cette partie, nous
-%avons donc réfléchis et nous sommes renseignés sur les différentes
-%positions (positions imprenables sur les côtés du plateau car les
-%pions ne peuvent y être mangé ...) pour établir un ordre de priorité
-%entre toutes et une valeur choisie sur une échelle de -5 pour la moins
-%intéressante (position pour une Dames de se faire manger) et 14 pour
-%la plus intéressante (faire une Dames). Cette échelle est encore sucesptible
-%d'évoluer selon l'euristique que nous auront choisi puis si nous en
-%testons plusieurs. Un seul déplacement peut en combiner plusieurs
-%car un pion peut se mettre en position de manger et d'être manger
-%aussi.
-%
-%L'action de manger étant obligatoire nous ne passont pas par la fonction
-%euristique lorsque cette action se présente. C'est une des optimisations
-%que nous comptons mettre en place.
-%
-%Nous avons aussi une fonction listecoups qui établit pour une composition
-%donnée, une liste dynamique des positions possibles pour chaque pions.
-%Cette liste est ensuite utilisée pour construire l'arbre vide sous
-%forme de liste chainée puis de le remplir avec les valeurs des noeuds
-%grâce à la fonction euristique.
-%
-%Enfin, nous avons la fonction parcoursminimax qui parcourt l'arbre
-%avec l'algorithme minimax pour ressortir la branche la plus intéressante
-%au niveau du gain.
-%
-%En bonus nous essayerons de rajouter la fonction élagage qui réalisera
-%l'élagage détaillé dans les parties 3 et 4 juste avant la fonction
-%parcoursminimax
-
 \subsubsection{tourOrdiIA : void}
 
 La méthode \textit{tourOrdiIA} représente le déroulement du tour de l'IA, concrètement ce que fait l'IA lorsque c'est à elle de jouer. On mettra ci-dessous le pseudo-code de la méthode puis nous allons expliquer en quoi elle consiste :
 
-%\begin{algorithm}
-%	\caption{tourOrdiIA(E : int difficulte; boolean tourBlanc) : void}
-%	\begin{algorithmic}
-%	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y
-%	\State
-%	\State arbre $\leftarrow$ Arbre(difficulte,this.couleur,this.damier,this.peutMangerEnArriere,this.obligerLesSauts)
-%	\State meilleurCoup $\leftarrow$ minMax(arbre,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts).getListeDeCoup()
-%	\State indice $\leftarrow$ 0
-%	\State x $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().X()
-%	\State y $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().Y()
-%	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere, this.obligerLesSauts)
-%	\While{indice < taille du tableau meilleurCoup}
-%	\State x $\leftarrow$ meilleurCoup.get(indice).getPieceApreD().getC().X()
-%	\State y $\leftarrow$ meilleurCoup.get(indice).getPieceApresD().getC().Y()
-%	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts);
-%	\State indice $\leftarrow$ indice+1;
-%	\EndWhile
-%	\end{algorithmic}
-%\end{algorithm}\vspace{0.4cm}
+\begin{algorithm}
+	\caption{tourOrdiIA(E : int difficulte; boolean tourBlanc) : void}
+	\begin{algorithmic}
+	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y\\
+	\State arbre $\leftarrow$ Arbre(difficulte,this.couleur,this.damier,this.peutMangerEnArriere,this.obligerLesSauts)
+	\State meilleurCoup $\leftarrow$ minMax(arbre,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts).getListeDeCoup()
+	\State indice $\leftarrow$ 0
+	\State x $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().X()
+	\State y $\leftarrow$ meilleurCoup.get(0).getPieceAvantD().getC().Y()
+	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere, this.obligerLesSauts)
+	\While{indice < taille du tableau meilleurCoup}
+	\State x $\leftarrow$ meilleurCoup.get(indice).getPieceApreD().getC().X()
+	\State y $\leftarrow$ meilleurCoup.get(indice).getPieceApresD().getC().Y()
+	\State this.Ajoue(x,y,tourBlanc,this.peutMangerEnArriere,this.obligerLesSauts);
+	\State indice $\leftarrow$ indice+1;
+	\EndWhile
+	\end{algorithmic}
+\end{algorithm}\vspace{0.4cm}
 
 Dans un premier temps l'arbre est généré avec une profondeur \textit{difficulte}. C'est ainsi qu'on règle la difficulté de l'IA, il s'agit en effet de la profondeur de l'arbre. Concrètement, \uline{la difficulté de l'IA se résume au nombre de coups d'avance qu'elle a sur le damier actuel}. Ensuite le \textit{meilleurCoup} est récupéré grâce à la méthode \textit{minMax} où l'on va appeler l'accesseur \textit{getListeDeCoup} pour ainsi récupérer le tableau dynamique du ou des meilleur.s coup.s à jouer. On va alors "simuler" un clique sur la pièce initiale en récupérant ses coordonnées puis cliquer sur la liste des coups à jouer en utilisant le tableau de coups \textit{meilleurCoup}. Ce dernier est de dimension 1 lorsqu'il y a un déplacement sans prise de pièce, il sera de dimension supérieure s'il est dans une situation de saut multiple.
 
@@ -567,14 +528,14 @@ Nous avons donc implémenter cette proposition en faisant varier les valeurs d'H
 
 \subsection{une proposition à la profondeur 1}
 
-%\begin{algorithm}
-%	\caption{tourOrdiIA(E : int difficulte; boolean tourBlanc) : void}
-%	\begin{algorithmic}
-%	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y
-%	\State
-%	\State 
-%	\end{algorithmic}
-%\end{algorithm}\vspace{0.4cm}
+\begin{algorithm}
+	\caption{Heuristique1(E : int difficulte; boolean tourBlanc) : void}
+	\begin{algorithmic}
+	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y
+	\State
+	\State 
+	\end{algorithmic}
+\end{algorithm}\vspace{0.4cm}
 
 \subsection{L'Heuristique finale}
 Nous avons énormément fait travaillé l'Heuristique précédente et nous nous sommes rendues compte que tous ces tests étaient très coûteux et prenaient du temps.
