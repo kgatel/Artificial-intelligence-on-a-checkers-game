@@ -137,7 +137,7 @@ jusqu'à la racine, indiquant ainsi le meilleur coup. \\
 Un problème de mémoire se pose alors car chaque pièce a une liste de coup possible (elle peut se déplacer qu'en diagonale et doit également sauter en diagonale). Si on réalise ce principe sur chaque pièce du joueur (ce qui est nécessaire), l'arbre devient rapidement très vaste. En pratique on explore, lorsque l'algorithme est optimisé,
 une partie seulement de cet arbre à l'aide de méthodes dites d'élagage.
 
-\section{Méthode alpha-béta et élagage}
+\section{Méthode alpha-bêta et élagage}
 
 
 L'élagage alpha-bêta est une méthode grâce à laquelle on
@@ -178,9 +178,9 @@ Il peut enfin définir la taille du damier joué, il peut choisir si le saut en 
 
 \subsection{Les règles et le déroulement d'une partie de Dames}
 
-Chaque pièce doit se déplacer diagonalement. Un pion se déplace obligatoirement vers l’avant, en diagonale, d’une case sur une case libre de la rangée suivante. Lorsqu'il atteint la dernière rangée, le pion devient Dame. Une Dames doit attendre que l’adversaire ait joué au moins une fois avant d’entrer en action. Une Dame peut se déplacer en arrière ou en avant sur les cases libres successives de la diagonale qu’elle occupe. Elle peut donc se poser, tant que les cases précédentes sont vides, sur une case libre éloignée.\\
+Chaque pièce doit se déplacer sur ses diagonales. Un pion se déplace obligatoirement vers l’avant, en diagonale, d’une case sur une case libre de la rangée suivante. Lorsqu'il atteint la dernière rangée, le pion devient Dame. Une Dames doit attendre que l’adversaire ait joué au moins une fois avant d’entrer en action. Une Dame peut se déplacer en arrière ou en avant sur les cases libres successives de la diagonale qu’elle occupe. Elle peut donc se poser, tant que les cases précédentes sont vides, sur une case libre éloignée.\\
 
-Lorsqu’un pion se trouve en présence, diagonalement, d’une pièce adverse derrière laquelle se trouve une case libre, il peut sauter par-dessus cette pièce et occuper la case libre. La pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion. Lorsqu’une Dame se trouve en présence sur la même diagonale, directement ou à distance, d’une pièce adverse derrière laquelle se trouvent une ou plusieurs cases libres, elle peut passer par-dessus cette pièce et occuper, au choix, une des cases libres. Cette pièce est alors enlevée du damier. Cette opération complète est la prise par une Dame.\\
+Lorsqu’un pion se trouve en présence, sur sa diagonale, d’une pièce adverse derrière laquelle se trouve une case libre, il peut sauter par-dessus cette pièce et occuper la case libre. La pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion. Lorsqu’une Dame se trouve en présence sur la même diagonale, directement ou à distance, d’une pièce adverse derrière laquelle se trouvent une ou plusieurs cases libres, elle peut passer par-dessus cette pièce et occuper, au choix, une des cases libres. Cette pièce est alors enlevée du damier. Cette opération complète est la prise par une Dame.\\
 
 Lorsqu’au cours d’une prise par un pion, celui-ci se trouve à nouveau en présence, diagonalement, d’une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette seconde pièce, voire d’une troisième et ainsi de suite, et occuper la case libre se trouvant derrière la dernière pièce capturée. 
 Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l’ordre de la prise. Cette opération complète est une rafle par un pion.
@@ -399,7 +399,7 @@ Dans un premier temps l'arbre est généré avec une profondeur \textit{difficul
 
 Pour mieux comprendre cette méthode et les différents cas possibles,
 voici plusieurs exemples (simplifier car on a choisit de représenter
-deux pions sur plusieurs coups en ayant attribué des valeurs aux noeuds).
+deux pions sur plusieurs coups en ayant attribué des valeurs aux nœuds).
 
 Pour simplifier l'exemple nous l'avons réalisé en trois parties:  d'abord l'explication de la méthode pour un pion et un de ses coups possibles et ensuite nous avons détaillé les possibilités sur plusieurs coups pour un plateau de jeu plus petit que le classique pour ne pas avoir un nombre de possibilité trop important, enfin nous avons détaillé le cas pour une dame avec une profondeur de deux pour montrer cette difficulté. 
 
@@ -541,7 +541,7 @@ Nous avons donc implémenter cette proposition en faisant varier les valeurs d'H
 Nous avons énormément fait travaillé l'Heuristique précédente et nous nous sommes rendues compte que tous ces tests étaient très coûteux et prenaient du temps.
 Nous avons essayé d'en faire moins et nous avons repris toute notre liste de position possible, nous avons gardé position imprenable. Position neutre n'était pas forcément utile et on aurait pu lui affecter la valeur 0 car elle ne fait pas réellement avancer le jeu, en effet, un pion qui avance, seul devient souvent au bout de plusieurs coups un pion en danger. Nous l'avons donc enlever. 
 La position de se faire manger au prochaine tour (c'est à dire que le pion est en danger) correspond lorsque l'on voit à plusieurs coups à comparer le nombre de pions présent au tour d'après. En effectuant un compte de pions sur plus d'un coup, bien plus simple à tester, on se retrouve avec le même résultat. Pareil pour le fait d'être en position de manger un pion de l'adversaire, si au tour d'après l'adversaire a un pion de moins, c'est qu'on a pu le manger.
-En mettant en place un compte du nombre de pions présent sur l'échiquier, on a pu enlever position de se faire manger, position de manger et l'action de manger. Il en est de même avec les Reines en mettant en place un compte séparé pour les Reines et les pions en mutilipliant le nombre de Reines par 20 et le nombre de Pions par 5. 
+En mettant en place un compte du nombre de pions présent sur l'échiquier, on a pu enlever position de se faire manger, position de manger et l'action de manger. Il en est de même avec les Reines en mettant en place un compte séparé pour les Reines et les pions en multipliant le nombre de Reines par 20 et le nombre de Pions par 5. 
 Il nous reste donc la position imprenable et les deux compteurs de Pions et de Reines. En ajoutant ces valeurs, on obtient l'Heuristique recherchée. Une Heuristique plus simple nous a permis de réaliser l'algorithme Min-Max sur d'avantage de coups (jusqu'à 5 au maximum) quasiment en instantané.
 
 
@@ -566,14 +566,8 @@ la partie algorithme Min-max, selon les différentes situations possibles:
 
 \begin{figure}[H]
 	\center
-	\includegraphics[width=0.8\textwidth]{./Images/Diagramme_de_sequence1}
+	\includegraphics[width=0.8\textwidth]{./Images/Diagramme de séquence tourOrdiIA}
 	\caption{Diagramme de séquence choix coup ordi}
-\end{figure}\vspace{0.2cm}
-
-\begin{figure}[H]
-	\center
-	\includegraphics[width=0.8\textwidth]{./Images/Diagramme_de_sequence2}
-	\caption{Diagramme de séquence heuristique}
 \end{figure}\vspace{0.2cm}
 
 \section{diagramme de classes}
@@ -622,7 +616,7 @@ Si le temps nous le permettait nous aurions encore quelques pistes d'améliorati
 
 Comme nous en avions déjà discuté dans cette catégorie dans notre précédent rendu, nous avions plusieurs pistes d'améliorations. En effet, le domaine de la théorie des jeux, de l'Algo Min-Max est très large et certaines personnes travaillent encore dessus aujourd'hui. Nous avons réalisé un algo Min Max que nous n'arrivons plus à battre lorsqu'il est dans sa difficulté maximum. 
 
-Nous n'avons pas réalisé la fonction d'élagage alpha beta mais c'est une piste d'amélioration, nous pourrions la faire intervenir dans Algo Min-Max mais ce qui est le plus coûteux pour notre programme est à la création des arbres. Il faudrait donc plutôt chercher à optimiser cette partie. 
+Nous n'avons pas réalisé la fonction d'élagage alpha bêta mais c'est une piste d'amélioration, nous pourrions la faire intervenir dans Algo Min-Max mais ce qui est le plus coûteux pour notre programme est à la création des arbres. Il faudrait donc plutôt chercher à optimiser cette partie. 
 Nous avons aussi réalisé un code que nous avons cherché tout le long de son implémentation à rendre le plus portatif possible. Si le besoin se présentait nous pourrions grâce à nos classes abstraites rajouter des implémentation d'Algo Min-Max et pouvoir donc l'appliquer à un autre jeu.
 Nous avions comme nous le voulions pu tester plusieurs Heuristiques différentes et les comparer afin de choisir la meilleure.
 Nous avons aussi réalisé la possibilité d'afficher tout les damiers des coups possibles, cela nous a été très utile pour continuer à travailler et vérifier que nous traitions tous les cas (sauts multiples).
@@ -654,7 +648,7 @@ Articles sur l'algorithme minimax:
 \url {https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_du_minimax_de_von_Neumann}
 \url {https://fr.wikipedia.org/wiki/Algorithme_minimax}
 
-sur l'algorithme Minimax dans la cétégorie Stratégie de jeu:
+sur l'algorithme Minimax dans la catégorie Stratégie de jeu:
 
 \url {http://turing.cs.pub.ro/auf2/html/chapters/chapter3/chapter_3_4_2.html}
 
