@@ -1,4 +1,4 @@
 \contentsline {algorithm}{\numberline {1}{\ignorespaces Heuristique(E :Couleur couleurordi) : Entier\relax }}{8}{algorithm.1}%
 \contentsline {algorithm}{\numberline {2}{\ignorespaces minMax(E : NoeudDame noeud; entier profondeurArbre) : Resultat\_minMax\relax }}{10}{algorithm.2}%
 \contentsline {algorithm}{\numberline {3}{\ignorespaces tourOrdiIA(E : int difficulte; boolean tourBlanc) : void\relax }}{11}{algorithm.3}%
-\contentsline {algorithm}{\numberline {4}{\ignorespaces Heuristique1(E : int difficulte; boolean tourBlanc) : void\relax }}{16}{algorithm.4}%
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Heuristique1(Damier dam) : Entier\relax }}{17}{algorithm.4}%

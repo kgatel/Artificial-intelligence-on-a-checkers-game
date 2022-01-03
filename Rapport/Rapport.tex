@@ -529,11 +529,20 @@ Nous avons donc implémenter cette proposition en faisant varier les valeurs d'H
 \subsection{une proposition à la profondeur 1}
 
 \begin{algorithm}
-	\caption{Heuristique1(E : int difficulte; boolean tourBlanc) : void}
+	\caption{Heuristique1(Damier dam) : Entier}
 	\begin{algorithmic}
-	\State \underline{Variables} : Arbre arbre, ArrayList<Coup> meilleurCoup, Entier indice,x,y
-	\State
-	\State 
+		\State  Entier res $\leftarrow$ 0;
+%		\State booleen ordiBlanc $\leftarrow$ false;
+		\If { ((dam.case(x-1,y-1) est une Dame) et (dam.case(x-2,y-2) est vide) ) ou ((dam.case(x+1,y-1) est une Dame) et (dam.case(x+2,y-2))) } // en position de manger (dans le cas où on ne peut pas manger en arrière)
+		\State res $\leftarrow$ res +20;
+		\EndIf
+		\If{(y=1) et ( (dam.case(x-1, 0) est Vide) ou dam.case(x+1,0) est Vide)}
+		\State res $\leftarrow$ res + 15 //faire une dame
+		\EndIf
+		\If {(x=0) ou (x=taille de dam)}
+		\State res $\leftarrow$ res + 3;
+		\EndIf
+		\State retourner res
 	\end{algorithmic}
 \end{algorithm}\vspace{0.4cm}
 
